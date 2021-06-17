@@ -74,7 +74,8 @@ export default class Environment {
      * @return any
      */
     private static getVariable(key: string, defaults: any) {
-        // @ts-ignore
-        return window && window.env ? window.env[key] : defaults;
+        return typeof(window) === 'object' && window.env
+            ? window.env[key]
+            : defaults;
     }
 }

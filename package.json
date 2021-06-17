@@ -38,7 +38,7 @@
         "prettier": "prettier -c src/**/*.ts",
         "prettier:fix": "npm run prettier -- --write",
         "preversion": "npm run lint",
-        "test": "ts-mocha -p tsconfig.json test/**/*.spec.ts",
+        "test": "ts-mocha -p ./node_modules/@chalkysticks/mrm-preset/tsconfig.test.json test/**/*.spec.ts",
         "version": "npm run format && git add -A src"
     },
     "types": "dist/index.d.ts",
