@@ -11,12 +11,10 @@
         "@chalkysticks/mrm-preset": "github:chalkysticks/mrm-preset",
         "@types/expect": "^24.3.0",
         "@types/mocha": "^7.0.2",
-        "@typescript-eslint/eslint-plugin": "^4.27.0",
         "@typescript-eslint/parser": "^4.27.0",
         "babel-plugin-add-import-extension": "^1.5.1",
         "dispatcher": "github:mattkenefick/dispatcher",
         "eloquent-js": "github:mattkenefick/eloquentjs",
-        "eslint": "^7.25.0",
         "prettier": "^2.2.1",
         "ts-mocha": "^7.0.0",
         "tslib": "^2.2.0"
