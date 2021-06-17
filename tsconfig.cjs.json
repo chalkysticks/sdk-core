@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-        "outDir": "dist/mjs"
+        "outDir": "dist/cjs"
     },
-    "extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",
+    "extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.cjs.json",
     "files": [
         "./src/Definition/Interface.d.ts",
         "./src/Definition/Reference.d.ts"
