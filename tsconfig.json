@@ -1,14 +1,16 @@
 {
     "compilerOptions": {
-        "outDir": "dist"
+        "outDir": "./dist",
+        "paths": {
+            "@/*": ["resources/*"]
+        }
     },
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts",
-        "**/__tests__/*"
-    ],
     "extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.json",
+    "files": [
+        "./src/Definition/Interface.d.ts",
+        "./src/Definition/Reference.d.ts"
+    ],
     "include": [
-        "src/**/*"
+        "./src/**/*"
     ]
 }

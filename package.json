@@ -8,6 +8,7 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
         "@babel/preset-env": "^7.14.1",
         "@babel/preset-typescript": "^7.13.0",
+        "@chalkysticks/mrm-preset": "github:chalkysticks/mrm-preset",
         "@types/expect": "^24.3.0",
         "@types/mocha": "^7.0.2",
         "@typescript-eslint/eslint-plugin": "^4.27.0",
