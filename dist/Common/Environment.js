@@ -21,7 +21,9 @@ export default class Environment {
         return Environment.env === 'staging';
     }
     static getVariable(key, defaults) {
-        return window && window.env ? window.env[key] : defaults;
+        return typeof (window) === 'object' && window['env']
+            ? window['env'][key]
+            : defaults;
     }
 }
 //# sourceMappingURL=Environment.js.map

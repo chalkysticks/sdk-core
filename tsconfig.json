@@ -5,7 +5,7 @@
             "@/*": ["resources/*"]
         }
     },
-    "extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.json",
+    "extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",
     "files": [
         "./src/Definition/Interface.d.ts",
         "./src/Definition/Reference.d.ts"
