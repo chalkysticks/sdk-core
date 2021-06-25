@@ -4,7 +4,7 @@ const Environment_1 = require("../Common/Environment");
 const eloquent_js_1 = require("eloquent-js");
 class ModelBase extends eloquent_js_1.Model {
     constructor(attributes = {}, options = {}) {
-        super(options);
+        super(attributes, options);
         if (!options.baseUrl) {
             this.baseUrl = Environment_1.default.app.api_url;
         }
