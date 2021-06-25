@@ -16,7 +16,7 @@ export default class ModelBase extends Model {
      * @param Object options
      */
     public constructor(attributes: any = {}, options: any = {}) {
-        super(options);
+        super(attributes, options);
 
         // Set base url if not explicitly set
         if (!options.baseUrl) {
