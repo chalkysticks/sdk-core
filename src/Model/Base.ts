@@ -10,9 +10,17 @@ import { Model } from 'eloquent-js';
  */
 export default class ModelBase extends Model {
     /**
-     * Base URL for the API
+     * Setup
      *
-     * @type string
+     * @param Object attributes
+     * @param Object options
      */
-    public baseUrl: string = Environment.app.api_url;
+    public constructor(attributes: any = {}, options: any = {}) {
+        super(options);
+
+        // Set base url if not explicitly set
+        if (!options.baseUrl) {
+            this.baseUrl = Environment.app.api_url;
+        }
+    }
 }
