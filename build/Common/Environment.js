@@ -1,6 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Environment {
+export default class Environment {
+    static app = Environment.getVariable('app', {
+        api_url: 'http://localhost:8000/api/v1',
+        limit: 32
+    });
+    static debug = Environment.getVariable('debug', false);
+    static env = Environment.getVariable('env', 'development');
+    static google = Environment.getVariable('google', {
+        analytics: {
+            id: 'UA-189...'
+        },
+        api_key: 'AIzaSy...',
+    });
     static isLocal() {
         return Environment.env === 'local' || Environment.env === 'development';
     }
@@ -18,17 +28,4 @@ class Environment {
         return output;
     }
 }
-exports.default = Environment;
-Environment.app = Environment.getVariable('app', {
-    api_url: 'http://localhost:8000/api/v1',
-    limit: 32
-});
-Environment.debug = Environment.getVariable('debug', false);
-Environment.env = Environment.getVariable('env', 'development');
-Environment.google = Environment.getVariable('google', {
-    analytics: {
-        id: 'UA-189...'
-    },
-    api_key: 'AIzaSy...',
-});
 //# sourceMappingURL=Environment.js.map

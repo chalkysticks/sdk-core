@@ -1,6 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class StoreProvider {
+export default class StoreProvider {
+    static instance;
     static get() {
         if (!this.instance) {
             this.register({ state: {} });
@@ -11,5 +10,4 @@ class StoreProvider {
         this.instance = store;
     }
 }
-exports.default = StoreProvider;
 //# sourceMappingURL=Store.js.map

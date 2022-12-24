@@ -1,13 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class EventDispatcher {
-    constructor() {
-        this.events = {};
-        this.useWindow = true;
-    }
+export default class EventDispatcher {
     static get global() {
         return this.getInstance();
     }
+    static instance;
     static getInstance() {
         if (!this.instance) {
             this.instance = new EventDispatcher();
@@ -17,6 +12,8 @@ class EventDispatcher {
     get shouldUseWindow() {
         return this.useWindow && typeof window !== 'undefined';
     }
+    events = {};
+    useWindow = true;
     on(event, listener) {
         if (this.shouldUseWindow) {
             window.addEventListener(event, listener);
@@ -44,7 +41,7 @@ class EventDispatcher {
     }
     dispatch(event, detail = {}) {
         if (this.shouldUseWindow) {
-            window === null || window === void 0 ? void 0 : window.dispatchEvent(new CustomEvent(event, { detail }));
+            window?.dispatchEvent(new CustomEvent(event, { detail }));
         }
         else if (this.events[event]) {
             this.events[event].forEach((listener) => listener(detail));
@@ -56,5 +53,4 @@ class EventDispatcher {
         return this;
     }
 }
-exports.default = EventDispatcher;
 //# sourceMappingURL=EventDispatcher.js.map

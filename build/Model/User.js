@@ -1,24 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Base_1 = require("./Base");
-class ModelUser extends Base_1.default {
-    constructor() {
-        super(...arguments);
-        this.endpoint = 'user';
-        this.fields = [
-            'id',
-            'name',
-            'slug',
-            'email',
-            'phone',
-            'latitude',
-            'longitude',
-            'status',
-            'permissions',
-            'created_at',
-            'updated_at',
-        ];
-    }
+import ModelBase from './Base';
+export default class ModelUser extends ModelBase {
+    endpoint = 'user';
+    fields = [
+        'id',
+        'name',
+        'slug',
+        'email',
+        'phone',
+        'latitude',
+        'longitude',
+        'status',
+        'permissions',
+        'created_at',
+        'updated_at',
+    ];
     getEmail() {
         return this.attr('email');
     }
@@ -44,5 +39,4 @@ class ModelUser extends Base_1.default {
         return parseFloat(this.attr('status'));
     }
 }
-exports.default = ModelUser;
 //# sourceMappingURL=User.js.map

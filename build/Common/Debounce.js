@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Debounce {
+export default class Debounce {
     static exec(reference, callable, args = [], timeout = 1000) {
         if (!this.instances[reference]) {
             const instance = new Debounce(callable, timeout);
@@ -8,9 +6,12 @@ class Debounce {
         }
         this.instances[reference](...args);
     }
+    static instances = {};
+    callback;
+    threshold;
+    lastTrigger = 0;
+    timeout = 0;
     constructor(callback, threshold = 200) {
-        this.lastTrigger = 0;
-        this.timeout = 0;
         this.callback = callback;
         this.threshold = threshold;
         this.lastTrigger = Date.now();
@@ -30,6 +31,4 @@ class Debounce {
         this.timeout = window.setTimeout(this.callback, this.threshold);
     }
 }
-exports.default = Debounce;
-Debounce.instances = {};
 //# sourceMappingURL=Debounce.js.map

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class EnumBase {
+export default class EnumBase {
     static caption(value = 0) {
         let caption;
         if (!isNaN(value)) {
@@ -24,7 +22,7 @@ class EnumBase {
     }
     static captionsAndKeys() {
         const values = this.entries()
-            .reduce((obj, [key, value]) => (Object.assign(Object.assign({}, obj), { [key.toLowerCase()]: this.caption(key) })), {});
+            .reduce((obj, [key, value]) => ({ ...obj, [key.toLowerCase()]: this.caption(key) }), {});
         for (const key in values) {
             const value = values[key];
             values[key] = this.caption(value);
@@ -33,7 +31,7 @@ class EnumBase {
     }
     static captionsAndValues() {
         const values = this.entries()
-            .reduce((obj, [key, value]) => (Object.assign(Object.assign({}, obj), { [value]: key })), {});
+            .reduce((obj, [key, value]) => ({ ...obj, [value]: key }), {});
         for (const key in values) {
             const value = values[key];
             values[key] = this.caption(value);
@@ -67,8 +65,7 @@ class EnumBase {
     }
     static toArray() {
         return this.entries()
-            .reduce((obj, [key, value]) => (Object.assign(Object.assign({}, obj), { [key]: value })), {});
+            .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
     }
 }
-exports.default = EnumBase;
 //# sourceMappingURL=Base.js.map
