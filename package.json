@@ -23,13 +23,16 @@
     },
     "exports": {
         ".": {
-            "import": "./build/esm/index.js"
+            "import": "./build/esm/index.js",
+            "require": "./build/cjs/index.js"
         }
     },
     "files": [
         "!**/*.spec.*",
         "!**/*.json",
-        "build",
+        "build/esm",
+        "build/module",
+        "build/web",
         "CHANGELOG.md",
         "LICENSE",
         "README.md"
@@ -41,7 +44,8 @@
         "pool"
     ],
     "license": "GPL-3.0-or-later",
-    "main": "./build/esm/index.js",
+    "main": "./build/cjs/index.js",
+    "module": "./build/esm/index.js",
     "name": "@chalkysticks/sdk-core",
     "repository": {
         "type": "git",
