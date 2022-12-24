@@ -1,10 +1,7 @@
-
 /**
- *  ┌────────────────────────────────────────────────────────────────────────────┐
- *  │                                                                            │
- *  │ Global Environment Class                                                   │
- *  │                                                                            │
- *  └────────────────────────────────────────────────────────────────────────────┘
+ * @class Environment
+ * @package Common
+ * @project ChalkySticks SDK Core
  */
 export default class Environment {
     /**

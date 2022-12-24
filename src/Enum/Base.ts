@@ -1,9 +1,7 @@
 /**
- *  ┌────────────────────────────────────────────────────────────────────────────┐
- *  │                                                                            │
- *  │ Core functionality for Enumerables                                         │
- *  │                                                                            │
- *  └────────────────────────────────────────────────────────────────────────────┘
+ * @class Base
+ * @package Enum
+ * @project ChalkySticks SDK Core
  */
 export default class EnumBase {
     /**
