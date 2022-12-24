@@ -1,4 +1,5 @@
-import { Model } from 'eloquent-js';
+import { Model } from 'restmc';
 export default class ModelBase extends Model {
-    constructor(attributes?: any, options?: any);
+    baseUrl: string;
+    constructor(options?: any);
 }

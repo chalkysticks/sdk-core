@@ -17,6 +17,7 @@
         "sourceType": "module"
     },
     "rules": {
+		"@typescript-eslint/no-inferrable-types": 0,
         "no-console": "off",
         "linebreak-style": "off",
         "quotes": [
