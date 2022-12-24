@@ -44,8 +44,7 @@
         "pool"
     ],
     "license": "GPL-3.0-or-later",
-    "main": "./build/cjs/index.js",
-    "module": "./build/esm/index.js",
+    "main": "./build/esm/index.js",
     "name": "@chalkysticks/sdk-core",
     "repository": {
         "type": "git",
