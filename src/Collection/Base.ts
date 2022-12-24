@@ -41,7 +41,7 @@ export default class Base<T extends Model> extends Collection<T> {
 	/**
 	 * @type IAttributes
 	 */
-	public options: IAttributes = { withCredentials: true };
+	public options: IAttributes = { withCredentials: false };
 
 	/**
 	 * @param object options
@@ -50,7 +50,7 @@ export default class Base<T extends Model> extends Collection<T> {
 		super(options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || Constants.API_URL || this.baseUrl;
+		this.baseUrl = options.baseUrl || this.baseUrl || Constants.API_URL;
 
 		// Limits
 		this.limit = options.limit || this.limit;

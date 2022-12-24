@@ -10,7 +10,8 @@ class ModelBase extends restmc_1.Model {
         var _a, _b;
         super(options);
         this.baseUrl = Environment_1.default.app.api_url;
-        this.baseUrl = options.baseUrl || Constants_1.default.API_URL || this.baseUrl;
+        this.options = { withCredentials: false };
+        this.baseUrl = options.baseUrl || this.baseUrl || Constants_1.default.API_URL;
         if (options.token) {
             this.setToken(options.token);
         }

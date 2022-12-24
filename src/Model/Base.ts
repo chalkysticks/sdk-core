@@ -16,13 +16,18 @@ export default class ModelBase extends Model {
     public baseUrl: string = Environment.app.api_url;
 
 	/**
+	 * @type IAttributes
+	 */
+	public options: IAttributes = { withCredentials: false };
+
+	/**
 	 * @param object options
 	 */
 	constructor(options: any = {}) {
 		super(options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || Constants.API_URL || this.baseUrl;
+		this.baseUrl = options.baseUrl || this.baseUrl || Constants.API_URL;
 
 		// Assign token
 		if (options.token) {
