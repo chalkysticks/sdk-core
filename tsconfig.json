@@ -1,12 +1,32 @@
 {
     "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "declaration": true,
+        "isolatedModules": false,
         "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
         "module": "esnext",
-        "outDir": "build/esm",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "noImplicitThis": false,
+		"outDir": "build/esm",
+        "paths": {
+			"*": ["types/*"],
+            "@/*": ["src/*"]
+        },
+        "preserveConstEnums": true,
+        "pretty": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "removeComments": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "sourceMap": true,
         "target": "esnext"
     },
     "exclude": [
-        "build",
         "node_modules",
         "test"
     ],
