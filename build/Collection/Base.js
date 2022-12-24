@@ -12,7 +12,7 @@ class Base extends restmc_1.Collection {
         this.baseUrl = Environment_1.default.app.api_url;
         this.limit = Environment_1.default.app.limit;
         this.options = { withCredentials: false };
-        this.baseUrl = options.baseUrl || this.baseUrl || Constants_1.default.API_URL;
+        this.baseUrl = options.baseUrl || this.baseUrl || Environment_1.default.app.api_url || Constants_1.default.API_URL;
         this.limit = options.limit || this.limit;
         this.page = options.page || this.page;
         this.builder.qp('limit', this.limit);

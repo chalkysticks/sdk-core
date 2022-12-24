@@ -50,7 +50,7 @@ export default class Base<T extends Model> extends Collection<T> {
 		super(options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || this.baseUrl || Constants.API_URL;
+		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
 
 		// Limits
 		this.limit = options.limit || this.limit;

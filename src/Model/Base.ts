@@ -27,7 +27,7 @@ export default class ModelBase extends Model {
 		super(options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || this.baseUrl || Constants.API_URL;
+		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
 
 		// Assign token
 		if (options.token) {

@@ -11,9 +11,11 @@ class Environment {
         return Environment.env === 'staging';
     }
     static getVariable(key, defaults) {
-        return typeof (window) === 'object' && window['env']
+        const output = typeof (window) === 'object' && window['env']
             ? window['env'][key]
             : defaults;
+        console.log('CS: Using', key, output);
+        return output;
     }
 }
 exports.default = Environment;
