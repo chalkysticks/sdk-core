@@ -21,18 +21,10 @@
         "ts-mocha": "^8.0.0",
         "typescript": "^4.1.3"
     },
-    "exports": {
-        ".": {
-            "import": "./build/esm/index.js",
-            "require": "./build/cjs/index.js"
-        }
-    },
     "files": [
         "!**/*.spec.*",
         "!**/*.json",
-        "build/esm",
-        "build/module",
-        "build/web",
+        "build",
         "CHANGELOG.md",
         "LICENSE",
         "README.md"
@@ -44,15 +36,14 @@
         "pool"
     ],
     "license": "GPL-3.0-or-later",
-    "main": "./build/cjs/index.js",
-    "module": "./build/esm/index.js",
+    "main": "./build/index.js",
     "name": "@chalkysticks/sdk-core",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/chalkysticks/sdk-core.git"
     },
     "scripts": {
-        "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && yarn build:web",
+        "build": "tsc -p tsconfig.json",
         "build:web": "./node_modules/.bin/esbuild src/index.ts --bundle --minify --sourcemap --target=chrome62 --format=esm --outfile=build/web/chalkysticks-core.js",
         "coverage": "nyc npm test",
         "example": "http-server",
