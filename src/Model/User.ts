@@ -8,11 +8,11 @@ import ModelBase from './Base';
 export default class ModelUser extends ModelBase {
     /**
      * Endpoint key
-     * e.g. https://api.chalkysticks.com/v3/user
+     * e.g. https://api.chalkysticks.com/v3/users
      *
      * @type string
      */
-    public endpoint: string = 'user';
+    public endpoint: string = 'users';
 
     /**
      * List of fields available

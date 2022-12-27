@@ -69,4 +69,25 @@ export default class ModelBase extends Model {
 			});
 		});
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public isV1(): boolean {
+		return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public isV2(): boolean {
+		return this.baseUrl.toLowerCase().indexOf('/v2') > 0;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public isV3(): boolean {
+		return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
+	}
 }

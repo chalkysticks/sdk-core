@@ -14,7 +14,6 @@ class Environment {
         const output = typeof (window) === 'object' && window['env']
             ? window['env'][key]
             : defaults;
-        console.log('CS: Using', key, output);
         return output;
     }
 }

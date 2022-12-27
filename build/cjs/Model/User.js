@@ -4,7 +4,7 @@ const Base_1 = require("./Base");
 class ModelUser extends Base_1.default {
     constructor() {
         super(...arguments);
-        this.endpoint = 'user';
+        this.endpoint = 'users';
         this.fields = [
             'id',
             'name',

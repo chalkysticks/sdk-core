@@ -46,6 +46,15 @@ class ModelBase extends restmc_1.Model {
             });
         });
     }
+    isV1() {
+        return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
+    }
+    isV2() {
+        return this.baseUrl.toLowerCase().indexOf('/v2') > 0;
+    }
+    isV3() {
+        return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
+    }
 }
 exports.default = ModelBase;
 //# sourceMappingURL=Base.js.map

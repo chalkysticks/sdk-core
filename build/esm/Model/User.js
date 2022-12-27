@@ -1,6 +1,6 @@
 import ModelBase from './Base';
 export default class ModelUser extends ModelBase {
-    endpoint = 'user';
+    endpoint = 'users';
     fields = [
         'id',
         'name',

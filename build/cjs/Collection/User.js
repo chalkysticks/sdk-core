@@ -5,7 +5,7 @@ const User_1 = require("../Model/User");
 class CollectionUser extends Base_1.default {
     constructor() {
         super(...arguments);
-        this.endpoint = 'user';
+        this.endpoint = 'users';
         this.model = new User_1.default();
     }
 }

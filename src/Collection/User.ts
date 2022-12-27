@@ -9,11 +9,11 @@ import ModelUser from '../Model/User';
 export default class CollectionUser extends CollectionBase<ModelUser> {
 	/**
 	 * Endpoint key
-	 * e.g. https://api.chalkysticks.com/v1/user
+	 * e.g. https://api.chalkysticks.com/v1/users
 	 *
 	 * @type string
 	 */
-	public endpoint: string = 'user';
+	public endpoint: string = 'users';
 
 	/**
 	 * Model object instantiated by this collection

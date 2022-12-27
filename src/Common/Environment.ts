@@ -75,8 +75,6 @@ export default class Environment {
             ? window['env'][key]
             : defaults;
 
-		console.log('CS: Using', key, output);
-
 		return output;
     }
 }

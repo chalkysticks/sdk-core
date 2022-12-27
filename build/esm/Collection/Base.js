@@ -47,5 +47,14 @@ export default class Base extends Collection {
             });
         });
     }
+    isV1() {
+        return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
+    }
+    isV2() {
+        return this.baseUrl.toLowerCase().indexOf('/v2') > 0;
+    }
+    isV3() {
+        return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
+    }
 }
 //# sourceMappingURL=Base.js.map
