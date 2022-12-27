@@ -25,23 +25,14 @@ export default class Base<T extends Model> extends Collection<T> {
 	public declare model: any;
 
     /**
-     * Base URL for the API
-     *
      * @type string
      */
     public baseUrl: string = Environment.app.api_url;
 
     /**
-     * Limit
-     *
      * @type number
      */
     public limit: number = Environment.app.limit;
-
-	/**
-	 * @type IAttributes
-	 */
-	public options: IAttributes = { withCredentials: false };
 
 	/**
 	 * @param object options
@@ -51,6 +42,11 @@ export default class Base<T extends Model> extends Collection<T> {
 
 		// Update baseUrl
 		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+
+		// Disable withCredentials
+		this.setOptions({
+			withCredentials: false,
+		});
 
 		// Limits
 		this.limit = options.limit || this.limit;

@@ -6,12 +6,14 @@ const EventDispatcher_1 = require("../Common/EventDispatcher");
 const Store_1 = require("../Provider/Store");
 const restmc_1 = require("restmc");
 class ModelBase extends restmc_1.Model {
-    constructor(options = {}) {
+    constructor(attributes = {}, options = {}) {
         var _a, _b;
-        super(options);
+        super(attributes, options);
         this.baseUrl = Environment_1.default.app.api_url;
-        this.options = { withCredentials: false };
         this.baseUrl = options.baseUrl || this.baseUrl || Environment_1.default.app.api_url || Constants_1.default.API_URL;
+        this.setOptions({
+            withCredentials: false,
+        });
         if (options.token) {
             this.setToken(options.token);
         }

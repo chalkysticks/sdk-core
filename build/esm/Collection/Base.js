@@ -6,10 +6,12 @@ import { Collection, } from 'restmc';
 export default class Base extends Collection {
     baseUrl = Environment.app.api_url;
     limit = Environment.app.limit;
-    options = { withCredentials: false };
     constructor(options = {}) {
         super(options);
         this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+        this.setOptions({
+            withCredentials: false,
+        });
         this.limit = options.limit || this.limit;
         this.page = options.page || this.page;
         this.builder.qp('limit', this.limit);

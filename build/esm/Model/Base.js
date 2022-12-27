@@ -5,10 +5,12 @@ import StoreProvider from '../Provider/Store';
 import { Model } from 'restmc';
 export default class ModelBase extends Model {
     baseUrl = Environment.app.api_url;
-    options = { withCredentials: false };
-    constructor(options = {}) {
-        super(options);
+    constructor(attributes = {}, options = {}) {
+        super(attributes, options);
         this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+        this.setOptions({
+            withCredentials: false,
+        });
         if (options.token) {
             this.setToken(options.token);
         }
