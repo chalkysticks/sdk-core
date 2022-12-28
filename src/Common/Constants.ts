@@ -29,4 +29,9 @@ export default {
 	 * @type number
 	 */
 	DEFAULT_COLLECTION_LIMIT: 20,
+
+	/**
+	 * @type string
+	 */
+	STATIC_URL: 'https://static.chalkysticks.com'
 };

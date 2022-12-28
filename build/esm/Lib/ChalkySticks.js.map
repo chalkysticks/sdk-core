@@ -1,1 +1,1 @@
-{"version":3,"file":"ChalkySticks.js","sourceRoot":"","sources":["../../../src/Lib/ChalkySticks.ts"],"names":[],"mappings":"AAOA,MAAM,CAAC,OAAO,OAAO,YAAY;CAEhC"}
+{"version":3,"file":"ChalkySticks.js","sourceRoot":"","sources":["../../../src/Lib/ChalkySticks.ts"],"names":[],"mappings":"AAAA,OAAO,SAAS,MAAM,qBAAqB,CAAC;AAO5C,MAAM,CAAC,OAAO,OAAO,YAAY;IAOzB,MAAM,CAAC,SAAS,CAAC,UAAe,EAAE;QACxC,IAAI,GAAW,CAAC;QAGhB,MAAM,CAAC,MAAM,CAAC,SAAS,EAAE,OAAO,CAAC,SAAS,CAAC,CAAC;IAC7C,CAAC;CACD"}
