@@ -2026,8 +2026,8 @@ resolve-from@^5.0.0:
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
 "restmc@git+https://github.com/mattkenefick/restmc.git":
-  version "0.8.0"
-  resolved "git+https://github.com/mattkenefick/restmc.git#f6113daf6a8bc175fa4a56f6d11a000a8c48df8e"
+  version "0.9.0"
+  resolved "git+https://github.com/mattkenefick/restmc.git#37fbe3f8cdf13323b922354cf9e85c9a7fb32673"
   dependencies:
     "@types/node-fetch" "^2.5.7"
     axios "^0.21.4"
