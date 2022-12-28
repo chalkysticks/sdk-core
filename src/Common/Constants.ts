@@ -33,5 +33,10 @@ export default {
 	/**
 	 * @type string
 	 */
+	NOTIFICATION_PREFERENCE: 'native',
+
+	/**
+	 * @type string
+	 */
 	STATIC_URL: 'https://static.chalkysticks.com'
 };
