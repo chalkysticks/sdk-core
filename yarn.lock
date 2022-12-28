@@ -446,9 +446,9 @@
     form-data "^3.0.0"
 
 "@types/node@*":
-  version "18.11.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.17.tgz#5c009e1d9c38f4a2a9d45c0b0c493fe6cdb4bcb5"
-  integrity sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==
+  version "18.11.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
+  integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
 "@typescript-eslint/eslint-plugin@^4.13.0":
   version "4.33.0"
@@ -2027,7 +2027,7 @@ resolve-from@^5.0.0:
 
 "restmc@git+https://github.com/mattkenefick/restmc.git":
   version "0.8.0"
-  resolved "git+https://github.com/mattkenefick/restmc.git#55fc1b54b71309491049135acebcd62a9f704098"
+  resolved "git+https://github.com/mattkenefick/restmc.git#f6113daf6a8bc175fa4a56f6d11a000a8c48df8e"
   dependencies:
     "@types/node-fetch" "^2.5.7"
     axios "^0.21.4"
