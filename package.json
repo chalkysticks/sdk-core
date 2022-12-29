@@ -61,5 +61,5 @@
         "version": "npm version minor"
     },
     "types": "build/esm/index.d.ts",
-    "version": "1.1.1"
+    "version": "1.2.0"
 }
