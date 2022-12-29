@@ -56,7 +56,7 @@
         "example": "http-server",
         "lint": "eslint \"src/**/*.ts\"",
         "prettier": "prettier -c src/**/*.ts",
-        "reinstall": "rm -rf ./node_modules/; rm yarn.lock; yarn build",
+        "reinstall": "rm -rf ./node_modules/; rm yarn.lock; yarn install; yarn build",
         "test": "ts-mocha -p ./node_modules/@chalkysticks/mrm-preset/tsconfig.test.json test/**/*.spec.ts",
         "version": "npm version minor"
     },
