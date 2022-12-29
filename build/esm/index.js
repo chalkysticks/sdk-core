@@ -1,4 +1,10 @@
+// Put global reference to instantiable entrypoint
+// ------------------------------------------------------------------------
+// Import library
+// ------------------------------------------------------------------------
 import ChalkySticks from './Lib/ChalkySticks';
+// Exports
+// ------------------------------------------------------------------------
 export default ChalkySticks;
 export { default as CollectionBase } from './Collection/Base';
 export { default as CollectionUser } from './Collection/User';
@@ -19,4 +25,3 @@ export { default as Debounce } from './Common/Debounce';
 export { default as EventDispatcher } from './Common/EventDispatcher';
 export { default as StoreProvider } from './Provider/Store';
 export { Request } from 'restmc';
-//# sourceMappingURL=index.js.map

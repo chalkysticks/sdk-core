@@ -1,3 +1,7 @@
+/**
+ * @class InvalidStorageProvider
+ * @package Exception
+ * @project ChalkySticks SDK Core
+ */
 export default class InvalidStorageProvider extends Error {
 }
-//# sourceMappingURL=InvalidStorageProvider.js.map

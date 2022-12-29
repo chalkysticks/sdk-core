@@ -3,22 +3,38 @@ import Environment from '../Common/Environment';
 import EventDispatcher from '../Common/EventDispatcher';
 import StoreProvider from '../Provider/Store';
 import { Model } from 'restmc';
+/**
+ * @class ModelBase
+ * @package Model
+ * @project ChalkySticks SDK Core
+ */
 export default class ModelBase extends Model {
+    /**
+     * @type string
+     */
     baseUrl = Environment.app.api_url;
+    /**
+     * @param object options
+     */
     constructor(attributes = {}, options = {}) {
         super(attributes, options);
+        // Update baseUrl
         this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+        // Disable withCredentials
         this.setOptions({
             withCredentials: false,
         });
+        // Assign token
         if (options.token) {
             this.setToken(options.token);
         }
         else if (StoreProvider.get()?.state?.token) {
             this.setToken(StoreProvider.get().state.token);
         }
+        // Listen for Unauthorized
         this.on('error', (e) => {
             const status = e.detail.request?.response?.status;
+            // Unauthorized
             if (status === 401) {
                 EventDispatcher.global.dispatch('request:unauthorized');
             }
@@ -37,6 +53,7 @@ export default class ModelBase extends Model {
             else if (status === 503) {
                 EventDispatcher.global.dispatch('request:service_unavailable');
             }
+            // General error
             EventDispatcher.global.dispatch('request:error', {
                 response: e.detail.request?.response,
                 target: this,
@@ -44,14 +61,22 @@ export default class ModelBase extends Model {
             });
         });
     }
+    /**
+     * @return boolean
+     */
     isV1() {
         return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
     }
+    /**
+     * @return boolean
+     */
     isV2() {
         return this.baseUrl.toLowerCase().indexOf('/v2') > 0;
     }
+    /**
+     * @return boolean
+     */
     isV3() {
         return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
     }
 }
-//# sourceMappingURL=Base.js.map

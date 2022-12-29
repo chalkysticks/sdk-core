@@ -3,27 +3,48 @@ import Environment from '../Common/Environment';
 import EventDispatcher from '../Common/EventDispatcher';
 import StoreProvider from '../Provider/Store';
 import { Collection, } from 'restmc';
+/**
+ * @class CollectionBase
+ * @package Collection
+ * @project ChalkySticks SDK Core
+ */
 export default class Base extends Collection {
+    /**
+     * @type string
+     */
     baseUrl = Environment.app.api_url;
+    /**
+     * @type number
+     */
     limit = Environment.app.limit;
+    /**
+     * @param object options
+     */
     constructor(options = {}) {
         super(options);
+        // Update baseUrl
         this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+        // Disable withCredentials
         this.setOptions({
             withCredentials: false,
         });
+        // Limits
         this.limit = options.limit || this.limit;
         this.page = options.page || this.page;
+        // Build
         this.builder.qp('limit', this.limit);
         this.builder.qp('page', this.page);
+        // Assign token
         if (options.token) {
             this.setToken(options.token);
         }
         else if (StoreProvider.get()?.state?.token) {
             this.setToken(StoreProvider.get().state.token);
         }
+        // Listen for Unauthorized
         this.on('error', (e) => {
             const status = e.detail.request?.response?.status;
+            // Unauthorized
             if (status === 401) {
                 EventDispatcher.global.dispatch('request:unauthorized');
             }
@@ -42,6 +63,7 @@ export default class Base extends Collection {
             else if (status === 503) {
                 EventDispatcher.global.dispatch('request:service_unavailable');
             }
+            // General error
             EventDispatcher.global.dispatch('request:error', {
                 response: e.detail.request?.response,
                 target: this,
@@ -49,14 +71,22 @@ export default class Base extends Collection {
             });
         });
     }
+    /**
+     * @return boolean
+     */
     isV1() {
         return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
     }
+    /**
+     * @return boolean
+     */
     isV2() {
         return this.baseUrl.toLowerCase().indexOf('/v2') > 0;
     }
+    /**
+     * @return boolean
+     */
     isV3() {
         return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
     }
 }
-//# sourceMappingURL=Base.js.map
