@@ -53,7 +53,7 @@ export default class EventDispatcher {
 	 * @param function listener
 	 * @return self
 	 */
-	public on(event: string, listener: any) {
+	public on(event: string, listener: any): this {
 		if (this.shouldUseWindow) {
 			window.addEventListener(event, listener);
 		}

@@ -1,16 +1,11 @@
 import Constants from '../Common/Constants';
 import Environment from '../Common/Environment';
 import EventDispatcher from '../Common/EventDispatcher';
-import ModelBase from '../Model/Base';
 import StoreProvider from '../Provider/Store';
 import {
 	Collection,
-	IAttributes,
 	IDispatcherEvent,
-	IModelRequestOptions,
-	IModelRequestQueryParams,
 	Model,
-	Request,
 } from 'restmc';
 
 /**
