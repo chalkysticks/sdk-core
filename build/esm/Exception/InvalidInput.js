@@ -1,3 +1,3 @@
 export class InvalidInput extends Error {
 }
-//# sourceMappingURL=InvalidInput.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSW52YWxpZElucHV0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL0V4Y2VwdGlvbi9JbnZhbGlkSW5wdXQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBS0EsTUFBTSxPQUFPLFlBQWEsU0FBUSxLQUFLO0NBQUcifQ==

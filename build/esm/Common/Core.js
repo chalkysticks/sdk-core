@@ -1,4 +1,4 @@
 import EventDispatcher from './EventDispatcher';
 export default class Core extends EventDispatcher {
 }
-//# sourceMappingURL=Core.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29yZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Db21tb24vQ29yZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLGVBQWUsTUFBTSxtQkFBbUIsQ0FBQztBQU9oRCxNQUFNLENBQUMsT0FBTyxPQUFPLElBQUssU0FBUSxlQUFlO0NBRWhEIn0=

@@ -8,4 +8,4 @@ exports.default = {
     NOTIFICATION_PREFERENCE: 'native',
     STATIC_URL: 'https://static.chalkysticks.com'
 };
-//# sourceMappingURL=Constants.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29uc3RhbnRzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL0NvbW1vbi9Db25zdGFudHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFLQSxrQkFBZTtJQU1kLE9BQU8sRUFBRSxpQ0FBaUM7SUFPMUMsVUFBVSxFQUFFLGlDQUFpQztJQU83QyxVQUFVLEVBQUUsaUNBQWlDO0lBSzdDLHdCQUF3QixFQUFFLEVBQUU7SUFLNUIsdUJBQXVCLEVBQUUsUUFBUTtJQUtqQyxVQUFVLEVBQUUsaUNBQWlDO0NBQzdDLENBQUMifQ==

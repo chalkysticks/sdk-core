@@ -71,8 +71,8 @@ export default class Environment {
      * @return any
      */
     private static getVariable(key: string, defaults: any) {
-        const output = typeof(window) === 'object' && window['env']
-            ? window['env'][key]
+        const output = typeof(window) === 'object' && (window as any)['env']
+            ? (window as any)['env'][key]
             : defaults;
 
 		return output;

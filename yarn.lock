@@ -198,8 +198,8 @@
     to-fast-properties "^2.0.0"
 
 "@chalkysticks/mrm-preset@github:chalkysticks/mrm-preset":
-  version "1.1.0"
-  resolved "https://codeload.github.com/chalkysticks/mrm-preset/tar.gz/25abe693d7d353c829164a77c69e917368986386"
+  version "1.2.3"
+  resolved "https://codeload.github.com/chalkysticks/mrm-preset/tar.gz/dc102bdba5070a80e6f0c68325b51dcb7f222523"
 
 "@esbuild/android-arm64@0.16.12":
   version "0.16.12"

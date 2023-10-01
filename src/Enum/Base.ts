@@ -51,7 +51,8 @@ export class Base {
      */
     public static captionsAndKeys(): any {
         const values: any = this.entries()
-            .reduce((obj, [key, value]) => ({ ...obj, [<string> key.toLowerCase()]: this.caption(key) }), {});
+			// @ts-ignore
+            .reduce((obj:any, [key, value]: any) => ({ ...obj, [<string> key.toLowerCase()]: this.caption(key) }), {});
 
         for (const key in values) {
             const value = values[key];
@@ -68,7 +69,7 @@ export class Base {
      */
     public static captionsAndValues(): any {
         const values: any = this.entries()
-            .reduce((obj, [key, value]) => ({ ...obj, [<string> value]: key }), {});
+            .reduce((obj: any, [key, value]: any) => ({ ...obj, [<string> value]: key }), {});
 
         for (const key in values) {
             const value = values[key];
@@ -103,7 +104,7 @@ export class Base {
      * @return string[]
      */
     public static search(value: string | number): string | null {
-        const entry = this.entries().find(ary => ary[1] == value);
+        const entry = this.entries().find((ary: any) => ary[1] == value);
         return entry ? entry[0] : null;
     }
 
@@ -146,6 +147,6 @@ export class Base {
      */
     public static toArray(): any {
         return this.entries()
-            .reduce((obj, [key, value]) => ({ ...obj, [<string> key]: value }), {});
+            .reduce((obj: any, [key, value]: any) => ({ ...obj, [<string> key]: value }), {});
     }
 }
