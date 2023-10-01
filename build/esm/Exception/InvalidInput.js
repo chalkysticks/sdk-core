@@ -1,3 +1,3 @@
-export default class InvalidInput extends Error {
+export class InvalidInput extends Error {
 }
 //# sourceMappingURL=InvalidInput.js.map

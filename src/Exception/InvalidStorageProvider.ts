@@ -3,4 +3,4 @@
  * @package Exception
  * @project ChalkySticks SDK Core
  */
-export default class InvalidStorageProvider extends Error {}
+export class InvalidStorageProvider extends Error {}

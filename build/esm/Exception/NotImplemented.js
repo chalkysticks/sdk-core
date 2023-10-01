@@ -1,3 +1,3 @@
-export default class NotImplemented extends Error {
+export class NotImplemented extends Error {
 }
 //# sourceMappingURL=NotImplemented.js.map

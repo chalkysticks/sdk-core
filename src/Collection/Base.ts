@@ -13,7 +13,7 @@ import {
  * @package Collection
  * @project ChalkySticks SDK Core
  */
-export default class Base<T extends Model> extends Collection<T> {
+export class Base<T extends Model> extends Collection<T> {
 	/**
 	 * @type any
 	 */

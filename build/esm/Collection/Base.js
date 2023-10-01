@@ -3,7 +3,7 @@ import Environment from '../Common/Environment';
 import EventDispatcher from '../Common/EventDispatcher';
 import StoreProvider from '../Provider/Store';
 import { Collection, } from 'restmc';
-export default class Base extends Collection {
+export class Base extends Collection {
     baseUrl = Environment.app.api_url;
     limit = Environment.app.limit;
     constructor(options = {}) {

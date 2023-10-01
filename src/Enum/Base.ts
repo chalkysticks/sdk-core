@@ -3,7 +3,7 @@
  * @package Enum
  * @project ChalkySticks SDK Core
  */
-export default class EnumBase {
+export class Base {
     /**
      * Convert constant key to readable value
      *

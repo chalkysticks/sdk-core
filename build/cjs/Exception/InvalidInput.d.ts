@@ -1,2 +1,2 @@
-export default class InvalidInput extends Error {
+export declare class InvalidInput extends Error {
 }

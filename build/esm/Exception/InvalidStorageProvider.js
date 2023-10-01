@@ -1,3 +1,3 @@
-export default class InvalidStorageProvider extends Error {
+export class InvalidStorageProvider extends Error {
 }
 //# sourceMappingURL=InvalidStorageProvider.js.map

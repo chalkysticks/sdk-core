@@ -1,7 +1,6 @@
-import CollectionBase from './Base';
-import ModelUser from '../Model/User';
-export default class CollectionUser extends CollectionBase {
-    endpoint = 'users';
-    model = new ModelUser();
+import * as Model from '../Model';
+import { Base } from './Base';
+export class User extends Base {
+    model = new Model.User();
 }
 //# sourceMappingURL=User.js.map

@@ -1,2 +1,2 @@
-export default class ConnectionRefused extends Error {
+export declare class ConnectionRefused extends Error {
 }

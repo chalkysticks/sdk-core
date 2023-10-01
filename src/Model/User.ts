@@ -1,11 +1,11 @@
-import ModelBase from './Base';
+import { Base } from './Base';
 
 /**
- * @class ModelUser
+ * @class User
  * @package Model
  * @project ChalkySticks SDK Core
  */
-export default class ModelUser extends ModelBase {
+export class User extends Base {
     /**
      * Endpoint key
      * e.g. https://api.chalkysticks.com/v3/users
@@ -32,7 +32,6 @@ export default class ModelUser extends ModelBase {
         'created_at',
         'updated_at',
     ];
-
 
     // region: Getters
     // ---------------------------------------------------------------------------

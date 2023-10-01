@@ -1,2 +1,2 @@
-export default class ParserFailure extends Error {
+export declare class ParserFailure extends Error {
 }

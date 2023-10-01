@@ -1,24 +1,14 @@
-import CollectionBase from './Base';
-import ModelUser from '../Model/User';
+import * as Model from '../Model';
+import { Base } from './Base';
 
 /**
- * @class CollectionUser
+ * @class User
  * @package Collection
  * @project ChalkySticks SDK Core
  */
-export default class CollectionUser extends CollectionBase<ModelUser> {
+export class User extends Base<Model.User> {
 	/**
-	 * Endpoint key
-	 * e.g. https://api.chalkysticks.com/v1/users
-	 *
-	 * @type string
+	 * @type Model.User
 	 */
-	public endpoint: string = 'users';
-
-	/**
-	 * Model object instantiated by this collection
-	 *
-	 * @type ModelUser
-	 */
-	public model: ModelUser = new ModelUser();
+	public model: Model.User = new Model.User();
 }

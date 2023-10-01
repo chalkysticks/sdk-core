@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NotImplemented = void 0;
 class NotImplemented extends Error {
 }
-exports.default = NotImplemented;
+exports.NotImplemented = NotImplemented;
 //# sourceMappingURL=NotImplemented.js.map

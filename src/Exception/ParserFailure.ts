@@ -3,4 +3,4 @@
  * @package Exception
  * @project ChalkySticks SDK Core
  */
-export default class ParserFailure extends Error {}
+export class ParserFailure extends Error {}

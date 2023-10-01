@@ -1,2 +1,2 @@
-export default class NotImplemented extends Error {
+export declare class NotImplemented extends Error {
 }

@@ -3,4 +3,4 @@
  * @package Exception
  * @project ChalkySticks SDK Core
  */
-export default class ConnectionRefused extends Error {}
+export class ConnectionRefused extends Error {}

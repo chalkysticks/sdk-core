@@ -5,11 +5,11 @@ import StoreProvider from '../Provider/Store';
 import { IAttributes, IDispatcherEvent, Model } from 'restmc';
 
 /**
- * @class ModelBase
+ * @class Base
  * @package Model
  * @project ChalkySticks SDK Core
  */
-export default class ModelBase extends Model {
+export class Base extends Model {
 	/**
 	 * @type string
 	 */

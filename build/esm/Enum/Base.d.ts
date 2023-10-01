@@ -1,4 +1,4 @@
-export default class EnumBase {
+export declare class Base {
     static caption(value?: any): string;
     static captions(): string[];
     static captionsAndKeys(): any;

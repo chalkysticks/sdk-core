@@ -1,4 +1,4 @@
-export default class StoreProvider {
+export class Store {
     static instance;
     static get() {
         if (!this.instance) {
@@ -10,4 +10,5 @@ export default class StoreProvider {
         this.instance = store;
     }
 }
+export default Store;
 //# sourceMappingURL=Store.js.map

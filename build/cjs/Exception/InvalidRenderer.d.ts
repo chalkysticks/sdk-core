@@ -1,2 +1,2 @@
-export default class InvalidRenderer extends Error {
+export declare class InvalidRenderer extends Error {
 }

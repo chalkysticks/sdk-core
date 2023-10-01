@@ -1,2 +1,2 @@
-export default class InvalidStorageProvider extends Error {
+export declare class InvalidStorageProvider extends Error {
 }

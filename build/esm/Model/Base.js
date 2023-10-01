@@ -3,7 +3,7 @@ import Environment from '../Common/Environment';
 import EventDispatcher from '../Common/EventDispatcher';
 import StoreProvider from '../Provider/Store';
 import { Model } from 'restmc';
-export default class ModelBase extends Model {
+export class Base extends Model {
     baseUrl = Environment.app.api_url;
     constructor(attributes = {}, options = {}) {
         super(attributes, options);

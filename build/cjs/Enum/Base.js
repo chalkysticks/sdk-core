@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class EnumBase {
+exports.Base = void 0;
+class Base {
     static caption(value = 0) {
         let caption;
         if (!isNaN(value)) {
@@ -70,5 +71,5 @@ class EnumBase {
             .reduce((obj, [key, value]) => (Object.assign(Object.assign({}, obj), { [key]: value })), {});
     }
 }
-exports.default = EnumBase;
+exports.Base = Base;
 //# sourceMappingURL=Base.js.map

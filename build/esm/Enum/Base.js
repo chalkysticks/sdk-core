@@ -1,4 +1,4 @@
-export default class EnumBase {
+export class Base {
     static caption(value = 0) {
         let caption;
         if (!isNaN(value)) {

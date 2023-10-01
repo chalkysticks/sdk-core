@@ -3,4 +3,4 @@
  * @package Exception
  * @project ChalkySticks SDK Core
  */
-export default class NotImplemented extends Error {}
+export class NotImplemented extends Error {}

@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Base = void 0;
 const Constants_1 = require("../Common/Constants");
 const Environment_1 = require("../Common/Environment");
 const EventDispatcher_1 = require("../Common/EventDispatcher");
 const Store_1 = require("../Provider/Store");
 const restmc_1 = require("restmc");
-class ModelBase extends restmc_1.Model {
+class Base extends restmc_1.Model {
     constructor(attributes = {}, options = {}) {
         var _a, _b;
         super(attributes, options);
@@ -58,5 +59,5 @@ class ModelBase extends restmc_1.Model {
         return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
     }
 }
-exports.default = ModelBase;
+exports.Base = Base;
 //# sourceMappingURL=Base.js.map

@@ -1,3 +1,3 @@
-export default class ConnectionRefused extends Error {
+export class ConnectionRefused extends Error {
 }
 //# sourceMappingURL=ConnectionRefused.js.map

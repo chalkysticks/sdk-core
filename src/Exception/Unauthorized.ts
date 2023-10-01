@@ -3,4 +3,4 @@
  * @package Exception
  * @project ChalkySticks SDK Core
  */
-export default class Unauthorized extends Error {}
+export class Unauthorized extends Error {}

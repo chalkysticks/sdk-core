@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import CollectionBase from '../src/Collection/Base';
-import ModelBase from '../src/Model/Base';
+import { Collection, Model } from '../src/index';
 
 /**
  * CollectionBase Test
@@ -8,13 +7,13 @@ import ModelBase from '../src/Model/Base';
 describe('CollectionBase', () => {
 
     it('should have length', () => {
-        const collection: CollectionBase = new CollectionBase();
+        const collection: Collection.Base = new Collection.Base();
 
-        collection.add(new ModelBase);
-        collection.add(new ModelBase);
-        collection.add(new ModelBase);
-        collection.add(new ModelBase);
-        collection.add(new ModelBase);
+        collection.add(new Model.Base);
+        collection.add(new Model.Base);
+        collection.add(new Model.Base);
+        collection.add(new Model.Base);
+        collection.add(new Model.Base);
 
         expect(collection.length).to.equal(5);
     });

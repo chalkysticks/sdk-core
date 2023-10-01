@@ -1,9 +1,9 @@
 /**
- * @class StoreProvider
+ * @class Store
  * @package Provider
  * @project ChalkySticks SDK Core
  */
-export default class StoreProvider {
+export class Store {
 	/**
 	 * Reference to Store
 	 *
@@ -35,3 +35,5 @@ export default class StoreProvider {
 		this.instance = store;
 	}
 }
+
+export default Store;

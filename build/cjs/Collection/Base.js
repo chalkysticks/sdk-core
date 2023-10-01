@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Base = void 0;
 const Constants_1 = require("../Common/Constants");
 const Environment_1 = require("../Common/Environment");
 const EventDispatcher_1 = require("../Common/EventDispatcher");
@@ -63,5 +64,5 @@ class Base extends restmc_1.Collection {
         return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
     }
 }
-exports.default = Base;
+exports.Base = Base;
 //# sourceMappingURL=Base.js.map

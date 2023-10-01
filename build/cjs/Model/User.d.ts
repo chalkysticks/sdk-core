@@ -1,5 +1,5 @@
-import ModelBase from './Base';
-export default class ModelUser extends ModelBase {
+import { Base } from './Base';
+export declare class User extends Base {
     endpoint: string;
     fields: string[];
     getEmail(): string;

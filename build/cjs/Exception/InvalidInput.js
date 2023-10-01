@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InvalidInput = void 0;
 class InvalidInput extends Error {
 }
-exports.default = InvalidInput;
+exports.InvalidInput = InvalidInput;
 //# sourceMappingURL=InvalidInput.js.map

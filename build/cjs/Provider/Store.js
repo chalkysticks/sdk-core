@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class StoreProvider {
+exports.Store = void 0;
+class Store {
     static get() {
         if (!this.instance) {
             this.register({ state: {} });
@@ -11,5 +12,6 @@ class StoreProvider {
         this.instance = store;
     }
 }
-exports.default = StoreProvider;
+exports.Store = Store;
+exports.default = Store;
 //# sourceMappingURL=Store.js.map

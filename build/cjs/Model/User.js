@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.User = void 0;
 const Base_1 = require("./Base");
-class ModelUser extends Base_1.default {
+class User extends Base_1.Base {
     constructor() {
         super(...arguments);
         this.endpoint = 'users';
@@ -44,5 +45,5 @@ class ModelUser extends Base_1.default {
         return parseFloat(this.attr('status'));
     }
 }
-exports.default = ModelUser;
+exports.User = User;
 //# sourceMappingURL=User.js.map

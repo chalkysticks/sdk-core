@@ -1,5 +1,5 @@
 import { Collection, Model } from 'restmc';
-export default class Base<T extends Model> extends Collection<T> {
+export declare class Base<T extends Model> extends Collection<T> {
     model: any;
     baseUrl: string;
     limit: number;
