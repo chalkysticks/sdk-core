@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style>
+			body {
+				background: #11110b;
+				color: #fffff1;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks API</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					api_url: 'http://localhost:7202',
+				},
+			};
+		</script>
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			console.log('ChalkySticks', ChalkySticksCore);
+		</script>
+	</body>
+</html>

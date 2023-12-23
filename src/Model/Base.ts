@@ -1,8 +1,8 @@
+import * as Event from '../Event';
+import * as Provider from '../Provider';
 import Constants from '../Common/Constants';
-import Environment from '../Common/Environment';
-import EventDispatcher from '../Common/EventDispatcher';
-import StoreProvider from '../Provider/Store';
 import { IAttributes, IDispatcherEvent, Model } from 'restmc';
+import { Environment } from '../Common/Environment';
 
 /**
  * @class Base
@@ -13,7 +13,7 @@ export class Base extends Model {
 	/**
 	 * @type string
 	 */
-    public baseUrl: string = Environment.app.api_url;
+	public baseUrl: string = Environment.app.api_url;
 
 	/**
 	 * @param object options
@@ -32,42 +32,71 @@ export class Base extends Model {
 		// Assign token
 		if (options.token) {
 			this.setToken(options.token);
+		} else if (Provider.Store.get()?.state?.token) {
+			this.setToken(Provider.Store.get().state.token);
 		}
-		else if (StoreProvider.get()?.state?.token) {
-			this.setToken(StoreProvider.get().state.token);
-		}
+
+		// Attach events
+		this.attachEvents();
+	}
+
+	/**
+	 * @return void
+	 */
+	public attachEvents(): void {
+		// Listen for loading
+		this.on('requesting', (e: IDispatcherEvent) => {
+			const data: any = { collection: this };
+			this.dispatch('request:loading', data);
+			Event.Bus.dispatch('request:loading', data);
+		});
+
+		// Listen for loaded
+		this.on('finish', (e: IDispatcherEvent) => {
+			const data: any = { collection: this };
+			this.dispatch('request:loaded', data);
+			Event.Bus.dispatch('request:loaded', data);
+		});
 
 		// Listen for Unauthorized
 		this.on('error', (e: IDispatcherEvent) => {
-			const status: number = e.detail.request?.response?.status;
+			const status: number = e.detail.request?.status || e.detail.request?.response?.status;
+			const data: any = { model: this };
 
 			// Unauthorized
 			if (status === 401) {
-				EventDispatcher.global.dispatch('request:unauthorized');
-			}
-			else if (status === 403) {
-				EventDispatcher.global.dispatch('request:forbidden');
-			}
-			else if (status === 405) {
-				EventDispatcher.global.dispatch('request:not_allowed');
-			}
-			else if (status === 406) {
-				EventDispatcher.global.dispatch('request:not_acceptable');
-			}
-			else if (status === 409) {
-				EventDispatcher.global.dispatch('request:conflict');
-			}
-			else if (status === 503) {
-				EventDispatcher.global.dispatch('request:service_unavailable');
+				this.dispatch('request:unauthorized', data);
+				Event.Bus.dispatch('request:unauthorized', data);
+			} else if (status === 403) {
+				this.dispatch('request:forbidden', data);
+				Event.Bus.dispatch('request:forbidden', data);
+			} else if (status === 405) {
+				this.dispatch('request:not_allowed', data);
+				Event.Bus.dispatch('request:not_allowed', data);
+			} else if (status === 406) {
+				this.dispatch('request:not_acceptable', data);
+				Event.Bus.dispatch('request:not_acceptable', data);
+			} else if (status === 409) {
+				this.dispatch('request:conflict', data);
+				Event.Bus.dispatch('request:conflict', data);
+			} else if (status === 503) {
+				this.dispatch('request:service_unavailable', data);
+				Event.Bus.dispatch('request:service_unavailable', data);
 			}
 
 			// General error
-			EventDispatcher.global.dispatch('request:error', {
-				response: e.detail.request?.response,
-				target: this,
-				targetType: 'model',
-			});
+			this.dispatch('request:error', data);
+			Event.Bus.dispatch('request:error', data);
 		});
+	}
+
+	/**
+	 * @return void
+	 */
+	public detachEvents(): void {
+		this.off('requesting');
+		this.off('finish');
+		this.off('error');
 	}
 
 	/**

@@ -1,6 +1,7 @@
 export declare class Store {
-    private static instance;
-    static get(): IStore;
-    static register(store: IStore): void;
+    private instance;
+    get(): IStore;
+    register(store: IStore): void;
 }
-export default Store;
+declare const _default: Store;
+export default _default;

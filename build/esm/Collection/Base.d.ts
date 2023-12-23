@@ -4,6 +4,8 @@ export declare class Base<T extends Model> extends Collection<T> {
     baseUrl: string;
     limit: number;
     constructor(options?: any);
+    attachEvents(): void;
+    detachEvents(): void;
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;

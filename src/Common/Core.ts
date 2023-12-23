@@ -1,10 +1,8 @@
-import EventDispatcher from './EventDispatcher';
+import * as Event from '../Event';
 
 /**
  * @class Core
  * @package Common
  * @project ChalkySticks SDK Core
  */
-export default class Core extends EventDispatcher {
-
-}
+export class Core extends Event.Dispatcher {}

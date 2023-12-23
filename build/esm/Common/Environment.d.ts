@@ -1,4 +1,4 @@
-export default class Environment {
+export declare class Environment {
     static app: any;
     static debug: boolean;
     static env: string;

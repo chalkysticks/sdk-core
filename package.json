@@ -1,58 +1,58 @@
 {
-    "author": "ChalkySticks LLC",
-    "bugs": {
-        "url": "https://github.com/chalkysticks/sdk-core/issues"
-    },
-    "dependencies": {
-        "@chalkysticks/mrm-preset": "github:chalkysticks/mrm-preset",
-        "restmc": "git+https://github.com/mattkenefick/restmc.git"
-    },
-    "description": "ChalkySticks SDK core for web-based clients",
-    "devDependencies": {
-        "@types/chai": "^4.2.14",
-        "@types/mocha": "^8.2.0",
-        "@typescript-eslint/eslint-plugin": "^4.13.0",
-        "@typescript-eslint/parser": "^4.13.0",
-        "chai": "^4.2.0",
-        "esbuild": "^0.16.10",
-        "eslint": "^7.17.0",
-        "mocha": "^8.2.1",
-        "nyc": "^15.1.0",
-        "ts-mocha": "^8.0.0",
-        "typescript": "^5.2.2"
-    },
-    "exports": {
-        ".": {
-            "import": "./build/esm/index.js"
-        }
-    },
-    "files": [
-        "!**/*.spec.*",
-        "!**/*.json",
-        "build",
-        "CHANGELOG.md",
-        "LICENSE",
-        "README.md"
-    ],
-    "homepage": "https://www.chalkysticks.com",
-    "keywords": [
-        "billiards",
-        "chalkysticks",
-        "pool"
-    ],
-    "license": "GPL-3.0-or-later",
-    "module": "./build/esm/index.js",
-    "name": "@chalkysticks/sdk-core",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/chalkysticks/sdk-core.git"
-    },
-    "scripts": {
-        "build": "tsc -p tsconfig.json",
-        "build:web": "./node_modules/.bin/esbuild src/index.ts --bundle --minify --sourcemap --target=chrome62 --format=esm --outfile=build/web/chalkysticks-core.js",
-        "example": "http-server",
-        "test": "ts-mocha -p ./node_modules/@chalkysticks/mrm-preset/tsconfig.test.json test/**/*.spec.ts"
-    },
-    "types": "build/esm/index.d.ts",
-    "version": "1.4.0"
+	"author": "ChalkySticks LLC",
+	"bugs": {
+		"url": "https://github.com/chalkysticks/sdk-core/issues"
+	},
+	"dependencies": {
+		"@chalkysticks/mrm-preset": "github:chalkysticks/mrm-preset",
+		"restmc": "git+https://github.com/mattkenefick/restmc.git"
+	},
+	"description": "ChalkySticks SDK core for web-based clients",
+	"devDependencies": {
+		"@types/chai": "^4.2.14",
+		"@types/mocha": "^8.2.0",
+		"@typescript-eslint/eslint-plugin": "^4.13.0",
+		"@typescript-eslint/parser": "^4.13.0",
+		"chai": "^4.2.0",
+		"esbuild": "^0.16.10",
+		"eslint": "^7.17.0",
+		"mocha": "^8.2.1",
+		"nyc": "^15.1.0",
+		"ts-mocha": "^8.0.0",
+		"typescript": "^5.2.2"
+	},
+	"exports": {
+		".": {
+			"import": "./build/esm/index.js"
+		}
+	},
+	"files": [
+		"!**/*.spec.*",
+		"!**/*.json",
+		"build",
+		"CHANGELOG.md",
+		"LICENSE",
+		"README.md"
+	],
+	"homepage": "https://www.chalkysticks.com",
+	"keywords": [
+		"billiards",
+		"chalkysticks",
+		"pool"
+	],
+	"license": "GPL-3.0-or-later",
+	"module": "./build/esm/index.js",
+	"name": "@chalkysticks/sdk-core",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chalkysticks/sdk-core.git"
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.json && yarn build:web",
+		"build:web": "./node_modules/.bin/esbuild src/index.ts --bundle --minify --sourcemap --target=chrome62 --format=esm --outfile=build/web/chalkysticks-core.js",
+		"example": "http-server",
+		"test": "ts-mocha -p ./node_modules/@chalkysticks/mrm-preset/tsconfig.test.json test/**/*.spec.ts"
+	},
+	"types": "build/esm/index.d.ts",
+	"version": "1.5.0"
 }
