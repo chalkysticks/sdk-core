@@ -17,6 +17,8 @@ import ChalkySticks from './Lib/ChalkySticks';
 
 export default ChalkySticks;
 
+export const Version = '3.0';
+
 export * as Collection from './Collection';
 export * as Enum from './Enum';
 export * as Exception from './Exception';

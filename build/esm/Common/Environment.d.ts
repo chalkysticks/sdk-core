@@ -1,8 +1,8 @@
 export default class Environment {
-    static app: IEnvironmentApplication;
+    static app: any;
     static debug: boolean;
     static env: string;
-    static google: IEnvironmentGoogle;
+    static google: any;
     static isLocal(): boolean;
     static isProduction(): boolean;
     static isStaging(): boolean;

@@ -9,5 +9,5 @@ interface IEventTabClick {
 
 interface IEventOptionTrigger {
 	event: string;
-	option: IManifestOptionBasic;
+	option: any;
 }

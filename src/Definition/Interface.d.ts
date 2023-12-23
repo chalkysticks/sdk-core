@@ -9,6 +9,6 @@ interface IEnvironmentApplication {
 }
 
 interface IEnvironmentGoogle {
-    analytics: IGoogleAnalyics;
+    analytics: any;
     api_key: string;
 }

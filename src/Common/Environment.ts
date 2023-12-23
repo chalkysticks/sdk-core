@@ -7,7 +7,7 @@ export default class Environment {
     /**
      * @type IEnvironmentApplication
      */
-    public static app: IEnvironmentApplication = Environment.getVariable('app', {
+    public static app: any = Environment.getVariable('app', {
         api_url: 'http://localhost:8000/api/v1',
         limit: 32
     });
@@ -31,7 +31,7 @@ export default class Environment {
      *
      * @type IEnvironmentGoogle
      */
-    public static google: IEnvironmentGoogle = Environment.getVariable('google', {
+    public static google: any = Environment.getVariable('google', {
         analytics: {
             id: 'UA-189...'
         },
