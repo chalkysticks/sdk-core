@@ -53,12 +53,19 @@ export class Base<T extends Model> extends Collection<T> {
 		} else if (Provider.Store.get()?.state?.token) {
 			this.setToken(Provider.Store.get().state.token);
 		}
+
+		// Attach
+		this.attachEvents();
 	}
 
 	/**
 	 * @return void
 	 */
 	public attachEvents(): void {
+		this.on('add:before', (e: IDispatcherEvent) => {
+			e.detail.model.baseUrl = this.baseUrl;
+		});
+
 		// Listen for loading
 		this.on('requesting', (e: IDispatcherEvent) => {
 			const data: any = { collection: this };
