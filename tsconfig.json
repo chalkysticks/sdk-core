@@ -1,14 +1,9 @@
 {
-    "compilerOptions": {
-        "outDir": "build/esm",
-		"rootDir": "src",
-    },
-    "extends": "../../node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",
-    "files": [
-        "./src/Definition/Interface.d.ts",
-        "./src/Definition/Reference.d.ts"
-    ],
-    "include": [
-        "./src/**/*"
-    ]
+	"compilerOptions": {
+		"outDir": "build/esm",
+		"rootDir": "src"
+	},
+	"extends": "./node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",
+	"files": ["./src/Definition/Interface.d.ts", "./src/Definition/Reference.d.ts"],
+	"include": ["./src/**/*"]
 }

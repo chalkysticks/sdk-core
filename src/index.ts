@@ -21,27 +21,8 @@ export { Core } from './Common/Core';
 export { Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
 
-export { IDispatcher } from './Event/Dispatcher';
-export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent';
+// I think exporting the interfaces here might have been an issue
 
-export {
-	IAttributes,
-	IAxiosConfig,
-	IAxiosError,
-	IAxiosResponse,
-	IAxiosSuccess,
-	ICachedResponse,
-	ICachedResponses,
-	ICollectionChange,
-	ICollectionMeta,
-	IModelRequestOptions,
-	IModelRequestQueryParams,
-	IPagination,
-	IProgressEvent,
-	IRequestEvent,
-	IResponse,
-	ISortOptions,
-	Request,
-} from 'restmc';
+export { Request } from 'restmc';
 
 export const Version = '1.5.0';
