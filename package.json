@@ -41,6 +41,7 @@
 		"pool"
 	],
 	"license": "GPL-3.0-or-later",
+	"main": "./build/esm/index.js",
 	"module": "./build/esm/index.js",
 	"name": "@chalkysticks/sdk-core",
 	"repository": {
@@ -53,6 +54,7 @@
 		"example": "http-server",
 		"test": "ts-mocha -p ./node_modules/@chalkysticks/mrm-preset/tsconfig.test.json test/**/*.spec.ts"
 	},
+	"type": "module",
 	"types": "build/esm/index.d.ts",
 	"version": "1.5.0"
 }

@@ -1,3 +1,3 @@
-export { default as Bus } from './Dispatcher.js';
-export * from './Dispatcher.js';
-export * from './DispatcherEvent.js';
+export { default as Bus } from './Dispatcher';
+export * from './Dispatcher';
+export * from './DispatcherEvent';

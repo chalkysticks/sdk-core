@@ -21,8 +21,8 @@ export { Core } from './Common/Core';
 export { Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
 
-export { IDispatcher } from './Event/Dispatcher.js';
-export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent.js';
+export { IDispatcher } from './Event/Dispatcher';
+export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent';
 
 export {
 	IAttributes,
