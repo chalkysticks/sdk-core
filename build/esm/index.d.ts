@@ -14,7 +14,5 @@ export * as Utility from './Utility';
 export { Core } from './Common/Core';
 export { Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
-export { IDispatcher } from './Event/Dispatcher';
-export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent';
-export { IAttributes, IAxiosConfig, IAxiosError, IAxiosResponse, IAxiosSuccess, ICachedResponse, ICachedResponses, ICollectionChange, ICollectionMeta, IModelRequestOptions, IModelRequestQueryParams, IPagination, IProgressEvent, IRequestEvent, IResponse, ISortOptions, Request, } from 'restmc';
+export { Request } from 'restmc';
 export declare const Version = "1.5.0";
