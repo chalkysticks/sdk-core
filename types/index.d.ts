@@ -3,7 +3,7 @@ interface IStore {
 	actions?: any;
 	getters?: any;
 	mutations?: any;
-	state: any;
+	state?: any;
 }
 
 interface IGoogleAnalytics {
