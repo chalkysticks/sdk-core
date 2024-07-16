@@ -12,12 +12,12 @@ export type TDispatcherCallback = (envelope: IDispatcherEvent) => void;
  * @type interface
  */
 export interface IDispatcherEvent {
-    data: TDispatcherData;
-    event: {
-        name: string;
-        time: number;
-    };
-    target: any;
+	data: TDispatcherData;
+	event: {
+		name: string;
+		time: number;
+	};
+	target: any;
 }
 
 /**
@@ -31,72 +31,72 @@ export interface IDispatcherEvent {
  * @project ChalkySticks SDK Core
  */
 export class DispatcherEvent {
-    /**
-     * @type Array<TDispatcherCallback>
-     */
-    public callbacks: TDispatcherCallback[];
+	/**
+	 * @type Array<TDispatcherCallback>
+	 */
+	public callbacks: TDispatcherCallback[];
 
-    /**
-     * @type IDispatcherEvent
-     */
-    protected envelope: IDispatcherEvent;
+	/**
+	 * @type IDispatcherEvent
+	 */
+	protected envelope: IDispatcherEvent;
 
-    /**
-     * @type string
-     */
-    protected eventName: string;
+	/**
+	 * @type string
+	 */
+	protected eventName: string;
 
-    /**
-     * @constructor
-     * @param string eventName
-     * @param IDispatcherEvent envelope
-     */
-    constructor(eventName: string, envelope?: IDispatcherEvent) {
-        this.callbacks = [];
-        this.eventName = eventName;
+	/**
+	 * @constructor
+	 * @param string eventName
+	 * @param IDispatcherEvent envelope
+	 */
+	constructor(eventName: string, envelope?: IDispatcherEvent) {
+		this.callbacks = [];
+		this.eventName = eventName;
 
-        if (envelope) {
-            this.envelope = envelope;
-        }
-    }
+		if (envelope) {
+			this.envelope = envelope;
+		}
+	}
 
-    /**
-     * @return void
-     */
-    public clearCallbacks(): void {
-        this.callbacks = [];
-    }
+	/**
+	 * @return void
+	 */
+	public clearCallbacks(): void {
+		this.callbacks = [];
+	}
 
-    /**
-     * @param TDispatcherCallback callback
-     * @return void
-     */
-    public registerCallback(callback: TDispatcherCallback): void {
-        this.callbacks.push(callback);
-    }
+	/**
+	 * @param TDispatcherCallback callback
+	 * @return void
+	 */
+	public registerCallback(callback: TDispatcherCallback): void {
+		this.callbacks.push(callback);
+	}
 
-    /**
-     * @param TDispatcherCallback callback
-     * @return void
-     */
-    public unregisterCallback(callback: TDispatcherCallback): void {
-        const index = this.callbacks.indexOf(callback);
+	/**
+	 * @param TDispatcherCallback callback
+	 * @return void
+	 */
+	public unregisterCallback(callback: TDispatcherCallback): void {
+		const index = this.callbacks.indexOf(callback);
 
-        if (index > -1) {
-            this.callbacks.splice(index, 1);
-        }
-    }
+		if (index > -1) {
+			this.callbacks.splice(index, 1);
+		}
+	}
 
-    /**
-     * @param IDispatcherEvent envelope
-     * @return void
-     */
-    public fire(envelope: IDispatcherEvent): void {
-        const callbacks = this.callbacks.slice(0);
+	/**
+	 * @param IDispatcherEvent envelope
+	 * @return void
+	 */
+	public fire(envelope: IDispatcherEvent): void {
+		const callbacks = this.callbacks.slice(0);
 
-        // Merge class properties with passed in envelope
-        callbacks.forEach((callback: TDispatcherCallback) => {
-            callback(Object.assign({}, this.envelope, envelope));
-        });
-    }
+		// Merge class properties with passed in envelope
+		callbacks.forEach((callback: TDispatcherCallback) => {
+			callback(Object.assign({}, this.envelope, envelope));
+		});
+	}
 }

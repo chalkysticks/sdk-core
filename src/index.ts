@@ -4,9 +4,6 @@ declare global {
 	}
 }
 
-// Exports
-// ------------------------------------------------------------------------
-
 export { default as ChalkySticks } from './ChalkySticks';
 
 export * as Collection from './Collection';
