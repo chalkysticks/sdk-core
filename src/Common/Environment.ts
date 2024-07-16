@@ -8,7 +8,7 @@ export class Environment {
 	 * @type IEnvironmentApplication
 	 */
 	public static app: any = Environment.getVariable('app', {
-		api_url: 'http://localhost:8000/api/v1',
+		api_url: '',
 		limit: 32,
 	});
 
@@ -33,10 +33,17 @@ export class Environment {
 	 */
 	public static google: any = Environment.getVariable('google', {
 		analytics: {
-			id: 'UA-189...',
+			id: '',
 		},
-		api_key: 'AIzaSy...',
+		api_key: '',
 	});
+
+	/**
+	 * Unique ID for this class
+	 *
+	 * @type string
+	 */
+	public static id: string = Math.random().toString(36).substr(2, 9);
 
 	/**
 	 * Check environment type
