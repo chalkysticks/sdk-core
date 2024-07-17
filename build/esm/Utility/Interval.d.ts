@@ -1,15 +1,17 @@
 export interface IInterval {
+    executions: number;
     fps: number;
     func: (e: any) => any;
     lastTick?: number;
-    name?: string;
+    name: string | symbol;
+    stopAfter?: number;
 }
 export declare class Interval {
     static instance: Interval;
-    static add(func: (e: any) => any, fps?: number, name?: string): string;
-    static fps(name: string, fps: number, func: (e: any) => any): Interval;
+    static add(optionsOrFunc: any, fps?: number, name?: string | symbol): string | symbol;
+    static fps(name: string | symbol, fps: number, func: (e: any) => any): Interval;
     static list(): void;
-    static remove(name: string): void;
+    static remove(name: string | symbol): void;
     static start(): void;
     static stop(): void;
     enabled: boolean;

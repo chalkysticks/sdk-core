@@ -1,11 +1,15 @@
+import { requestAnimationFrame } from '../Common/Functions.js';
+
 /**
  * @type interface
  */
 export interface IInterval {
+	executions: number;
 	fps: number;
 	func: (e: any) => any;
 	lastTick?: number;
-	name?: string;
+	name: string | symbol;
+	stopAfter?: number;
 }
 
 /**
@@ -25,8 +29,7 @@ export interface IInterval {
  *
  *
  * @author Matt Kenefick<matt@chalkysticks.com>
- * @package Utility
- * @project ChalkySticks SDK Core
+ * @package ChalkySticks SDK Core
  */
 export class Interval {
 	// region: Static
@@ -40,11 +43,27 @@ export class Interval {
 	/**
 	 * @param Function func
 	 * @param number fps
-	 * @param string name
+	 * @param string | symbol name
 	 * @return string
 	 */
-	public static add(func: (e: any) => any, fps: number = 16, name: string = ''): string {
+	public static add(optionsOrFunc: any, fps: number = 16, name: string | symbol = ''): string | symbol {
+		let func,
+			executions = 0,
+			lastTick = 0,
+			stopAfter = 0;
+
+		// Default name
 		name || (name = Math.random().toString(32).substr(2, 6));
+
+		// Fix our deprecated arguments
+		if (optionsOrFunc.hasOwnProperty('callback')) {
+			fps = optionsOrFunc.fps || fps;
+			func = optionsOrFunc.callback;
+			name = optionsOrFunc.name || name;
+			stopAfter = optionsOrFunc.stopAfter || 0;
+		} else {
+			func = optionsOrFunc;
+		}
 
 		// Create, if not
 		if (!this.instance) {
@@ -53,21 +72,24 @@ export class Interval {
 
 		// Add interval
 		this.instance.intervals.push({
+			executions,
 			fps,
 			func,
+			lastTick,
 			name,
+			stopAfter,
 		});
 
 		return name;
 	}
 
 	/**
-	 * @param string name
+	 * @param string | symbol name
 	 * @param number fps
 	 * @param Function func
 	 * @return Interval
 	 */
-	public static fps(name: string, fps: number, func: (e: any) => any): Interval {
+	public static fps(name: string | symbol, fps: number, func: (e: any) => any): Interval {
 		this.instance.intervals.filter((interval: IInterval) => {
 			if (interval.name === name) {
 				interval.fps = fps || interval.fps;
@@ -86,10 +108,10 @@ export class Interval {
 	}
 
 	/**
-	 * @param string name
+	 * @param string | symbol name
 	 * @return void
 	 */
-	public static remove(name: string): void {
+	public static remove(name: string | symbol): void {
 		this.instance.intervals = this.instance.intervals.filter((interval: IInterval) => interval.name != name);
 	}
 
@@ -181,9 +203,14 @@ export class Interval {
 			const diff = now - (interval.lastTick || 0);
 
 			if (diff > interval.fps) {
-				interval.func({});
+				if (interval.stopAfter && interval.executions >= interval.stopAfter) {
+					Interval.remove(interval.name);
+					return;
+				}
 
+				interval.func({});
 				interval.lastTick = now;
+				interval.executions++;
 			}
 		});
 

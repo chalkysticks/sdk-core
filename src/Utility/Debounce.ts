@@ -20,10 +20,8 @@
  * 		debouncedFoo.run();
  * 	}, 1000 / 30);
  *
- * @author Matt Kenefick<matt@chalkysticks.com>
- * @package Utility
- * @project ChalkySticks SDK Core
- * @see https://medium.com/@mattkenefick/debouncing-in-typescript-d5edddf39cdc
+ * @author Matt Kenefick <matt@chalkysticks.com>
+ * @package ChalkySticks SDK Core
  */
 export class Debounce {
 	/**
@@ -33,7 +31,7 @@ export class Debounce {
 	 */
 	public static exec(reference: symbol | string, callable: () => void, timeout: number = 1000, inclusive: boolean = false, args: any[] = []): void {
 		if (!this.instances[reference]) {
-			const instance = new Debounce(callable, timeout, inclusive);
+			const instance = new Debounce(callable, timeout, true, inclusive);
 			this.instances[reference] = instance.run;
 		}
 
@@ -62,6 +60,13 @@ export class Debounce {
 	public threshold: number;
 
 	/**
+	 * If we should trigger a future event after run call
+	 *
+	 * @type boolean
+	 */
+	private inclusive: boolean = false;
+
+	/**
 	 * Last time this function was triggered
 	 *
 	 * @type number
@@ -78,11 +83,13 @@ export class Debounce {
 	/**
 	 * @param function callback
 	 * @param number threshold
+	 * @param boolean immediate
 	 * @param boolean inclusive
 	 * @return function
 	 */
-	public constructor(callback: () => void, threshold: number = 200, inclusive: boolean = false) {
+	public constructor(callback: () => void, threshold: number = 200, immediate: boolean = false, inclusive: boolean = false) {
 		this.callback = callback;
+		this.inclusive = inclusive;
 		this.threshold = threshold;
 
 		// Don't execute on first pass; only after threshold waits
@@ -98,17 +105,24 @@ export class Debounce {
 	/**
 	 * Executable function
 	 *
+	 * @param boolean wasInclusive
 	 * @return void
 	 */
-	public run(): void {
+	public run(wasInclusive: boolean = false): void {
 		const now: number = Date.now();
 		const diff: number = now - this.lastTrigger;
 
 		// Execute Immediately
 		if (diff > this.threshold) {
 			this.lastTrigger = now;
-			this.callback();
+
+			// @ts-ignore
+			this.callback.apply(null, arguments);
 		}
+
+		// mk: We might want to turn this into an await sleep() then call .run()
+		// directly. When making extensions, the setTimeout runs eval to call the
+		// function which violates unsafe-eval for Trusted Types.
 
 		// Cancel future event, if exists
 		if (this.timeout !== 0) {
@@ -117,7 +131,9 @@ export class Debounce {
 		}
 
 		// Create future event
-		// @ts-ignore
-		this.timeout = setTimeout(this.callback, this.threshold);
+		if (this.inclusive && !wasInclusive) {
+			// @ts-ignore
+			this.timeout = setTimeout(() => this.run(true), this.threshold);
+		}
 	}
 }

@@ -1,4 +1,63 @@
 /**
+ * @return number
+ */
+export function documentHeight(): number {
+	return Math.max(
+		document.body.scrollHeight,
+		document.body.offsetHeight,
+		document.documentElement.clientHeight,
+		document.documentElement.scrollHeight,
+		document.documentElement.offsetHeight,
+	);
+}
+
+/**
+ * @param HTMLElement element
+ * @return number
+ */
+export function offsetLeft(element: HTMLElement): number {
+	let offset = 0;
+
+	do {
+		offset += element.offsetLeft;
+		element = element.offsetParent as HTMLElement;
+	} while (element);
+
+	return offset;
+}
+
+/**
+ * @param HTMLElement element
+ * @return number
+ */
+export function offsetHeight(element: HTMLElement): number {
+	return element.offsetHeight;
+}
+
+/**
+ * @param HTMLElement element
+ * @return number
+ */
+export function offsetTop(element: HTMLElement): number {
+	let offset = 0;
+
+	do {
+		offset += element.offsetTop;
+		element = element.offsetParent as HTMLElement;
+	} while (element);
+
+	return offset;
+}
+
+/**
+ * @param HTMLElement element
+ * @return number
+ */
+export function offsetWidth(element: HTMLElement): number {
+	return element.offsetWidth;
+}
+
+/**
  * @param number ms
  * @return Promise<void>
  */

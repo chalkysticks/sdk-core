@@ -3,8 +3,9 @@ export declare class Debounce {
     private static instances;
     callback: () => void;
     threshold: number;
+    private inclusive;
     private lastTrigger;
     private timeout;
-    constructor(callback: () => void, threshold?: number, inclusive?: boolean);
-    run(): void;
+    constructor(callback: () => void, threshold?: number, immediate?: boolean, inclusive?: boolean);
+    run(wasInclusive?: boolean): void;
 }

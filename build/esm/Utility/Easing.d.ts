@@ -1,0 +1,57 @@
+export declare class EasingFunction {
+    static linear(t: number): number;
+    static easeInQuad(t: number): number;
+    static easeOutQuad(t: number): number;
+    static easeInOutQuad(t: number): number;
+    static easeInCubic(t: number): number;
+    static easeOutCubic(t: number): number;
+    static easeInOutCubic(t: number): number;
+    static easeInQuart(t: number): number;
+    static easeOutQuart(t: number): number;
+    static easeInOutQuart(t: number): number;
+    static easeInQuint(t: number): number;
+    static easeOutQuint(t: number): number;
+    static easeInOutQuint(t: number): number;
+    static easeInSine(t: number): number;
+    static easeOutSine(t: number): number;
+    static easeInOutSine(t: number): number;
+    static easeInExpo(t: number): number;
+    static easeOutExpo(t: number): number;
+    static easeInOutExpo(t: number): number;
+    static easeInCirc(t: number): number;
+    static easeOutCirc(t: number): number;
+    static easeInOutCirc(t: number): number;
+    static easeInBack(t: number, s?: number): number;
+    static easeOutBack(t: number, s?: number): number;
+    static easeInOutBack(t: number, s?: number): number;
+}
+export default class Easing {
+    static linear(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInQuad(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutQuad(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutQuad(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInQuart(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutQuart(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutQuart(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInQuint(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutQuint(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutQuint(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInCubic(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutCubic(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutCubic(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInSine(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutSine(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutSine(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInExpo(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutExpo(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutExpo(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInCirc(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutCirc(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutCirc(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInBack(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeOutBack(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static easeInOutBack(value: number, min?: number, max?: number, clamp?: boolean): number;
+    static normalize(value: number, min: number | undefined, max: number | undefined, easingFn: (t: number) => number, clamp?: boolean): number;
+    static clamp(value: number, min?: number, max?: number): number;
+}
+export declare function getEasingMethod(type: string): any;
