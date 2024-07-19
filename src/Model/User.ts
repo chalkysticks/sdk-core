@@ -1,4 +1,5 @@
 import * as Collection from '../Collection';
+import * as Model from '.';
 import { Base } from './Base';
 
 /**
@@ -24,6 +25,10 @@ export class User extends Base {
 
 	// region: Relationship
 	// ---------------------------------------------------------------------------
+
+	public get avatar(): Model.Media {
+		return (this.media.primary as Model.Media) || new Model.Media();
+	}
 
 	public get games(): Collection.Meta {
 		return this.hasMany('games', Collection.Meta);

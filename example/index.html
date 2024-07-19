@@ -42,7 +42,8 @@
 			await userModel.fetch();
 
 			console.log('Meta', userModel.metadata.getValuesByGroup('profile'));
-			console.log('Avatar', userModel.media.primary.getUrl());
+			console.log('Avatar 1', userModel.media.primary.getUrl());
+			console.log('Avatar 2', userModel.avatar.getUrl());
 
 			// -----------------------------------------------------------------
 
