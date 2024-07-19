@@ -34,6 +34,11 @@ interface IEventOptionTrigger {
 	option: any;
 }
 
+interface IGeoLocation {
+	latitude: number;
+	longitude: number;
+}
+
 interface IApiResponseError {
 	code: number;
 	message: string;

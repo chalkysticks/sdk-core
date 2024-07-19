@@ -5,10 +5,12 @@
     },
     "dependencies": {
         "@chalkysticks/mrm-preset": "github:chalkysticks/mrm-preset",
+        "@types/googlemaps": "^3.43.3",
         "restmc": "git+https://github.com/mattkenefick/restmc.git"
     },
     "description": "ChalkySticks SDK core for web-based clients",
     "devDependencies": {
+        "@types/googlemaps": "^3.43.3",
         "@typescript-eslint/eslint-plugin": "^4.13.0",
         "@typescript-eslint/parser": "^4.13.0",
         "esbuild": "^0.19.11",
@@ -47,5 +49,5 @@
     },
     "type": "module",
     "types": "build/esm/index.d.ts",
-    "version": "1.8.0"
+    "version": "1.9.0"
 }

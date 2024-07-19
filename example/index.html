@@ -23,7 +23,8 @@
 		<script>
 			window.env = {
 				app: {
-					api_url: 'http://localhost:7202',
+					// api_url: 'http://localhost:7202',
+					api_url: 'https://api.chalkysticks.com/v1',
 				},
 			};
 		</script>
@@ -31,6 +32,16 @@
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
 			console.log('ChalkySticks', ChalkySticksCore);
+
+			const geocodeModel = await ChalkySticksCore.Model.Geocode.search('600 W 111th St NY NY');
+
+			// Log
+			console.log(geocodeModel.getCityAndState());
+			console.log(geocodeModel.getCountry());
+			console.log(geocodeModel.getFullAddress());
+			console.log(geocodeModel.getShortAddress());
+			console.log(geocodeModel.getCityAndState());
+			console.log(geocodeModel.getLocation());
 		</script>
 	</body>
 </html>
