@@ -1,3 +1,4 @@
+import * as Collection from '../Collection';
 import { Base } from './Base';
 
 /**
@@ -19,19 +20,27 @@ export class User extends Base {
 	 *
 	 * @type string[]
 	 */
-	public fields: string[] = ['id', 'name', 'slug', 'email', 'phone', 'latitude', 'longitude', 'status', 'permissions', 'created_at', 'updated_at'];
+	public fields: string[] = ['id', 'lat', 'lon', 'name', 'phone', 'slug', 'status', 'wallet_balance', 'created_at', 'updated_at'];
+
+	// region: Relationship
+	// ---------------------------------------------------------------------------
+
+	public get games(): Collection.Meta {
+		return this.hasMany('games', Collection.Meta);
+	}
+
+	public get media(): Collection.Media {
+		return this.hasMany('media', Collection.Media);
+	}
+
+	public get metadata(): Collection.Meta {
+		return this.hasMany('meta', Collection.Meta);
+	}
+
+	// endregion: Relationship
 
 	// region: Getters
 	// ---------------------------------------------------------------------------
-
-	/**
-	 * Retrieve User's email
-	 *
-	 * @return string
-	 */
-	public getEmail(): string {
-		return this.attr('email') as string;
-	}
 
 	/**
 	 * Retrieve User's Latitude
@@ -39,7 +48,7 @@ export class User extends Base {
 	 * @return number
 	 */
 	public getLatitude(): number {
-		return parseFloat(this.attr('latitude') as string);
+		return parseFloat(this.attr('lat') as string);
 	}
 
 	/**
@@ -48,7 +57,7 @@ export class User extends Base {
 	 * @return number
 	 */
 	public getLongitude(): number {
-		return parseFloat(this.attr('longitude') as string);
+		return parseFloat(this.attr('lon') as string);
 	}
 
 	/**
@@ -94,6 +103,15 @@ export class User extends Base {
 	 */
 	public getStatus(): number {
 		return parseFloat(this.attr('status') as string);
+	}
+
+	/**
+	 * Get amount the user has in their wallet
+	 *
+	 * @return number
+	 */
+	public getWalletBalance(): number {
+		return parseFloat(this.attr('wallet_balance') as string);
 	}
 
 	// endregion: Getters

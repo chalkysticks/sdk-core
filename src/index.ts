@@ -22,4 +22,4 @@ export { default as Constants } from './Common/Constants';
 
 export { Request } from 'restmc';
 
-export const Version = '1.5.0';
+export const Version = '1.10.0';

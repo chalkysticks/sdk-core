@@ -1,0 +1,18 @@
+import * as Model from '../Model';
+import { Base } from './Base';
+export class Media extends Base {
+    constructor() {
+        super(...arguments);
+        this.model = new Model.Media();
+    }
+    get images() {
+        return this.models.filter((media) => media.getType() === 'image');
+    }
+    get primary() {
+        return this.models.at(0);
+    }
+    get videos() {
+        return this.models.filter((media) => media.getType() === 'video');
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTWVkaWEuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvQ29sbGVjdGlvbi9NZWRpYS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEtBQUssS0FBSyxNQUFNLFVBQVUsQ0FBQztBQUNsQyxPQUFPLEVBQUUsSUFBSSxFQUFFLE1BQU0sUUFBUSxDQUFDO0FBTzlCLE1BQU0sT0FBTyxLQUFNLFNBQVEsSUFBaUI7SUFBNUM7O1FBSVEsVUFBSyxHQUFnQixJQUFJLEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztJQXNCL0MsQ0FBQztJQWpCQSxJQUFXLE1BQU07UUFDaEIsT0FBTyxJQUFJLENBQUMsTUFBTSxDQUFDLE1BQU0sQ0FBQyxDQUFDLEtBQUssRUFBRSxFQUFFLENBQUMsS0FBSyxDQUFDLE9BQU8sRUFBRSxLQUFLLE9BQU8sQ0FBQyxDQUFDO0lBQ25FLENBQUM7SUFLRCxJQUFXLE9BQU87UUFDakIsT0FBTyxJQUFJLENBQUMsTUFBTSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUMxQixDQUFDO0lBS0QsSUFBVyxNQUFNO1FBQ2hCLE9BQU8sSUFBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLENBQUMsQ0FBQyxLQUFLLEVBQUUsRUFBRSxDQUFDLEtBQUssQ0FBQyxPQUFPLEVBQUUsS0FBSyxPQUFPLENBQUMsQ0FBQztJQUNuRSxDQUFDO0NBQ0QifQ==
