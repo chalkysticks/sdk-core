@@ -21,6 +21,8 @@ export class Store {
 		if (!this.instance) {
 			this.register({
 				actions: {},
+				commit: (context: any, payload: any) => {},
+				dispatch: (context: any, payload: any) => {},
 				getters: {},
 				mutations: {},
 				state: {},

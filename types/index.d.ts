@@ -1,9 +1,19 @@
 interface IStore {
 	[key: string]: string | any;
-	actions?: any;
+	actions?: IStoreActions;
+	commit?: any;
+	dispatch?: any;
 	getters?: any;
-	mutations?: any;
+	mutations?: IStoreMutations;
 	state?: any;
+}
+
+interface IStoreActions {
+	[key: string]: (context: any, payload?: any) => any;
+}
+
+interface IStoreMutations {
+	[key: string]: (state: any, payload?: any) => any;
 }
 
 interface IGoogleAnalytics {
