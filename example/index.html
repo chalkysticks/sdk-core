@@ -33,6 +33,13 @@
 
 			console.log('ChalkySticks', ChalkySticksCore);
 
+			console.log('Date #1', ChalkySticksCore.Utility.getDate());
+			console.log('Date #2', ChalkySticksCore.Utility.getDate('2021-01-01'));
+
+			ChalkySticksCore.Constants.CURRENT_DATE = '1987-07-10';
+
+			console.log('Date #3', ChalkySticksCore.Utility.getDate());
+
 			// -----------------------------------------------------------------
 
 			const userModel = new ChalkySticksCore.Model.User({

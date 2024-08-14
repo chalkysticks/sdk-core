@@ -1,3 +1,5 @@
+import Constants from '../Common/Constants';
+
 /**
  * @return number
  */
@@ -9,6 +11,15 @@ export function documentHeight(): number {
 		document.documentElement.scrollHeight,
 		document.documentElement.offsetHeight,
 	);
+}
+
+/**
+ * @return Promise<void>
+ */
+export function getDate(dateString: string = ''): Date {
+	dateString || (dateString = Constants.CURRENT_DATE);
+
+	return dateString ? new Date(dateString) : new Date();
 }
 
 /**

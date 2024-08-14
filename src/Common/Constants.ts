@@ -26,6 +26,13 @@ export default {
 	API_URL_V2: 'https://api.chalkysticks.com/v2',
 
 	/**
+	 * Date string to use when generating a new Date object
+	 *
+	 * @type string
+	 */
+	CURRENT_DATE: '',
+
+	/**
 	 * @type number
 	 */
 	DEFAULT_COLLECTION_LIMIT: 20,
@@ -38,5 +45,5 @@ export default {
 	/**
 	 * @type string
 	 */
-	STATIC_URL: 'https://static.chalkysticks.com'
+	STATIC_URL: 'https://static.chalkysticks.com',
 };
