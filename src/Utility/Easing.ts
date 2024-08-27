@@ -244,7 +244,7 @@ export class EasingFunction {
  * 	easeOutBack
  * 	easeInOutBack
  *
- * @author Matt Kenefick<matt.kenefick@buck.co>
+ * @author Matt Kenefick<matt@chalkysticks.com>
  * @package Lib
  * @project Microsoft Case Study
  */

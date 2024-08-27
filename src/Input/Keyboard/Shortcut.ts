@@ -243,7 +243,7 @@ export class Shortcut extends Event.Dispatcher {
  * 			console.log('A, B, C, then D was pressed');
  * 		});
  *
- * @author Matt Kenefick<matt.kenefick@buck.co>
+ * @author Matt Kenefick<matt@chalkysticks.com>
  * @project ChalkySticks SDK Core
  */
 export class ShortcutSequencer extends Event.Dispatcher {

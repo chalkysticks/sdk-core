@@ -12,6 +12,20 @@ export default {
 	API_URL: 'https://api.chalkysticks.com/v3',
 
 	/**
+	 * DEV API URL
+	 *
+	 * @type string
+	 */
+	API_URL_DEV_V1: 'http://localhost:8000/v1',
+
+	/**
+	 * DEV API URL
+	 *
+	 * @type string
+	 */
+	API_URL_DEV_V2: 'http://localhost:8000/v2',
+
+	/**
 	 * V1 API URL
 	 *
 	 * @type string
