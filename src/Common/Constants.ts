@@ -40,6 +40,13 @@ export default {
 	API_URL_V2: 'https://api.chalkysticks.com/v2',
 
 	/**
+	 * V3 API URL
+	 *
+	 * @type string
+	 */
+	API_URL_V3: 'https://api.chalkysticks.com/v3',
+
+	/**
 	 * Date string to use when generating a new Date object
 	 *
 	 * @type string
