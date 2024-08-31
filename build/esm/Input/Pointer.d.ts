@@ -57,6 +57,7 @@ export declare class Pointer extends Event.Dispatcher {
     constructor(eventType?: string, autoTouchEvents?: boolean, target?: HTMLElement | Document);
     attachEvents(): void;
     detachEvents(): void;
+    applyForMobile(): void;
     capturePinchZoom(capture: boolean): void;
     resetRelative(x?: number, y?: number): Pointer;
     private get downEvent();

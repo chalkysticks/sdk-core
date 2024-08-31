@@ -379,8 +379,6 @@ export class Pointer extends Event.Dispatcher {
 		// Set the target
 		this.target = target;
 
-		console.log('target', this.target);
-
 		// Attach
 		this.attachEvents();
 	}
@@ -446,6 +444,23 @@ export class Pointer extends Event.Dispatcher {
 
 		// Use interval to update velocity
 		Utility.Interval.remove(`${this.cid}-pointer-velocity`);
+	}
+
+	/**
+	 * @return void
+	 */
+	public applyForMobile(): void {
+		// Disable overscroll on html,body
+		document.body.style.overscrollBehavior = 'none';
+
+		// Disable touch move on document
+		document.addEventListener(
+			'touchmove',
+			function (e) {
+				e.preventDefault();
+			},
+			{ passive: false },
+		);
 	}
 
 	/**
