@@ -47,6 +47,11 @@ export declare class Pointer extends Event.Dispatcher {
     protected moveThreshold: number;
     private cid;
     private eventType;
+    private holdTimeout;
+    private lastTapTime;
+    private tapCount;
+    private tapTimeout;
+    private twoFingerTapCount;
     private vxHistory;
     private vyHistory;
     constructor(eventType?: string, autoTouchEvents?: boolean, target?: HTMLElement | Document);
