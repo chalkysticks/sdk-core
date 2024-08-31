@@ -63,6 +63,14 @@
 			console.log(geocodeModel.getShortAddress());
 			console.log(geocodeModel.getCityAndState());
 			console.log(geocodeModel.getLocation());
+
+			// -----------------------------------------------------------------
+
+			ChalkySticksCore.Input.Pointer.start();
+
+			ChalkySticksCore.Input.Pointer.instance.on('tap', () => console.log('tap'));
+			ChalkySticksCore.Input.Pointer.instance.on('doubletap', () => console.log('doubletap'));
+			ChalkySticksCore.Input.Pointer.instance.on('hold', () => console.log('hold'));
 		</script>
 	</body>
 </html>
