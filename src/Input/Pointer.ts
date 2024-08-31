@@ -453,6 +453,9 @@ export class Pointer extends Event.Dispatcher {
 		// Disable overscroll on html,body
 		document.body.style.overscrollBehavior = 'none';
 
+		// Globally disable user select
+		document.body.style.userSelect = 'none';
+
 		// Disable touch move on document
 		document.addEventListener(
 			'touchmove',
@@ -461,6 +464,11 @@ export class Pointer extends Event.Dispatcher {
 			},
 			{ passive: false },
 		);
+
+		// Disable context menu
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
 	}
 
 	/**
