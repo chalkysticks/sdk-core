@@ -10,6 +10,16 @@
 				background: #11110b;
 				color: #fffff1;
 			}
+
+			.shape {
+				background: red;
+				height: 300px;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 500px;
+			}
 		</style>
 	</head>
 	<body>
@@ -17,6 +27,8 @@
 			<header>
 				<h1>ChalkySticks API</h1>
 			</header>
+
+			<div class="shape"></div>
 		</main>
 
 		<!-- Script -->
@@ -68,9 +80,14 @@
 
 			ChalkySticksCore.Input.Pointer.start();
 
-			ChalkySticksCore.Input.Pointer.instance.on('tap', () => console.log('tap'));
-			ChalkySticksCore.Input.Pointer.instance.on('doubletap', () => console.log('doubletap'));
-			ChalkySticksCore.Input.Pointer.instance.on('hold', () => console.log('hold'));
+			// const pointer = ChalkySticksCore.Input.Pointer.instance;
+			const pointer = new ChalkySticksCore.Input.Pointer('pointer', true, document.querySelector('.shape'));
+
+			pointer.on('tap', () => console.log('tap'));
+			pointer.on('doubletap', () => console.log('doubletap'));
+			pointer.on('hold', () => console.log('hold'));
+
+			pointer.on('drag', () => console.log(pointer.dx));
 		</script>
 	</body>
 </html>

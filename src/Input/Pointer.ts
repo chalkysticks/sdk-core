@@ -658,6 +658,10 @@ export class Pointer extends Event.Dispatcher {
 		this.ox = this.x = 'touches' in e ? e.touches[0].clientX : e.clientX;
 		this.oy = this.y = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
+		// Reset dxdy
+		this.dx = 0;
+		this.dy = 0;
+
 		// Reduce offset of target if not the Document
 		if (this.target !== document) {
 			const rect = (this.target as HTMLElement).getBoundingClientRect();
