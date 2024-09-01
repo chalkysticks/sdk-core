@@ -28,7 +28,7 @@
 				<h1>ChalkySticks API</h1>
 			</header>
 
-			<div class="shape"></div>
+			<svg width="300" height="300" viewBox="0 0 250 250" class="shape"></svg>
 		</main>
 
 		<!-- Script -->
@@ -83,7 +83,7 @@
 			// const pointer = ChalkySticksCore.Input.Pointer.instance;
 			const pointer = new ChalkySticksCore.Input.Pointer('pointer', true, document.querySelector('.shape'));
 
-			pointer.on('tap', () => console.log('tap'));
+			pointer.on('tap', () => console.log('tap', pointer.x, pointer.y));
 			pointer.on('doubletap', () => console.log('doubletap'));
 			pointer.on('hold', () => console.log('hold'));
 

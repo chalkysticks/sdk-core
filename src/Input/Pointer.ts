@@ -644,11 +644,6 @@ export class Pointer extends Event.Dispatcher {
 	 */
 	protected async Handle_OnPointerDown(e: MouseEvent | PointerEvent | AppTouchEvent): Promise<void> {
 		const isTwoFingerTap = 'touches' in e && e.touches.length === 2;
-		const position = {
-			x: this.x,
-			y: this.y,
-		};
-
 		this.down = true;
 		this.moved = false;
 		this.timeDown = Date.now();
@@ -681,6 +676,11 @@ export class Pointer extends Event.Dispatcher {
 			y: this.y,
 		});
 
+		const xy = {
+			x: this.x,
+			y: this.y,
+		};
+
 		// ---------------------------------------------------------------------
 
 		if (isTwoFingerTap) {
@@ -689,9 +689,9 @@ export class Pointer extends Event.Dispatcher {
 			if (this.twoFingerTapCount === 1) {
 				setTimeout(() => {
 					if (this.twoFingerTapCount === 1 && !this.down) {
-						this.dispatch('twofingertap', position);
+						this.dispatch('twofingertap', xy);
 					} else if (this.twoFingerTapCount === 2) {
-						this.dispatch('twofingerdoubletap', position);
+						this.dispatch('twofingerdoubletap', xy);
 					}
 
 					this.twoFingerTapCount = 0;
@@ -702,12 +702,12 @@ export class Pointer extends Event.Dispatcher {
 
 			if (this.timeDown - this.lastTapTime < 300) {
 				clearTimeout(this.tapTimeout!);
-				this.dispatch('doubletap', position);
+				this.dispatch('doubletap', xy);
 				this.tapCount = 0;
 			} else {
 				this.tapTimeout = setTimeout(() => {
 					if (this.tapCount === 1 && !this.down) {
-						this.dispatch('tap', position);
+						this.dispatch('tap', xy);
 					}
 
 					this.tapCount = 0;
@@ -718,7 +718,7 @@ export class Pointer extends Event.Dispatcher {
 
 			this.holdTimeout = setTimeout(() => {
 				if (this.down) {
-					this.dispatch('hold', position);
+					this.dispatch('hold', xy);
 				}
 			}, 500) as any;
 		}
