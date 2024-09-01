@@ -76,10 +76,8 @@ export class Interval {
 			func = optionsOrFunc;
 		}
 
-		// Create, if not
-		if (!this.instance) {
-			Interval.start();
-		}
+		// Start the interval
+		this.instance.unpause();
 
 		// Add interval
 		this.instance.intervals.push({
