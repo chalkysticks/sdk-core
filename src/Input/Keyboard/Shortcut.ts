@@ -43,17 +43,8 @@ export class Shortcut extends Event.Dispatcher {
 	 * @return void
 	 */
 	public static add(key: string, callback: TShortcutCallback): void {
-		Shortcut.instance.add(key, callback);
+		shortcutSingleton.add(key, callback);
 	}
-
-	/**
-	 * Global instance
-	 *
-	 * @type Shortcut
-	 */
-	public static instance: Shortcut = new Shortcut({
-		ignoreInputs: true,
-	});
 
 	/**
 	 * @type Record<string, TShortcutCallback>
@@ -253,7 +244,7 @@ export class ShortcutSequencer extends Event.Dispatcher {
 	 * @return void
 	 */
 	public static add(keys: string[], callback: TShortcutCallback): void {
-		ShortcutSequencer.instance.add(keys, callback);
+		shortcutSequencerSingleton.add(keys, callback);
 	}
 
 	/**
@@ -261,7 +252,7 @@ export class ShortcutSequencer extends Event.Dispatcher {
 	 * @return void
 	 */
 	public static remove(keys: string[]): void {
-		ShortcutSequencer.instance.remove(keys);
+		shortcutSequencerSingleton.remove(keys);
 	}
 
 	/**
@@ -269,7 +260,9 @@ export class ShortcutSequencer extends Event.Dispatcher {
 	 *
 	 * @type ShortcutSequencer
 	 */
-	public static instance: ShortcutSequencer = new ShortcutSequencer();
+	public static get instance(): ShortcutSequencer {
+		return new ShortcutSequencer();
+	}
 
 	/**
 	 * @type string[]
@@ -378,3 +371,9 @@ export class ShortcutSequencer extends Event.Dispatcher {
 
 	// endregion: Event Handlers
 }
+
+const shortcutSingleton = new Shortcut({
+	ignoreInputs: true,
+});
+
+const shortcutSequencerSingleton = new ShortcutSequencer();

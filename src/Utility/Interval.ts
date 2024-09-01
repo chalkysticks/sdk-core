@@ -36,11 +36,6 @@ export class Interval {
 	// ---------------------------------------------------------------------------
 
 	/**
-	 * @type Interval
-	 */
-	public static instance: Interval;
-
-	/**
 	 * @param Function func
 	 * @param number fps
 	 * @param string | symbol name
@@ -66,12 +61,12 @@ export class Interval {
 		}
 
 		// Create, if not
-		if (!this.instance) {
+		if (!singleton) {
 			Interval.start();
 		}
 
 		// Add interval
-		this.instance.intervals.push({
+		singleton.intervals.push({
 			executions,
 			fps,
 			func,
@@ -90,21 +85,21 @@ export class Interval {
 	 * @return Interval
 	 */
 	public static fps(name: string | symbol, fps: number, func: (e: any) => any): Interval {
-		this.instance.intervals.filter((interval: IInterval) => {
+		singleton.intervals.filter((interval: IInterval) => {
 			if (interval.name === name) {
 				interval.fps = fps || interval.fps;
 				interval.func = func || interval.func;
 			}
 		});
 
-		return this.instance;
+		return singleton;
 	}
 
 	/**
 	 * @return void
 	 */
 	public static list(): void {
-		console.log(this.instance.intervals);
+		console.log(singleton.intervals);
 	}
 
 	/**
@@ -112,29 +107,25 @@ export class Interval {
 	 * @return void
 	 */
 	public static remove(name: string | symbol): void {
-		this.instance.intervals = this.instance.intervals.filter((interval: IInterval) => interval.name != name);
+		singleton.intervals = singleton.intervals.filter((interval: IInterval) => interval.name != name);
 	}
 
 	/**
 	 * @return void
 	 */
 	public static start(): void {
-		if (!this.instance) {
-			this.instance = new Interval();
-		}
-
-		this.instance.unpause();
+		singleton && singleton.unpause();
 	}
 
 	/**
 	 * @return void
 	 */
 	public static stop(): void {
-		if (!this.instance) {
+		if (!singleton) {
 			return;
 		}
 
-		this.instance.pause();
+		singleton.pause();
 	}
 
 	// endregion: Static
@@ -223,3 +214,7 @@ export class Interval {
 
 	// endregion: Event Handlers
 }
+
+const singleton = new Interval();
+
+export default singleton;

@@ -5,8 +5,6 @@ export interface IPointerEvent {
 }
 export type AppTouchEvent = TouchEvent;
 export declare class Pointer extends Event.Dispatcher {
-    static instance: Pointer;
-    static start(eventType?: string, autoTouchEvents?: boolean): void;
     activeTarget: HTMLElement;
     currentTarget: HTMLElement;
     angle: number;
@@ -70,3 +68,5 @@ export declare class Pointer extends Event.Dispatcher {
     protected Handle_OnPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void>;
     protected Handle_OnWheel(e: WheelEvent): Promise<void>;
 }
+declare const _default: Pointer;
+export default _default;

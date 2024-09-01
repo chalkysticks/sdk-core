@@ -1,11 +1,13 @@
 export declare class Environment {
-    static app: any;
-    static debug: boolean;
-    static env: string;
-    static google: any;
-    static id: string;
-    static isLocal(): boolean;
-    static isProduction(): boolean;
-    static isStaging(): boolean;
-    private static getVariable;
+    app: any;
+    debug: boolean;
+    env: string;
+    google: any;
+    id: string;
+    isLocal(): boolean;
+    isProduction(): boolean;
+    isStaging(): boolean;
+    private getVariable;
 }
+declare const singleton: Environment;
+export default singleton;

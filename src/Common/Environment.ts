@@ -7,7 +7,7 @@ export class Environment {
 	/**
 	 * @type IEnvironmentApplication
 	 */
-	public static app: any = Environment.getVariable('app', {
+	public app: any = singleton.getVariable('app', {
 		api_url: '',
 		limit: 32,
 	});
@@ -17,21 +17,21 @@ export class Environment {
 	 *
 	 * @type boolean
 	 */
-	public static debug: boolean = Environment.getVariable('debug', false);
+	public debug: boolean = singleton.getVariable('debug', false);
 
 	/**
 	 * Environment
 	 *
 	 * @type string
 	 */
-	public static env: string = Environment.getVariable('env', 'development');
+	public env: string = singleton.getVariable('env', 'development');
 
 	/**
 	 * Google Options
 	 *
 	 * @type IEnvironmentGoogle
 	 */
-	public static google: any = Environment.getVariable('google', {
+	public google: any = singleton.getVariable('google', {
 		analytics: {
 			id: '',
 		},
@@ -43,15 +43,15 @@ export class Environment {
 	 *
 	 * @type string
 	 */
-	public static id: string = Math.random().toString(36).substr(2, 9);
+	public id: string = Math.random().toString(36).substr(2, 9);
 
 	/**
 	 * Check environment type
 	 *
 	 * @return boolean
 	 */
-	public static isLocal(): boolean {
-		return Environment.env === 'local' || Environment.env === 'development';
+	public isLocal(): boolean {
+		return singleton.env === 'local' || singleton.env === 'development';
 	}
 
 	/**
@@ -59,8 +59,8 @@ export class Environment {
 	 *
 	 * @return boolean
 	 */
-	public static isProduction(): boolean {
-		return Environment.env === 'production';
+	public isProduction(): boolean {
+		return singleton.env === 'production';
 	}
 
 	/**
@@ -68,8 +68,8 @@ export class Environment {
 	 *
 	 * @return boolean
 	 */
-	public static isStaging(): boolean {
-		return Environment.env === 'staging';
+	public isStaging(): boolean {
+		return singleton.env === 'staging';
 	}
 
 	/**
@@ -77,9 +77,13 @@ export class Environment {
 	 *
 	 * @return any
 	 */
-	private static getVariable(key: string, defaults: any) {
+	private getVariable(key: string, defaults: any) {
 		const output = typeof window === 'object' && (window as any)['env'] ? (window as any)['env'][key] : defaults;
 
 		return output;
 	}
 }
+
+// Singleton
+const singleton = new Environment();
+export default singleton;

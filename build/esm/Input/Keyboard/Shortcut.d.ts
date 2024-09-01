@@ -5,7 +5,6 @@ export interface IShortcutOptions {
 }
 export declare class Shortcut extends Event.Dispatcher {
     static add(key: string, callback: TShortcutCallback): void;
-    static instance: Shortcut;
     protected keymap: Record<string, TShortcutCallback>;
     private attached;
     private keysDown;
@@ -22,7 +21,7 @@ export declare class Shortcut extends Event.Dispatcher {
 export declare class ShortcutSequencer extends Event.Dispatcher {
     static add(keys: string[], callback: TShortcutCallback): void;
     static remove(keys: string[]): void;
-    static instance: ShortcutSequencer;
+    static get instance(): ShortcutSequencer;
     protected matches: string[];
     protected sequences: Record<string, TShortcutCallback>;
     protected shortcut: Shortcut;

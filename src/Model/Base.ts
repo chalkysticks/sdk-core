@@ -1,8 +1,8 @@
 import * as Event from '../Event';
 import * as Provider from '../Provider';
 import Constants from '../Common/Constants';
+import Environment from '../Common/Environment';
 import { IAttributes, IDispatcherEvent, Model } from 'restmc';
-import { Environment } from '../Common/Environment';
 
 /**
  * @class Base

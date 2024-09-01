@@ -59,20 +59,6 @@ export type TSensorEventHandler = (data: IDeviceMotionEventData | IDeviceOrienta
  */
 export class Sensor extends Event.Dispatcher {
 	/**
-	 * @type Sensor
-	 */
-	public static instance: Sensor;
-
-	/**
-	 * @return void
-	 */
-	public static start(): void {
-		if (!this.instance) {
-			this.instance = new Sensor();
-		}
-	}
-
-	/**
 	 * @return boolean
 	 */
 	public get hasMotion(): boolean {
@@ -155,3 +141,6 @@ export class Sensor extends Event.Dispatcher {
 
 	// endregion: Event Handlers
 }
+
+// Singleton
+export default new Sensor();
