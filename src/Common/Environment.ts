@@ -7,36 +7,44 @@ export class Environment {
 	/**
 	 * @type IEnvironmentApplication
 	 */
-	public app: any = singleton.getVariable('app', {
-		api_url: '',
-		limit: 32,
-	});
+	public get app(): any {
+		return singleton.getVariable('app', {
+			api_url: '',
+			limit: 32,
+		});
+	}
 
 	/**
 	 * If our server asks for debug mode
 	 *
 	 * @type boolean
 	 */
-	public debug: boolean = singleton.getVariable('debug', false);
+	public get debug(): boolean {
+		return singleton.getVariable('debug', false);
+	}
 
 	/**
 	 * Environment
 	 *
 	 * @type string
 	 */
-	public env: string = singleton.getVariable('env', 'development');
+	public get env(): string {
+		return singleton.getVariable('env', 'development');
+	}
 
 	/**
 	 * Google Options
 	 *
 	 * @type IEnvironmentGoogle
 	 */
-	public google: any = singleton.getVariable('google', {
-		analytics: {
-			id: '',
-		},
-		api_key: '',
-	});
+	public get google(): any {
+		return singleton.getVariable('google', {
+			analytics: {
+				id: '',
+			},
+			api_key: '',
+		});
+	}
 
 	/**
 	 * Unique ID for this class

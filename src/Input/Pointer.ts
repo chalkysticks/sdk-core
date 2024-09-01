@@ -45,6 +45,27 @@ export type AppTouchEvent = TouchEvent;
  * @project ChalkySticks SDK Core
  */
 export class Pointer extends Event.Dispatcher {
+	// region: Static
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * @type Pointer
+	 */
+	public static instance: Pointer;
+
+	/**
+	 * @param string eventType
+	 * @param boolean autoTouchEvents
+	 * @return void
+	 */
+	public static start(eventType: string = 'pointer', autoTouchEvents: boolean = false): void {
+		if (!this.instance) {
+			this.instance = new Pointer(eventType, autoTouchEvents);
+		}
+	}
+
+	// endregion: Static
+
 	/**
 	 * Our active target
 	 *
@@ -857,6 +878,3 @@ export class Pointer extends Event.Dispatcher {
 		});
 	}
 }
-
-// Singleton
-export default new Pointer('pointer', true);

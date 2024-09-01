@@ -36,6 +36,22 @@ export class Interval {
 	// ---------------------------------------------------------------------------
 
 	/**
+	 * @type Interval
+	 */
+	private static _instance: Interval;
+
+	/**
+	 * @type Interval
+	 */
+	public static get instance(): Interval {
+		if (!this._instance) {
+			this._instance = new Interval();
+		}
+
+		return this._instance;
+	}
+
+	/**
 	 * @param Function func
 	 * @param number fps
 	 * @param string | symbol name
@@ -61,12 +77,12 @@ export class Interval {
 		}
 
 		// Create, if not
-		if (!singleton) {
+		if (!this.instance) {
 			Interval.start();
 		}
 
 		// Add interval
-		singleton.intervals.push({
+		this.instance.intervals.push({
 			executions,
 			fps,
 			func,
@@ -85,21 +101,21 @@ export class Interval {
 	 * @return Interval
 	 */
 	public static fps(name: string | symbol, fps: number, func: (e: any) => any): Interval {
-		singleton.intervals.filter((interval: IInterval) => {
+		this.instance.intervals.filter((interval: IInterval) => {
 			if (interval.name === name) {
 				interval.fps = fps || interval.fps;
 				interval.func = func || interval.func;
 			}
 		});
 
-		return singleton;
+		return this.instance;
 	}
 
 	/**
 	 * @return void
 	 */
 	public static list(): void {
-		console.log(singleton.intervals);
+		console.log(this.instance.intervals);
 	}
 
 	/**
@@ -107,25 +123,25 @@ export class Interval {
 	 * @return void
 	 */
 	public static remove(name: string | symbol): void {
-		singleton.intervals = singleton.intervals.filter((interval: IInterval) => interval.name != name);
+		this.instance.intervals = this.instance.intervals.filter((interval: IInterval) => interval.name != name);
 	}
 
 	/**
 	 * @return void
 	 */
 	public static start(): void {
-		singleton && singleton.unpause();
+		this.instance && this.instance.unpause();
 	}
 
 	/**
 	 * @return void
 	 */
 	public static stop(): void {
-		if (!singleton) {
+		if (!this.instance) {
 			return;
 		}
 
-		singleton.pause();
+		this.instance.pause();
 	}
 
 	// endregion: Static
@@ -214,7 +230,3 @@ export class Interval {
 
 	// endregion: Event Handlers
 }
-
-const singleton = new Interval();
-
-export default singleton;

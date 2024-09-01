@@ -7,6 +7,8 @@ export interface IInterval {
     stopAfter?: number;
 }
 export declare class Interval {
+    private static _instance;
+    static get instance(): Interval;
     static add(optionsOrFunc: any, fps?: number, name?: string | symbol): string | symbol;
     static fps(name: string | symbol, fps: number, func: (e: any) => any): Interval;
     static list(): void;
@@ -21,5 +23,3 @@ export declare class Interval {
     protected unpause(): void;
     protected Handle_OnRequestAnimationFrame(): Promise<void>;
 }
-declare const singleton: Interval;
-export default singleton;

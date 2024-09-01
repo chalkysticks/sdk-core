@@ -1,8 +1,8 @@
 export declare class Environment {
-    app: any;
-    debug: boolean;
-    env: string;
-    google: any;
+    get app(): any;
+    get debug(): boolean;
+    get env(): string;
+    get google(): any;
     id: string;
     isLocal(): boolean;
     isProduction(): boolean;

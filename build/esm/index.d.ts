@@ -15,4 +15,4 @@ export { Core } from './Common/Core';
 export { default as Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
 export { Request } from 'restmc';
-export declare const Version = "1.12.0";
+export declare const Version = "1.14.0";
