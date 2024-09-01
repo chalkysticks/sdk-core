@@ -662,6 +662,8 @@ export class Pointer extends Event.Dispatcher {
 			const rect = (this.target as HTMLElement).getBoundingClientRect();
 			this.ox -= rect.left;
 			this.oy -= rect.top;
+			this.x -= rect.left;
+			this.y -= rect.top;
 		}
 
 		// Reset relative
