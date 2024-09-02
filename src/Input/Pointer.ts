@@ -835,7 +835,7 @@ export class Pointer extends Event.Dispatcher {
 		});
 
 		// Clear tap testing
-		if (this.moved && this.holdTimeout) {
+		if (this.holdTimeout) {
 			clearTimeout(this.holdTimeout);
 		}
 	}
