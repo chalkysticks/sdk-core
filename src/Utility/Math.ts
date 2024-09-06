@@ -1,5 +1,22 @@
 import Easing, { getEasingMethod } from './Easing';
 
+export interface IVector {
+	x: number;
+	y: number;
+}
+
+/**
+ * For converting feet to meters
+ * @type number
+ */
+export const FOOT_METER_RATIO = 3.28084;
+
+/**
+ * For converting miles per hour to meters per second
+ * @type number
+ */
+export const MPH_METER_RATIO = 0.44704;
+
 /**
  * @param number x1
  * @param number y1
@@ -41,20 +58,39 @@ export function angleDifferenceAsDegrees(a: number, b: number): number {
 }
 
 /**
+ * @param IVector vector
+ * @returns number
+ */
+export function angleFromVector(vector: IVector): number {
+	return Math.atan2(vector.y, vector.x);
+}
+
+/**
+ * Clamp
+ *
  * @param number value
  * @param number min
  * @param number max
- * @param boolean useClamp
  * @returns number
  */
-export function normalize(value: number, min: number, max: number, useClamp: boolean = false): number {
-	let output = (value - min) / (max - min);
+export function clamp(value: number, min: number, max: number): number {
+	return Math.min(Math.max(value, min), max);
+}
 
-	if (useClamp) {
-		output = clamp(output, min, max);
-	}
+/**
+ * Clamp, unsigned
+ *
+ * @param number value
+ * @param number min
+ * @param number max
+ * @returns number
+ */
+export function clampUnsigned(value: number, min: number, max: number): number {
+	// Ensure min is less than max
+	[min, max] = [Math.min(min, max), Math.max(min, max)];
 
-	return output;
+	// Clamp the absolute value within the range, then restore the sign
+	return Math.sign(value) * Math.min(Math.abs(value), Math.abs(value) > min ? max : min);
 }
 
 /**
@@ -86,61 +122,24 @@ export function distance(x1: number, y1: number, x2: number, y2: number): number
 }
 
 /**
- * Clamp
+ * Dot product of two vectors
  *
- * @param number value
- * @param number min
- * @param number max
+ * @param number x1
+ * @param number y1
+ * @param number x2
+ * @param number y2
  * @returns number
  */
-export function clamp(value: number, min: number, max: number): number {
-	return Math.min(Math.max(value, min), max);
+export function dot(x1: number, y1: number, x2: number, y2: number): number {
+	return x1 * x2 + y1 * y2;
 }
 
 /**
- * Lerp
- *
- * @param number a
- * @param number b
- * @param number t
+ * @param number feet
  * @returns number
  */
-export function lerp(a: number, b: number, t: number): number {
-	return a + (b - a) * t;
-}
-
-/**
- * Smoothstep
- *
- * Creating smooth transitions in animations or camera movements
- *
- * const startValue = 0;
- * const endValue = 100;
- * const currentValue = 75; // Example current value
- * const smoothedValue = smoothstep(startValue, endValue, currentValue);
- * console.log(smoothedValue); // Output: 0.75
- *
- * @param number min
- * @param number max
- * @param number value
- * @returns number
- */
-export function smoothstep(min: number, max: number, value: number): number {
-	const x = clamp((value - min) / (max - min), 0, 1);
-	return x * x * (3 - 2 * x);
-}
-
-/**
- * Smootherstep
- *
- * @param number min
- * @param number max
- * @param number value
- * @returns number
- */
-export function smootherstep(min: number, max: number, value: number): number {
-	const x = clamp((value - min) / (max - min), 0, 1);
-	return x * x * x * (x * (x * 6 - 15) + 10);
+export function feetToMeters(feet: number): number {
+	return feet / FOOT_METER_RATIO;
 }
 
 /**
@@ -162,6 +161,107 @@ export function smootherstep(min: number, max: number, value: number): number {
  */
 export function inverseLerp(a: number, b: number, value: number): number {
 	return (value - a) / (b - a);
+}
+
+/**
+ * Lerp
+ *
+ * @param number a
+ * @param number b
+ * @param number t
+ * @returns number
+ */
+export function lerp(a: number, b: number, t: number): number {
+	return a + (b - a) * t;
+}
+
+/**
+ * This is useful incrementing smaller values over a larger period of time
+ * and larger values over a smaller period of time. It helps linearize
+ * something like increasing the volume on a tv or zooming into a canvas.
+ *
+ * @param number startValue
+ * @param number delta
+ * @param number increment
+ * @returns number
+ */
+export function logarithmicZoom(startValue: number, delta: number, increment: number = 0.025): number {
+	const currentZoomLog = Math.log(startValue);
+
+	// Apply the logarithmic scale to the zoom amount.
+	// The base for the logarithm (e.g., 2) can be adjusted to control the scaling effect.
+	const amountLog = Math.log(delta + 1) || 0;
+
+	// Calculate new zoom value in log scale and convert it back
+	let newZoom = Math.exp(currentZoomLog + amountLog * increment);
+
+	// Update the state with the new zoom level
+	return newZoom;
+}
+
+/**
+ * @param number meters
+ * @return number
+ */
+export function metersToFeet(meters: number): number {
+	return meters * FOOT_METER_RATIO;
+}
+
+/**
+ * @param number value
+ * @param number min
+ * @param number max
+ * @returns number
+ */
+export function minMax(value: number, min: number, max: number): number {
+	return clamp(value, min, max);
+}
+
+/**
+ * @param number value
+ * @param number min
+ * @param number max
+ * @returns number
+ */
+export function minMaxUnsigned(value: number, min: number, max: number): number {
+	return clampUnsigned(value, min, max);
+}
+
+/**
+ * Convert miles per hour to meters per second
+ *
+ * @param number mph
+ * @return number
+ */
+export function mphToMs(mph: number): number {
+	return mph * MPH_METER_RATIO;
+}
+
+/**
+ * Convert meters per second to miles per hour
+ *
+ * @param number ms
+ * @returns number
+ */
+export function msToMph(ms: number): number {
+	return ms / MPH_METER_RATIO;
+}
+
+/**
+ * @param number value
+ * @param number min
+ * @param number max
+ * @param boolean useClamp
+ * @returns number
+ */
+export function normalize(value: number, min: number, max: number, useClamp: boolean = false): number {
+	let output = (value - min) / (max - min);
+
+	if (useClamp) {
+		output = clamp(output, min, max);
+	}
+
+	return output;
 }
 
 /**
@@ -280,6 +380,40 @@ export function roundToNearestFraction(value: number, fraction: number): number 
  */
 export function roundToDecimal(value: number, decimals: number): number {
 	return Math.round(value * 10 ** decimals) / 10 ** decimals;
+}
+
+/**
+ * Smoothstep
+ *
+ * Creating smooth transitions in animations or camera movements
+ *
+ * const startValue = 0;
+ * const endValue = 100;
+ * const currentValue = 75; // Example current value
+ * const smoothedValue = smoothstep(startValue, endValue, currentValue);
+ * console.log(smoothedValue); // Output: 0.75
+ *
+ * @param number min
+ * @param number max
+ * @param number value
+ * @returns number
+ */
+export function smoothstep(min: number, max: number, value: number): number {
+	const x = clamp((value - min) / (max - min), 0, 1);
+	return x * x * (3 - 2 * x);
+}
+
+/**
+ * Smootherstep
+ *
+ * @param number min
+ * @param number max
+ * @param number value
+ * @returns number
+ */
+export function smootherstep(min: number, max: number, value: number): number {
+	const x = clamp((value - min) / (max - min), 0, 1);
+	return x * x * x * (x * (x * 6 - 15) + 10);
 }
 
 /**
