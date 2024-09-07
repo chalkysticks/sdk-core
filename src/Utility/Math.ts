@@ -58,11 +58,34 @@ export function angleDifferenceAsDegrees(a: number, b: number): number {
 }
 
 /**
+ * Returns angle in radians
+ *
  * @param IVector vector
  * @returns number
  */
 export function angleFromVector(vector: IVector): number {
 	return Math.atan2(vector.y, vector.x);
+}
+
+/**
+ * Returns angle in radians
+ *
+ * @param IVector vectorA
+ * @param IVector vectorB
+ * @returns number
+ */
+export function angleFromVectors(vectorA: IVector, vectorB: IVector): number {
+	return Math.atan2(vectorB.y - vectorA.y, vectorB.x - vectorA.x);
+}
+
+/**
+ * @param number angle
+ * @returns number
+ */
+export function angleNormalize(angle: number): number {
+	angle = angle % 360;
+	if (angle < 0) angle += 360;
+	return angle;
 }
 
 /**

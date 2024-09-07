@@ -9,6 +9,8 @@ export declare function angleAsDegrees(x1: number, y1: number, x2: number, y2: n
 export declare function angleDifference(a: number, b: number): number;
 export declare function angleDifferenceAsDegrees(a: number, b: number): number;
 export declare function angleFromVector(vector: IVector): number;
+export declare function angleFromVectors(vectorA: IVector, vectorB: IVector): number;
+export declare function angleNormalize(angle: number): number;
 export declare function clamp(value: number, min: number, max: number): number;
 export declare function clampUnsigned(value: number, min: number, max: number): number;
 export declare function denormalize(value: number, min: number, max: number, useClamp?: boolean): number;
