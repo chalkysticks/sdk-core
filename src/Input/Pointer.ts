@@ -457,27 +457,30 @@ export class Pointer extends Event.Dispatcher {
 		document.body.style.userSelect = 'none';
 
 		// Disable touch move on document
-		document.addEventListener(
-			'touchmove',
-			function (e) {
-				e.preventDefault();
-			},
-			{ passive: false },
-		);
+		disableTouchMove &&
+			document.addEventListener(
+				'touchmove',
+				function (e) {
+					e.preventDefault();
+				},
+				{ passive: false },
+			);
 
 		// Disable double tap zoom on iOS
-		document.addEventListener(
-			'touchend',
-			function (e) {
-				e.preventDefault();
-			},
-			false,
-		);
+		disableTouchEnd &&
+			document.addEventListener(
+				'touchend',
+				function (e) {
+					e.preventDefault();
+				},
+				false,
+			);
 
 		// Disable context menu
-		document.addEventListener('contextmenu', function (e) {
-			e.preventDefault();
-		});
+		disableContextMenu &&
+			document.addEventListener('contextmenu', function (e) {
+				e.preventDefault();
+			});
 	}
 
 	/**
