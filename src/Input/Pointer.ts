@@ -444,9 +444,12 @@ export class Pointer extends Event.Dispatcher {
 	}
 
 	/**
+	 * @param boolean disableTouchMove
+	 * @param boolean disableTouchEnd
+	 * @param boolean disableContextMenu
 	 * @return void
 	 */
-	public applyForMobile(): void {
+	public applyForMobile(disableTouchMove: boolean = true, disableTouchEnd: boolean = true, disableContextMenu: boolean = true): void {
 		// Disable overscroll on html,body
 		document.body.style.overscrollBehavior = 'none';
 
@@ -460,6 +463,15 @@ export class Pointer extends Event.Dispatcher {
 				e.preventDefault();
 			},
 			{ passive: false },
+		);
+
+		// Disable double tap zoom on iOS
+		document.addEventListener(
+			'touchend',
+			function (e) {
+				e.preventDefault();
+			},
+			false,
 		);
 
 		// Disable context menu
