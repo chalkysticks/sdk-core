@@ -15,6 +15,43 @@ export interface IPointerEvent {
 export type AppTouchEvent = TouchEvent;
 
 /**
+ * @type interface
+ */
+export interface IPointerZoomEvent {
+	delta: number;
+	direction: string;
+	isTrackpad: boolean;
+	type: 'pinch' | 'wheel';
+}
+
+/**
+ * @type interface
+ */
+export interface IPointerDragEvent {
+	angle: number;
+	changed: boolean;
+	distance: number;
+	dx: number;
+	dy: number;
+	inertia: number;
+	moved: boolean;
+	ox: number;
+	oy: number;
+	rx: number;
+	ry: number;
+	rx2: number;
+	ry2: number;
+	time: number;
+	timeDown: number;
+	timeDownDifference: number;
+	timeDifference: number;
+	vx: number;
+	vy: number;
+	x: number;
+	y: number;
+}
+
+/**
  * Pointer is a singleton class that handles all pointer/touch events
  * and dispatches them to the appropriate targets.
  *
@@ -65,6 +102,9 @@ export class Pointer extends Event.Dispatcher {
 	}
 
 	// endregion: Static
+
+	// region: Instance
+	// ---------------------------------------------------------------------------
 
 	/**
 	 * Our active target
@@ -241,6 +281,13 @@ export class Pointer extends Event.Dispatcher {
 	public timeDifference: number = 0;
 
 	/**
+	 * Current amount of touches on screen
+	 *
+	 * @type number
+	 */
+	public touches: number = 0;
+
+	/**
 	 * Velocity X
 	 *
 	 * @type number
@@ -322,6 +369,16 @@ export class Pointer extends Event.Dispatcher {
 	 * @type number
 	 */
 	private holdTimeout: number | null = null;
+
+	/**
+	 * @type number
+	 */
+	private initialPinchDistance: number = 0;
+
+	/**
+	 * @type number
+	 */
+	private lastPinchDistance: number = 0;
 
 	/**
 	 * @type number
@@ -444,12 +501,9 @@ export class Pointer extends Event.Dispatcher {
 	}
 
 	/**
-	 * @param boolean disableTouchMove
-	 * @param boolean disableTouchEnd
-	 * @param boolean disableContextMenu
 	 * @return void
 	 */
-	public applyForMobile(disableTouchMove: boolean = true, disableTouchEnd: boolean = true, disableContextMenu: boolean = true): void {
+	public applyForMobile(): void {
 		// Disable overscroll on html,body
 		document.body.style.overscrollBehavior = 'none';
 
@@ -457,33 +511,24 @@ export class Pointer extends Event.Dispatcher {
 		document.body.style.userSelect = 'none';
 
 		// Disable touch move on document
-		disableTouchMove &&
-			document.addEventListener(
-				'touchmove',
-				function (e) {
-					e.preventDefault();
-				},
-				{ passive: false },
-			);
-
-		// Disable double tap zoom on iOS
-		disableTouchEnd &&
-			document.addEventListener(
-				'touchend',
-				function (e) {
-					e.preventDefault();
-				},
-				false,
-			);
+		document.addEventListener(
+			'touchmove',
+			function (e) {
+				e.preventDefault();
+			},
+			{ passive: false },
+		);
 
 		// Disable context menu
-		disableContextMenu &&
-			document.addEventListener('contextmenu', function (e) {
-				e.preventDefault();
-			});
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
 	}
 
 	/**
+	 * The purpose is to capture and prevent the default pinch-zoom
+	 * behavior on the webpage.
+	 *
 	 * @param boolean capture
 	 * @return void
 	 */
@@ -656,9 +701,17 @@ export class Pointer extends Event.Dispatcher {
 	 */
 	protected async Handle_OnPointerDown(e: MouseEvent | PointerEvent | AppTouchEvent): Promise<void> {
 		const isTwoFingerTap = 'touches' in e && e.touches.length === 2;
+
 		this.down = true;
 		this.moved = false;
 		this.timeDown = Date.now();
+		this.touches = 'touches' in e ? e.touches.length : 1;
+
+		// Handle pinches / zooms on touch devices
+		if (this.touches > 1) {
+			this.initialPinchDistance = this.getDistanceBetweenTouches(e as TouchEvent);
+			this.lastPinchDistance = this.initialPinchDistance;
+		}
 
 		// We're using 'touches' in e rather than e instanceof TouchEvent
 		// because of how bad Safari is. The worst browser ever made.
@@ -686,6 +739,7 @@ export class Pointer extends Event.Dispatcher {
 
 		// Event
 		this.dispatch('down', {
+			touches: this.touches,
 			x: this.x,
 			y: this.y,
 		});
@@ -746,6 +800,22 @@ export class Pointer extends Event.Dispatcher {
 		// Clear tap testing
 		if (this.moved && this.holdTimeout) {
 			clearTimeout(this.holdTimeout);
+		}
+
+		// Handle pinches on touch devices
+		if (this.touches > 1) {
+			const currentDistance = this.getDistanceBetweenTouches(e as TouchEvent);
+			const delta = currentDistance - this.lastPinchDistance;
+			const totalScale = currentDistance / this.initialPinchDistance;
+
+			this.dispatch('zoom', {
+				delta: delta,
+				isTrackpad: false,
+				type: 'pinch',
+				scale: totalScale,
+			});
+
+			this.lastPinchDistance = currentDistance;
 		}
 
 		// Save last position
@@ -825,9 +895,10 @@ export class Pointer extends Event.Dispatcher {
 				rx2: this.rx2,
 				ry2: this.ry2,
 				time: this.time,
+				timeDifference: this.timeDifference,
 				timeDown: this.timeDown,
 				timeDownDifference: this.timeDownDifference,
-				timeDifference: this.timeDifference,
+				touches: this.touches,
 				vx: this.vx,
 				vy: this.vy,
 				x: this.x,
@@ -841,10 +912,18 @@ export class Pointer extends Event.Dispatcher {
 	 * @return Promise<void>
 	 */
 	protected async Handle_OnPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void> {
-		this.down = false;
+		this.down = 'touches' in e ? e.touches.length > 0 : false;
+		this.touches = 'touches' in e ? e.touches.length : 1;
+
+		// Reset touches
+		if (this.touches > 1) {
+			this.initialPinchDistance = 0;
+			this.lastPinchDistance = 0;
+		}
 
 		// Event
 		this.dispatch('up', {
+			touches: this.touches,
 			x: this.x,
 			y: this.y,
 		});
@@ -885,11 +964,16 @@ export class Pointer extends Event.Dispatcher {
 			delta: deltaY * -1,
 			direction: direction,
 			isTrackpad: isTrackpad,
+			type: 'wheel',
 		});
 
 		this.dispatch('zoom:' + direction, {
 			delta: deltaY * -1,
+			direction: direction,
 			isTrackpad: isTrackpad,
+			type: 'wheel',
 		});
 	}
+
+	// endregion: Event Handlers
 }
