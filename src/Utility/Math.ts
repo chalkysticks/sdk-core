@@ -117,6 +117,16 @@ export function clampUnsigned(value: number, min: number, max: number): number {
 }
 
 /**
+ * Convert degrees to slope
+ *
+ * @param number degrees
+ * @returns number
+ */
+export function degreesToSlope(degrees: number): number {
+	return Math.tan(degrees * (Math.PI / 180));
+}
+
+/**
  * @param number value
  * @param number min
  * @param number max
@@ -403,6 +413,16 @@ export function roundToNearestFraction(value: number, fraction: number): number 
  */
 export function roundToDecimal(value: number, decimals: number): number {
 	return Math.round(value * 10 ** decimals) / 10 ** decimals;
+}
+
+/**
+ * Convert slope to degrees
+ *
+ * @param number slope
+ * @returns number
+ */
+export function slopeToDegrees(slope: number): number {
+	return Math.atan(slope) * (180 / Math.PI);
 }
 
 /**
