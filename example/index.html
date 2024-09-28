@@ -28,6 +28,9 @@
 				<h1>ChalkySticks API</h1>
 			</header>
 
+			<button id="btnGetLocation">Get Location</button>
+			<button id="btnWatchLocation">Watch Location</button>
+
 			<svg width="300" height="300" viewBox="0 0 250 250" class="shape"></svg>
 		</main>
 
@@ -94,6 +97,24 @@
 			pointer.on('doubletap', () => console.log('doubletap'));
 			pointer.on('hold', () => console.log('hold'));
 			pointer.on('drag', () => console.log(pointer.dx));
+
+			// -----------------------------------------------------------------
+
+			ChalkySticksCore.Event.Bus.on('location:change', (e) => {
+				console.log('Location Change', e.data.coords);
+			});
+
+			document.getElementById('btnGetLocation').addEventListener('click', async () => {
+				ChalkySticksCore.Utility.Geolocation.getLocation().then((position) => {
+					console.log('Get Location...', position.coords);
+				});
+			});
+
+			document.getElementById('btnWatchLocation').addEventListener('click', async () => {
+				ChalkySticksCore.Utility.Geolocation.watchLocation((position) => {
+					console.log('Watch Location...', position.coords);
+				});
+			});
 		</script>
 	</body>
 </html>

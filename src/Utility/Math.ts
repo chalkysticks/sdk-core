@@ -6,6 +6,12 @@ export interface IVector {
 }
 
 /**
+ * Earth radius in kilometers
+ * @type number
+ */
+export const EARTH_RADIUS = 6371;
+
+/**
  * For converting feet to meters
  * @type number
  */

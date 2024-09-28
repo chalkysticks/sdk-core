@@ -1,5 +1,6 @@
 export * as Analytics from './Analytics.js';
 export * as Format from './Format.js';
+export * as Geolocation from './Geolocation';
 export * as Math from './Math.js';
 export * from './Cache';
 export * from './Debounce';

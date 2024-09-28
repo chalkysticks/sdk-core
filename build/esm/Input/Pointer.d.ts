@@ -4,6 +4,35 @@ export interface IPointerEvent {
     y: number;
 }
 export type AppTouchEvent = TouchEvent;
+export interface IPointerZoomEvent {
+    delta: number;
+    direction: string;
+    isTrackpad: boolean;
+    type: 'pinch' | 'wheel';
+}
+export interface IPointerDragEvent {
+    angle: number;
+    changed: boolean;
+    distance: number;
+    dx: number;
+    dy: number;
+    inertia: number;
+    moved: boolean;
+    ox: number;
+    oy: number;
+    rx: number;
+    ry: number;
+    rx2: number;
+    ry2: number;
+    time: number;
+    timeDown: number;
+    timeDownDifference: number;
+    timeDifference: number;
+    vx: number;
+    vy: number;
+    x: number;
+    y: number;
+}
 export declare class Pointer extends Event.Dispatcher {
     static instance: Pointer;
     static start(eventType?: string, autoTouchEvents?: boolean): void;
@@ -35,6 +64,7 @@ export declare class Pointer extends Event.Dispatcher {
     timeDown: number;
     timeDownDifference: number;
     timeDifference: number;
+    touches: number;
     vx: number;
     vy: number;
     x: number;
@@ -48,6 +78,8 @@ export declare class Pointer extends Event.Dispatcher {
     private cid;
     private eventType;
     private holdTimeout;
+    private initialPinchDistance;
+    private lastPinchDistance;
     private lastTapTime;
     private tapCount;
     private tapTimeout;

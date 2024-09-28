@@ -2,6 +2,7 @@ export interface IVector {
     x: number;
     y: number;
 }
+export declare const EARTH_RADIUS = 6371;
 export declare const FOOT_METER_RATIO = 3.28084;
 export declare const MPH_METER_RATIO = 0.44704;
 export declare function angle(x1: number, y1: number, x2: number, y2: number): number;
@@ -13,6 +14,7 @@ export declare function angleFromVectors(vectorA: IVector, vectorB: IVector): nu
 export declare function angleNormalize(angle: number): number;
 export declare function clamp(value: number, min: number, max: number): number;
 export declare function clampUnsigned(value: number, min: number, max: number): number;
+export declare function degreesToSlope(degrees: number): number;
 export declare function denormalize(value: number, min: number, max: number, useClamp?: boolean): number;
 export declare function distance(x1: number, y1: number, x2: number, y2: number): number;
 export declare function dot(x1: number, y1: number, x2: number, y2: number): number;
@@ -36,6 +38,7 @@ export declare function round(value: number, decimals?: number): number;
 export declare function roundToNearest(value: number, nearest: number): number;
 export declare function roundToNearestFraction(value: number, fraction: number): number;
 export declare function roundToDecimal(value: number, decimals: number): number;
+export declare function slopeToDegrees(slope: number): number;
 export declare function smoothstep(min: number, max: number, value: number): number;
 export declare function smootherstep(min: number, max: number, value: number): number;
 export declare function toRadians(degrees: number): number;
