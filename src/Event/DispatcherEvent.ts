@@ -11,8 +11,8 @@ export type TDispatcherCallback = (envelope: IDispatcherEvent) => void;
 /**
  * @type interface
  */
-export interface IDispatcherEvent {
-	data: TDispatcherData;
+export interface IDispatcherEvent<T extends TDispatcherData = TDispatcherData> {
+	data: T;
 	event: {
 		name: string;
 		time: number;

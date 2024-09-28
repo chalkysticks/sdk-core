@@ -1,7 +1,7 @@
 export type TDispatcherData = Record<string, any>;
 export type TDispatcherCallback = (envelope: IDispatcherEvent) => void;
-export interface IDispatcherEvent {
-    data: TDispatcherData;
+export interface IDispatcherEvent<T extends TDispatcherData = TDispatcherData> {
+    data: T;
     event: {
         name: string;
         time: number;
