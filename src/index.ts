@@ -18,6 +18,9 @@ export { Core } from './Common/Core';
 export { default as Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
 
+export { IDispatcher } from './Event/Dispatcher.js';
+export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent.js';
+
 // I think exporting the interfaces here might have been an issue
 
 export { Request } from 'restmc';
