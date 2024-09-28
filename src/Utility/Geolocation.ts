@@ -44,7 +44,7 @@ export function getLocation(): Promise<GeolocationPosition> {
  * @param PositionOptions options
  * @returns number watchId
  */
-export function watchLocation(callback: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number {
+export function watchLocation(callback?: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number {
 	if (!navigator.geolocation) {
 		return 0;
 	}
@@ -52,7 +52,7 @@ export function watchLocation(callback: PositionCallback, errorCallback?: Positi
 	return navigator.geolocation.watchPosition(
 		(position: GeolocationPosition) => {
 			Event.Bus.dispatch('location:change', position);
-			callback(position);
+			callback && callback(position);
 		},
 		(error: GeolocationPositionError) => {
 			Event.Bus.dispatch('location:error', error);

@@ -5,7 +5,7 @@ export interface ICoordinateBounds {
     longitudeMax: number;
 }
 export declare function getLocation(): Promise<GeolocationPosition>;
-export declare function watchLocation(callback: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
+export declare function watchLocation(callback?: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
 export declare function askPermission(): Promise<PermissionStatus>;
 export declare function clearWatch(watchId: number): void;
 export declare function distanceBetween(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
