@@ -44,7 +44,11 @@ export function getLocation(): Promise<GeolocationPosition> {
  * @param PositionOptions options
  * @returns number watchId
  */
-export function watchLocation(callback?: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number {
+export function watchLocation(
+	callback?: PositionCallback,
+	errorCallback?: PositionErrorCallback,
+	options: PositionOptions = { enableHighAccuracy: true },
+): number {
 	if (!navigator.geolocation) {
 		return 0;
 	}

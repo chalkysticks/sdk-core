@@ -6,12 +6,12 @@ export type TDispatcherData = Record<string, any>;
 /**
  * @type type
  */
-export type TDispatcherCallback = (envelope: IDispatcherEvent) => void;
+export type TDispatcherCallback<T = TDispatcherData> = (envelope: IDispatcherEvent<T>) => void;
 
 /**
  * @type interface
  */
-export interface IDispatcherEvent<T extends TDispatcherData = TDispatcherData> {
+export interface IDispatcherEvent<T = TDispatcherData> {
 	data: T;
 	event: {
 		name: string;
