@@ -40,6 +40,15 @@ export class Dispatcher {
 	protected events: Record<string, DispatcherEvent<any>> = {};
 
 	/**
+	 * Sometimes we might want to explicitly describe the data when
+	 * dispatching like this:
+	 *
+	 * ChalkySticks.Core.Event.Bus.dispatch<CustomType>('custom:event', customData);
+	 *
+	 * and/or
+	 *
+	 * ChalkySticks.Core.Event.Bus.on<GeolocationPosition>('location:change', this.Handle_OnLocationChange);
+	 *
 	 * @param string eventName
 	 * @param TDispatcherData data
 	 * @return void
