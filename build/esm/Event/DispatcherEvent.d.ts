@@ -1,6 +1,6 @@
 export type TDispatcherData = Record<string, any>;
-export type TDispatcherCallback<T = TDispatcherData> = (envelope: IDispatcherEvent<T>) => void;
-export interface IDispatcherEvent<T = TDispatcherData> {
+export type TDispatcherCallback<T = any> = (envelope: IDispatcherEvent<T>) => void;
+export interface IDispatcherEvent<T = any> {
     data: T;
     event: {
         name: string;
@@ -8,13 +8,13 @@ export interface IDispatcherEvent<T = TDispatcherData> {
     };
     target: any;
 }
-export declare class DispatcherEvent {
-    callbacks: TDispatcherCallback[];
-    protected envelope: IDispatcherEvent;
+export declare class DispatcherEvent<T = any> {
+    callbacks: TDispatcherCallback<T>[];
+    protected envelope: IDispatcherEvent<T>;
     protected eventName: string;
-    constructor(eventName: string, envelope?: IDispatcherEvent);
+    constructor(eventName: string, envelope?: IDispatcherEvent<T>);
     clearCallbacks(): void;
-    registerCallback(callback: TDispatcherCallback): void;
-    unregisterCallback(callback: TDispatcherCallback): void;
-    fire(envelope: IDispatcherEvent): void;
+    registerCallback(callback: TDispatcherCallback<T>): void;
+    unregisterCallback(callback: TDispatcherCallback<T>): void;
+    fire(envelope: IDispatcherEvent<T>): void;
 }

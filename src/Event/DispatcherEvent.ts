@@ -6,12 +6,12 @@ export type TDispatcherData = Record<string, any>;
 /**
  * @type type
  */
-export type TDispatcherCallback<T = TDispatcherData> = (envelope: IDispatcherEvent<T>) => void;
+export type TDispatcherCallback<T = any> = (envelope: IDispatcherEvent<T>) => void;
 
 /**
  * @type interface
  */
-export interface IDispatcherEvent<T = TDispatcherData> {
+export interface IDispatcherEvent<T = any> {
 	data: T;
 	event: {
 		name: string;
@@ -30,16 +30,16 @@ export interface IDispatcherEvent<T = TDispatcherData> {
  * @package Event
  * @project ChalkySticks SDK Core
  */
-export class DispatcherEvent {
+export class DispatcherEvent<T = any> {
 	/**
-	 * @type Array<TDispatcherCallback>
+	 * @type Array<TDispatcherCallback<T>>
 	 */
-	public callbacks: TDispatcherCallback[];
+	public callbacks: TDispatcherCallback<T>[];
 
 	/**
-	 * @type IDispatcherEvent
+	 * @type IDispatcherEvent<T>
 	 */
-	protected envelope: IDispatcherEvent;
+	protected envelope: IDispatcherEvent<T>;
 
 	/**
 	 * @type string
@@ -49,9 +49,9 @@ export class DispatcherEvent {
 	/**
 	 * @constructor
 	 * @param string eventName
-	 * @param IDispatcherEvent envelope
+	 * @param IDispatcherEvent<T> envelope
 	 */
-	constructor(eventName: string, envelope?: IDispatcherEvent) {
+	constructor(eventName: string, envelope?: IDispatcherEvent<T>) {
 		this.callbacks = [];
 		this.eventName = eventName;
 
@@ -71,7 +71,7 @@ export class DispatcherEvent {
 	 * @param TDispatcherCallback callback
 	 * @return void
 	 */
-	public registerCallback(callback: TDispatcherCallback): void {
+	public registerCallback(callback: TDispatcherCallback<T>): void {
 		this.callbacks.push(callback);
 	}
 
@@ -79,7 +79,7 @@ export class DispatcherEvent {
 	 * @param TDispatcherCallback callback
 	 * @return void
 	 */
-	public unregisterCallback(callback: TDispatcherCallback): void {
+	public unregisterCallback(callback: TDispatcherCallback<T>): void {
 		const index = this.callbacks.indexOf(callback);
 
 		if (index > -1) {
@@ -91,11 +91,10 @@ export class DispatcherEvent {
 	 * @param IDispatcherEvent envelope
 	 * @return void
 	 */
-	public fire(envelope: IDispatcherEvent): void {
+	public fire(envelope: IDispatcherEvent<T>): void {
 		const callbacks = this.callbacks.slice(0);
 
-		// Merge class properties with passed in envelope
-		callbacks.forEach((callback: TDispatcherCallback) => {
+		callbacks.forEach((callback: TDispatcherCallback<T>) => {
 			callback(Object.assign({}, this.envelope, envelope));
 		});
 	}

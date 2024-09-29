@@ -33,29 +33,30 @@ export interface IDispatcher {
  * @package Event
  * @project ChalkySticks SDK Core
  */
-export class Dispatcher implements IDispatcher {
+export class Dispatcher {
 	/**
-	 * @type Record<string, DispatcherEvent>
+	 * @type Record<string, DispatcherEvent<any>>
 	 */
-	protected events: Record<string, DispatcherEvent> = {};
+	protected events: Record<string, DispatcherEvent<any>> = {};
 
 	/**
 	 * @param string eventName
 	 * @param TDispatcherData data
 	 * @return void
 	 */
-	public dispatch(eventName: string, data: TDispatcherData = {}): void {
-		const event: DispatcherEvent = this.events[eventName] as DispatcherEvent;
+	public dispatch<T = any>(eventName: string, data?: T): void {
+		const event = this.events[eventName] as DispatcherEvent<T>;
 
-		event &&
+		if (event) {
 			event.fire({
-				data: data,
+				data: data as T,
 				event: {
 					name: eventName,
 					time: Date.now(),
 				},
 				target: this,
 			});
+		}
 	}
 
 	/**
@@ -63,12 +64,12 @@ export class Dispatcher implements IDispatcher {
 	 * @param TDispatcherCallback callback
 	 * @return void
 	 */
-	public on(eventName: string, callback: TDispatcherCallback): void {
-		let event = this.events[eventName];
+	public on<T = any>(eventName: string, callback: TDispatcherCallback<T>): void {
+		let event = this.events[eventName] as DispatcherEvent<T>;
 
 		// Create new event, if not exists
 		if (!event) {
-			event = new DispatcherEvent(eventName);
+			event = new DispatcherEvent<T>(eventName);
 			this.events[eventName] = event;
 		}
 
@@ -81,8 +82,8 @@ export class Dispatcher implements IDispatcher {
 	 * @param TDispatcherCallback callback
 	 * @return void
 	 */
-	public once(eventName: string, callback: TDispatcherCallback): void {
-		const onceCallback = (envelope: IDispatcherEvent) => {
+	public once<T = any>(eventName: string, callback: TDispatcherCallback<T>): void {
+		const onceCallback = (envelope: IDispatcherEvent<T>) => {
 			callback(envelope);
 			this.off(eventName, onceCallback);
 		};
@@ -95,8 +96,8 @@ export class Dispatcher implements IDispatcher {
 	 * @param TDispatcherCallback callback
 	 * @return void
 	 */
-	public off(eventName: string, callback?: TDispatcherCallback): void {
-		const event: DispatcherEvent = this.events[eventName] as DispatcherEvent;
+	public off<T = any>(eventName: string, callback?: TDispatcherCallback<T>): void {
+		const event: DispatcherEvent<T> = this.events[eventName] as DispatcherEvent<T>;
 
 		// Clear all if we don't supply a callback
 		if (event && !callback) {
@@ -137,19 +138,19 @@ export class Dispatcher implements IDispatcher {
 
 	/**
 	 * @param string eventName
-	 * @param TDispatcherCallback callback
+	 * @param TDispatcherCallback<T> callback
 	 * @return void
 	 */
-	public $on(eventName: string, callback: TDispatcherCallback): void {
+	public $on<T = any>(eventName: string, callback: TDispatcherCallback<T>): void {
 		return this.on(eventName, callback);
 	}
 
 	/**
 	 * @param string eventName
-	 * @param TDispatcherCallback callback
+	 * @param TDispatcherCallback<T> callback
 	 * @return void
 	 */
-	public $off(eventName: string, callback: TDispatcherCallback): void {
+	public $off<T = any>(eventName: string, callback: TDispatcherCallback<T>): void {
 		return this.off(eventName, callback);
 	}
 
