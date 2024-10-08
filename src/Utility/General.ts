@@ -69,6 +69,14 @@ export function offsetWidth(element: HTMLElement): number {
 }
 
 /**
+ * Polyfill for requestAnimationFrame
+ */
+export const requestAnimationFrame =
+	typeof window !== 'undefined' && window.requestAnimationFrame
+		? window.requestAnimationFrame.bind(window)
+		: (callback: any) => setTimeout(() => callback(Date.now()), 16);
+
+/**
  * @param number ms
  * @return Promise<void>
  */

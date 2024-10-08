@@ -1,0 +1,18 @@
+export declare function userAgent(): string;
+export declare function isMobile(): boolean;
+export declare function isIOS(): boolean;
+export declare function isAndroid(): boolean;
+export declare function isLandscape(): boolean;
+export declare function isPortrait(): boolean;
+export declare function getOrientation(): 'portrait' | 'landscape';
+export declare function isTouchDevice(): boolean;
+export declare function getScreenWidth(): number;
+export declare function getScreenHeight(): number;
+export declare function getBrowserName(): string;
+export declare function getBrowserVersion(): string;
+export declare function isIE(): boolean;
+export declare function isEdge(): boolean;
+export declare function isChrome(): boolean;
+export declare function isFirefox(): boolean;
+export declare function isSafari(): boolean;
+export declare function isOpera(): boolean;
