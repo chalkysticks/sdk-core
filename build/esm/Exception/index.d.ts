@@ -1,4 +1,5 @@
 export * from './ConnectionRefused';
+export * from './Geolocation';
 export * from './InvalidInput';
 export * from './InvalidRenderer';
 export * from './InvalidStorageProvider';

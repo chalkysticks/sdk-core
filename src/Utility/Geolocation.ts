@@ -1,4 +1,5 @@
 import * as Event from '../Event';
+import * as Exception from '../Exception';
 import { toRadians, toDegrees, EARTH_RADIUS } from './Math';
 
 /**
@@ -19,19 +20,28 @@ export interface ICoordinateBounds {
  */
 export function getLocation(): Promise<GeolocationPosition> {
 	return new Promise((resolve, reject) => {
-		if (!navigator.geolocation) {
-			reject('Geolocation is not supported by this browser.');
-		} else {
+		try {
+			if (!navigator?.geolocation) {
+				throw new Exception.Geolocation('Geolocation is not supported by this browser.');
+			}
+
 			navigator.geolocation.getCurrentPosition(
 				(position: GeolocationPosition) => {
-					Event.Bus.dispatch('location:change', position);
-					resolve(position);
+					try {
+						Event.Bus.dispatch('location:change', position);
+						resolve(position);
+					} catch (error) {
+						Event.Bus.dispatch('location:error', error);
+						reject(new Exception.Geolocation('Error processing location data'));
+					}
 				},
 				(error: GeolocationPositionError) => {
 					Event.Bus.dispatch('location:error', error);
 					reject(error);
 				},
 			);
+		} catch (error) {
+			reject(error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred'));
 		}
 	});
 }
@@ -49,21 +59,31 @@ export function watchLocation(
 	errorCallback?: PositionErrorCallback,
 	options: PositionOptions = { enableHighAccuracy: true },
 ): number {
-	if (!navigator.geolocation) {
+	try {
+		if (!navigator?.geolocation) {
+			throw new Exception.Geolocation('Geolocation is not supported by this browser.');
+		}
+
+		return navigator.geolocation.watchPosition(
+			(position: GeolocationPosition) => {
+				try {
+					Event.Bus.dispatch('location:change', position);
+					callback?.(position);
+				} catch (error) {
+					Event.Bus.dispatch('location:error', error);
+					errorCallback?.(error as GeolocationPositionError);
+				}
+			},
+			(error: GeolocationPositionError) => {
+				Event.Bus.dispatch('location:error', error);
+				errorCallback?.(error);
+			},
+			options,
+		);
+	} catch (error) {
+		errorCallback?.(error as GeolocationPositionError);
 		return 0;
 	}
-
-	return navigator.geolocation.watchPosition(
-		(position: GeolocationPosition) => {
-			Event.Bus.dispatch('location:change', position);
-			callback && callback(position);
-		},
-		(error: GeolocationPositionError) => {
-			Event.Bus.dispatch('location:error', error);
-			errorCallback && errorCallback(error);
-		},
-		options,
-	);
 }
 
 /**
@@ -73,12 +93,17 @@ export function watchLocation(
  */
 export function askPermission(): Promise<PermissionStatus> {
 	return new Promise((resolve, reject) => {
-		if (!navigator.permissions) {
-			reject('Geolocation is not supported by this browser.');
-		} else {
-			navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-				resolve(permissionStatus);
-			});
+		try {
+			if (!navigator?.permissions) {
+				throw new Exception.Geolocation('Geolocation is not supported by this browser.');
+			}
+
+			navigator.permissions
+				.query({ name: 'geolocation' })
+				.then(resolve)
+				.catch((error) => reject(error instanceof Error ? error : new Exception.Geolocation('Permission query failed')));
+		} catch (error) {
+			reject(error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred'));
 		}
 	});
 }
@@ -90,11 +115,15 @@ export function askPermission(): Promise<PermissionStatus> {
  * @returns void
  */
 export function clearWatch(watchId: number): void {
-	if (!navigator.geolocation) {
-		return;
-	}
+	try {
+		if (!navigator?.geolocation) {
+			throw new Exception.Geolocation('Geolocation is not supported by this browser.');
+		}
 
-	navigator.geolocation.clearWatch(watchId);
+		navigator.geolocation.clearWatch(watchId);
+	} catch (error) {
+		console.error('Error clearing geolocation watch:', error);
+	}
 }
 
 /**
