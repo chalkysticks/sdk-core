@@ -9,6 +9,7 @@ export { default as ChalkySticks } from './ChalkySticks';
 export * as Collection from './Collection';
 export * as Event from './Event';
 export * as Exception from './Exception';
+export * as Factory from './Factory';
 export * as Input from './Input';
 export * as Model from './Model';
 export * as Provider from './Provider';
@@ -25,4 +26,4 @@ export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/
 
 export { Request } from 'restmc';
 
-export const Version = '1.14.0';
+export const Version = '1.15.0';
