@@ -33,6 +33,17 @@ export interface IPointerDragEvent {
     x: number;
     y: number;
 }
+export interface IPointerSwipeOptions {
+    distanceThreshold?: number;
+    timeThreshold?: number;
+    velocityThreshold?: number;
+}
+export interface ISwipeEvent {
+    direction: 'left' | 'right' | 'up' | 'down';
+    distance: number;
+    duration: number;
+    velocity: number;
+}
 export declare class Pointer extends Event.Dispatcher {
     static instance: Pointer;
     static start(eventType?: string, autoTouchEvents?: boolean): void;
@@ -81,6 +92,9 @@ export declare class Pointer extends Event.Dispatcher {
     private initialPinchDistance;
     private lastPinchDistance;
     private lastTapTime;
+    protected swipeThreshold: number;
+    protected swipeTimeThreshold: number;
+    protected swipeVelocityThreshold: number;
     private tapCount;
     private tapTimeout;
     private twoFingerTapCount;
@@ -91,6 +105,7 @@ export declare class Pointer extends Event.Dispatcher {
     detachEvents(): void;
     applyForMobile(disableTouchMove?: boolean, disableTouchEnd?: boolean, disableContextMenu?: boolean): void;
     capturePinchZoom(capture: boolean): void;
+    configureSwipe(options: IPointerSwipeOptions): Pointer;
     resetRelative(x?: number, y?: number): Pointer;
     private get downEvent();
     private get moveEvent();

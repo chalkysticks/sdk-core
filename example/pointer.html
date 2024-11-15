@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style></style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks Pointer</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					// api_url: 'http://localhost:7202',
+					api_url: 'https://api.chalkysticks.com/v1',
+				},
+			};
+		</script>
+
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			const pointer = new ChalkySticksCore.Input.Pointer('pointer', true);
+
+			// pointer.on('drag', (e) => {
+			// 	console.log('Drag', e);
+			// });
+
+			pointer.on('swipe', (e) => {
+				console.log('Swipe', e);
+			});
+
+			console.log(pointer);
+		</script>
+	</body>
+</html>

@@ -52,6 +52,25 @@ export interface IPointerDragEvent {
 }
 
 /**
+ * @type interface
+ */
+export interface IPointerSwipeOptions {
+	distanceThreshold?: number;
+	timeThreshold?: number;
+	velocityThreshold?: number;
+}
+
+/**
+ * @interface ISwipeEvent
+ */
+export interface ISwipeEvent {
+	direction: 'left' | 'right' | 'up' | 'down';
+	distance: number;
+	duration: number;
+	velocity: number;
+}
+
+/**
  * Pointer is a singleton class that handles all pointer/touch events
  * and dispatches them to the appropriate targets.
  *
@@ -386,6 +405,27 @@ export class Pointer extends Event.Dispatcher {
 	private lastTapTime: number = 0;
 
 	/**
+	 * Minimum distance for a swipe (px)
+	 *
+	 * @type number
+	 */
+	protected swipeThreshold: number = 50;
+
+	/**
+	 * Maximum time for a swipe (ms)
+	 *
+	 * @type number
+	 */
+	protected swipeTimeThreshold: number = 300;
+
+	/**
+	 * Minimum velocity for a swipe
+	 *
+	 * @type number
+	 */
+	protected swipeVelocityThreshold: number = 0.3;
+
+	/**
 	 * @type number
 	 */
 	private tapCount: number = 0;
@@ -567,6 +607,28 @@ export class Pointer extends Event.Dispatcher {
 
 		document.body.style.touchAction = 'pan-x pan-y';
 		document.body.style.userSelect = 'none';
+	}
+
+	/**
+	 * Configure swipe detection parameters
+	 *
+	 * @param IPointerSwipeOptions Configuration options for swipe detection
+	 * @return Pointer
+	 */
+	public configureSwipe(options: IPointerSwipeOptions): Pointer {
+		if (options.distanceThreshold !== undefined) {
+			this.swipeThreshold = options.distanceThreshold;
+		}
+
+		if (options.timeThreshold !== undefined) {
+			this.swipeTimeThreshold = options.timeThreshold;
+		}
+
+		if (options.velocityThreshold !== undefined) {
+			this.swipeVelocityThreshold = options.velocityThreshold;
+		}
+
+		return this;
 	}
 
 	/**
@@ -927,6 +989,8 @@ export class Pointer extends Event.Dispatcher {
 	 * @return Promise<void>
 	 */
 	protected async Handle_OnPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void> {
+		const timeDifference = Date.now() - this.timeDown;
+
 		this.down = 'touches' in e ? e.touches.length > 0 : false;
 		this.touches = 'touches' in e ? e.touches.length : 1;
 
@@ -942,6 +1006,32 @@ export class Pointer extends Event.Dispatcher {
 			x: this.x,
 			y: this.y,
 		});
+
+		// Check if we meet swipe thresholds
+		if (this.moved && timeDifference < this.swipeTimeThreshold) {
+			const dx = this.x - this.ox;
+			const dy = this.y - this.oy;
+			const distance = Math.sqrt(dx * dx + dy * dy);
+			const velocity = distance / this.timeDifference;
+
+			if (distance > this.swipeThreshold && velocity > this.swipeVelocityThreshold) {
+				const direction = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up';
+
+				this.dispatch('swipe', {
+					direction: direction,
+					distance: distance,
+					duration: this.timeDifference,
+					velocity: velocity,
+				});
+
+				this.dispatch('swipe:' + direction, {
+					direction: direction,
+					distance: distance,
+					duration: this.timeDifference,
+					velocity: velocity,
+				});
+			}
+		}
 
 		// Clear tap testing
 		if (this.holdTimeout) {
