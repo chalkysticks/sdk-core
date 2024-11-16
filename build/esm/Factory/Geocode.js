@@ -1,0 +1,8 @@
+import * as Model from '../Model';
+import { Constants } from '@chalkysticks/sdk-core';
+export function model() {
+    return new Model.Geocode(undefined, {
+        baseUrl: Constants.API_URL_V1,
+    });
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2VvY29kZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9GYWN0b3J5L0dlb2NvZGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxLQUFLLEtBQUssTUFBTSxVQUFVLENBQUM7QUFDbEMsT0FBTyxFQUFFLFNBQVMsRUFBRSxNQUFNLHdCQUF3QixDQUFDO0FBS25ELE1BQU0sVUFBVSxLQUFLO0lBQ3BCLE9BQU8sSUFBSSxLQUFLLENBQUMsT0FBTyxDQUFDLFNBQVMsRUFBRTtRQUNuQyxPQUFPLEVBQUUsU0FBUyxDQUFDLFVBQVU7S0FDN0IsQ0FBQyxDQUFDO0FBQ0osQ0FBQyJ9
