@@ -14,6 +14,16 @@ export function documentHeight(): number {
 }
 
 /**
+ * @param string variableName
+ * @param HTMLElement element
+ * @return string
+ */
+export function getCSSVariable(variableName: string, element: HTMLElement = document.documentElement): string {
+	const value = getComputedStyle(element).getPropertyValue(variableName).trim();
+	return value;
+}
+
+/**
  * @return Promise<void>
  */
 export function getDate(dateString: string = ''): Date {
