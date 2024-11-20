@@ -7,6 +7,7 @@ export * as Share from './Share.js';
 export * from './Cache';
 export * from './Debounce';
 export * from './General';
+export * from './Hysteresis';
 export * from './Interval';
 export { default as String } from './String';
 export { default as Easing, EasingFunction, getEasingMethod } from './Easing.js';

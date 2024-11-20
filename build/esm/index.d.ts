@@ -17,5 +17,6 @@ export { default as Environment } from './Common/Environment';
 export { default as Constants } from './Common/Constants';
 export { IDispatcher } from './Event/Dispatcher.js';
 export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent.js';
+export { IHysteresisOptions } from './Utility/Hysteresis.js';
 export { Request } from 'restmc';
 export declare const Version = "1.15.0";

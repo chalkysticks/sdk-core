@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style>
+			body {
+				background: #11110b;
+				color: #fffff1;
+			}
+
+			.shape {
+				background: red;
+				height: 300px;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks Hysteresis</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					// api_url: 'http://localhost:7202',
+					api_url: 'https://api.chalkysticks.com/v1',
+				},
+			};
+		</script>
+
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			let i = 0;
+
+			setInterval(async () => {
+				i++;
+				console.log('i', i);
+			}, 250);
+
+			// Create an instance
+			// -----------------------------------------------------------------
+
+			const instance = ChalkySticksCore.Utility.Hysteresis.add({
+				condition: () => i >= 10,
+			});
+
+			instance.on('change', () => {
+				console.log('I has become', i);
+			});
+
+			// Wait
+			// -----------------------------------------------------------------
+
+			await ChalkySticksCore.Utility.Hysteresis.wait({
+				condition: () => i >= 20,
+			});
+
+			console.log('I has become', i);
+		</script>
+	</body>
+</html>
