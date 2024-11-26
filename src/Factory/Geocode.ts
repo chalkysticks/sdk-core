@@ -1,5 +1,5 @@
 import * as Model from '../Model';
-import { Constants } from '@chalkysticks/sdk-core';
+import Constants from '../Common/Constants';
 
 /**
  * @param Record<string, any> options
