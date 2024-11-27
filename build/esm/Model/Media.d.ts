@@ -23,11 +23,15 @@ export declare class Media extends Base {
     endpoint: string;
     fields: string[];
     protected proxyUrl: string;
+    getGroup(): string;
+    getSubgroup(): string;
     getProxiedUrl(options?: IThumborOptions): string;
     getType(): string;
     getUrl(): string;
     getUrlSmall(): string;
     getUrlMedium(): string;
     getUrlLarge(): string;
+    getCreatedAt(): string;
+    getUpdatedAt(): string;
 }
 export {};

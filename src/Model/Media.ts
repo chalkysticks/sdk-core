@@ -43,7 +43,7 @@ export class Media extends Base {
 	 *
 	 * @type string[]
 	 */
-	public fields: string[] = ['id', 'type', 'url', 'created_at', 'updated_at'];
+	public fields: string[] = ['id', 'type', 'url', 'group', 'subgroup', 'created_at', 'updated_at'];
 
 	/**
 	 * @type string
@@ -52,6 +52,20 @@ export class Media extends Base {
 
 	// region: Getters
 	// ---------------------------------------------------------------------------
+
+	/**
+	 * @return string
+	 */
+	public getGroup(): string {
+		return this.attr('group') as string;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getSubgroup(): string {
+		return this.attr('subgroup') as string;
+	}
 
 	/**
 	 * Examples:
@@ -159,6 +173,20 @@ export class Media extends Base {
 	 */
 	public getUrlLarge(): string {
 		return this.getProxiedUrl({ width: 1024 });
+	}
+
+	/**
+	 * @return string
+	 */
+	public getCreatedAt(): string {
+		return this.attr('created_at') as string;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getUpdatedAt(): string {
+		return this.attr('updated_at') as string;
 	}
 
 	// endregion: Getters
