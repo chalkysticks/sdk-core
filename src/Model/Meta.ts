@@ -11,7 +11,7 @@ export class Meta extends Base {
 	 *
 	 * @type string[]
 	 */
-	public fields: string[] = ['id', 'group', 'key', 'value'];
+	public fields: string[] = ['id', 'group', 'key', 'value', 'created_at', 'updated_at'];
 
 	// region: Getters
 	// ---------------------------------------------------------------------------
@@ -35,6 +35,20 @@ export class Meta extends Base {
 	 */
 	public getValue(): string {
 		return this.attr('value') as string;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getCreatedAt(): string {
+		return this.attr('created_at') as string;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getUpdatedAt(): string {
+		return this.attr('updated_at') as string;
 	}
 
 	// endregion: Getters
