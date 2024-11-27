@@ -1,9 +1,6 @@
 {
 	"compilerOptions": {
 		"outDir": "build/esm",
-		"paths": {
-			"@capacitor/geolocation": ["./node_modules/@capacitor/geolocation"]
-		},
 		"rootDir": "src"
 	},
 	"extends": "../../node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",

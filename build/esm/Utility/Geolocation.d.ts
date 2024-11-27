@@ -17,3 +17,19 @@ export declare function distanceBetween(latitude1: number, longitude1: number, l
 export declare function getBearing(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
 export declare function getBounds(latitude: number, longitude: number, radius: number): ICoordinateBounds;
 export declare function isPointInBounds(latitude: number, longitude: number, bounds: ICoordinateBounds): boolean;
+export declare function simplifyCoordinates(coordinates: CoordinateInput | number, longitudeOrRoundAmount?: number, roundAmount?: number): {
+    latitude: number;
+    longitude: number;
+};
+type CoordinateInput = {
+    lat?: number;
+    latitude?: number;
+    lng?: number;
+    longitude?: number;
+} | [number, number] | {
+    position: {
+        lat: number;
+        lng: number;
+    };
+} | [latitude: number, longitude: number];
+export {};

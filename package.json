@@ -10,8 +10,6 @@
     },
     "description": "ChalkySticks SDK core for web-based clients",
     "devDependencies": {
-        "@capacitor/core": "^5.0.0",
-        "@capacitor/geolocation": "^5.0.0",
         "@types/googlemaps": "^3.43.3",
         "@typescript-eslint/eslint-plugin": "^4.13.0",
         "@typescript-eslint/parser": "^4.13.0",
@@ -21,9 +19,6 @@
         "typescript": "^5.2.2"
     },
     "exports": "./build/esm/index.js",
-    "external": [
-        "@capacitor/geolocation"
-    ],
     "files": [
         "!**/*.spec.*",
         "!**/*.json",
@@ -42,12 +37,9 @@
     "main": "./build/esm/index.js",
     "module": "./build/esm/index.js",
     "name": "@chalkysticks/sdk-core",
-    "optionalDependencies": {
-        "@capacitor/geolocation": "^5.0.0"
-    },
     "peerDependencies": {
-        "@capacitor/core": "^5.0.0",
-        "@capacitor/geolocation": "^5.0.0"
+        "@capacitor/core": "^6.2.0",
+        "@capacitor/geolocation": "^6.0.2"
     },
     "repository": {
         "type": "git",
@@ -61,5 +53,5 @@
     },
     "type": "module",
     "types": "build/esm/index.d.ts",
-    "version": "1.27.0"
+    "version": "1.28.0"
 }

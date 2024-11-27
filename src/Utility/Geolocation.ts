@@ -321,10 +321,85 @@ export function isPointInBounds(latitude: number, longitude: number, bounds: ICo
 	return latitude >= bounds.latitudeMin && latitude <= bounds.latitudeMax && longitude >= bounds.longitudeMin && longitude <= bounds.longitudeMax;
 }
 
+/**
+ * Flexible way of simplifying lat/long coordinates from various providers.
+ *
+ * This is valuable because it helps prevent cache busting on HTTP urls
+ * with overly precise floats.
+ *
+ * 	// Original format
+ * 	simplifyCoordinates(40.7128, -74.0060);
+ *
+ * 	// Object format
+ * 	simplifyCoordinates({ lat: 40.7128, lng: -74.0060 });
+ *
+ * 	// Array format
+ * 	simplifyCoordinates([40.7128, -74.0060]);
+ *
+ * 	// Google Maps format
+ * 	simplifyCoordinates({ position: { lat: 40.7128, lng: -74.0060 } });
+ *
+ * 	// With custom precision
+ * 	simplifyCoordinates({ lat: 40.7128, lng: -74.0060 }, undefined, 1e5);
+ *
+ * @param coordinates The coordinates to simplify
+ * @param longitudeOrRoundAmount The longitude or the round amount
+ * @param roundAmount The round amount
+ * @return object
+ */
+export function simplifyCoordinates(
+	coordinates: CoordinateInput | number,
+	longitudeOrRoundAmount?: number,
+	roundAmount: number = 1e3,
+): { latitude: number; longitude: number } {
+	let lat: number;
+	let lng: number;
+	let precision = roundAmount;
+
+	// Handle different input formats
+	if (typeof coordinates === 'number' && typeof longitudeOrRoundAmount === 'number') {
+		// Original format: (latitude, longitude, roundAmount?)
+		lat = coordinates;
+		lng = longitudeOrRoundAmount;
+		precision = roundAmount;
+	} else if (Array.isArray(coordinates)) {
+		// Handle array format: [lat, lng]
+		[lat, lng] = coordinates;
+	} else if (typeof coordinates === 'object') {
+		if ('position' in coordinates) {
+			// Handle Google Maps format: { position: { lat, lng } }
+			lat = coordinates.position.lat;
+			lng = coordinates.position.lng;
+		} else {
+			// Handle object format with various property names
+			lat = coordinates?.latitude ?? (coordinates?.lat || 0);
+			lng = coordinates?.longitude ?? (coordinates?.lng || 0);
+		}
+	} else {
+		throw new Error('Invalid coordinates format');
+	}
+
+	// Validate coordinates
+	if (typeof lat !== 'number' || typeof lng !== 'number') {
+		throw new Error('Invalid coordinates: latitude and longitude must be numbers');
+	}
+
+	return {
+		latitude: Math.round(lat * precision) / precision,
+		longitude: Math.round(lng * precision) / precision,
+	};
+}
+
 // endregion: Utility
 
 // region: Helpers
 // ---------------------------------------------------------------------------
+
+type CoordinateInput =
+	| { lat?: number; latitude?: number; lng?: number; longitude?: number }
+	| [number, number]
+	| { position: { lat: number; lng: number } }
+	| [latitude: number, longitude: number];
 
 /**
  * Check if Capacitor Geolocation plugin is available dynamically
