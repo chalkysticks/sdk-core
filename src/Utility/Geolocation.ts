@@ -13,33 +13,63 @@ export interface ICoordinateBounds {
 }
 
 /**
- * Get the user's geolocation
- *
- * @returns Promise<GeolocationPosition>
- * @throws GeolocationPositionError
+ * @type interface
  */
-export function getLocation(): Promise<GeolocationPosition> {
-	return new Promise((resolve, reject) => {
-		try {
-			if (!navigator?.geolocation) {
-				throw new Exception.Geolocation('Geolocation is not supported by this browser.');
-			}
+interface IPAPIResponse {
+	latitude: number;
+	longitude: number;
+	city: string;
+	country: string;
+}
 
+/**
+ * Get location explicitly either through browser events or IP-based fallback
+ *
+ * @param boolean useWeb
+ * @return Promise<GeolocationPosition>
+ */
+export function getLocation(useWeb = true): Promise<GeolocationPosition> {
+	return new Promise((resolve, reject) => {
+		const handleBrowserLocation = () => {
 			navigator.geolocation.getCurrentPosition(
 				(position: GeolocationPosition) => {
-					try {
-						Event.Bus.dispatch('location:change', position);
-						resolve(position);
-					} catch (error) {
+					Event.Bus.dispatch('location:change', position);
+					resolve(position);
+				},
+				async (error: GeolocationPositionError) => {
+					if (useWeb) {
+						try {
+							const ipPosition = await getIPLocation();
+							Event.Bus.dispatch('location:change', ipPosition);
+							resolve(ipPosition);
+						} catch (ipError) {
+							Event.Bus.dispatch('location:error', error);
+							reject(error);
+						}
+					} else {
 						Event.Bus.dispatch('location:error', error);
-						reject(new Exception.Geolocation('Error processing location data'));
+						reject(error);
 					}
 				},
-				(error: GeolocationPositionError) => {
-					Event.Bus.dispatch('location:error', error);
-					reject(error);
-				},
 			);
+		};
+
+		try {
+			if (navigator?.geolocation) {
+				handleBrowserLocation();
+			} else if (useWeb) {
+				getIPLocation()
+					.then((position) => {
+						Event.Bus.dispatch('location:change', position);
+						resolve(position);
+					})
+					.catch((error) => {
+						Event.Bus.dispatch('location:error', error);
+						reject(new Exception.Geolocation('Failed to get IP location'));
+					});
+			} else {
+				throw new Exception.Geolocation('Geolocation is not supported');
+			}
 		} catch (error) {
 			reject(error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred'));
 		}
@@ -57,55 +87,71 @@ export function getLocation(): Promise<GeolocationPosition> {
 export function watchLocation(
 	callback?: PositionCallback,
 	errorCallback?: PositionErrorCallback,
-	options: PositionOptions = { enableHighAccuracy: true },
+	options: PositionOptions & { useWeb?: boolean } = { enableHighAccuracy: true, useWeb: true },
 ): number {
-	try {
-		if (!navigator?.geolocation) {
-			throw new Exception.Geolocation('Geolocation is not supported by this browser.');
-		}
+	const { useWeb = true, ...positionOptions } = options;
 
+	if (navigator?.geolocation) {
 		return navigator.geolocation.watchPosition(
 			(position: GeolocationPosition) => {
-				try {
-					Event.Bus.dispatch('location:change', position);
-					callback?.(position);
-				} catch (error) {
+				Event.Bus.dispatch('location:change', position);
+				callback?.(position);
+			},
+			async (error: GeolocationPositionError) => {
+				if (useWeb) {
+					try {
+						const ipPosition = await getIPLocation();
+						Event.Bus.dispatch('location:change', ipPosition);
+						callback?.(ipPosition);
+					} catch (ipError) {
+						Event.Bus.dispatch('location:error', error);
+						errorCallback?.(error);
+					}
+				} else {
 					Event.Bus.dispatch('location:error', error);
-					errorCallback?.(error as GeolocationPositionError);
+					errorCallback?.(error);
 				}
 			},
-			(error: GeolocationPositionError) => {
-				Event.Bus.dispatch('location:error', error);
-				errorCallback?.(error);
-			},
-			options,
+			positionOptions,
 		);
-	} catch (error) {
-		errorCallback?.(error as GeolocationPositionError);
-		return 0;
+	} else if (useWeb) {
+		// Simulate watching with IP (updates every 30 seconds)
+		const intervalId = setInterval(async () => {
+			try {
+				const ipPosition = await getIPLocation();
+				Event.Bus.dispatch('location:change', ipPosition);
+				callback?.(ipPosition);
+			} catch (error) {
+				Event.Bus.dispatch('location:error', error);
+				errorCallback?.(error as GeolocationPositionError);
+			}
+		}, 30000);
+
+		return intervalId;
 	}
+
+	return 0;
 }
 
 /**
- * Ask the user for permission to get their geolocation
- *
- * @returns Promise<PermissionStatus>
+ * @return Promise<GeolocationPosition>
  */
-export function askPermission(): Promise<PermissionStatus> {
-	return new Promise((resolve, reject) => {
-		try {
-			if (!navigator?.permissions) {
-				throw new Exception.Geolocation('Geolocation is not supported by this browser.');
-			}
+async function getIPLocation(): Promise<GeolocationPosition> {
+	const response = await fetch('https://ipapi.co/json/');
+	const data: IPAPIResponse = await response.json();
 
-			navigator.permissions
-				.query({ name: 'geolocation' })
-				.then(resolve)
-				.catch((error) => reject(error instanceof Error ? error : new Exception.Geolocation('Permission query failed')));
-		} catch (error) {
-			reject(error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred'));
-		}
-	});
+	return {
+		coords: {
+			accuracy: 5000, // City-level accuracy (~5km)
+			altitude: null,
+			altitudeAccuracy: null,
+			heading: null,
+			latitude: data.latitude,
+			longitude: data.longitude,
+			speed: null,
+		},
+		timestamp: Date.now(),
+	} as GeolocationPosition;
 }
 
 /**

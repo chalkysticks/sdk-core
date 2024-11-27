@@ -90,6 +90,11 @@
 				console.log(geocodeModel.getShortAddress());
 				console.log(geocodeModel.getCityAndState());
 				console.log(geocodeModel.getLocation());
+
+				const useWeb = true;
+				ChalkySticksCore.Utility.Geolocation.getLocation(useWeb).then((position) => {
+					console.log('🔹 Automatic Get Location', position.coords);
+				});
 			}, 25);
 
 			// -----------------------------------------------------------------
@@ -112,7 +117,7 @@
 
 			document.getElementById('btnGetLocation').addEventListener('click', async () => {
 				ChalkySticksCore.Utility.Geolocation.getLocation().then((position) => {
-					console.log('Get Location...', position.coords);
+					console.log('🔹 Browser GetLocation', position.coords);
 				});
 			});
 
