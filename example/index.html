@@ -76,6 +76,11 @@
 				console.log('Meta', userModel.metadata.getValuesByGroup('profile'));
 				console.log('Avatar 1', userModel.media.primary.getUrl());
 				console.log('Avatar 2', userModel.avatar.getUrl());
+
+				// Proxied urls
+				console.log('Avatar Proxied (large)', userModel.media.primary.getUrlLarge());
+				console.log('Avatar Proxied (medium)', userModel.media.primary.getUrlMedium());
+				console.log('Avatar Proxied (small)', userModel.media.primary.getUrlSmall());
 			}, 10);
 
 			// -----------------------------------------------------------------
@@ -125,6 +130,12 @@
 				ChalkySticksCore.Utility.Geolocation.watchLocation((position) => {
 					console.log('Watch Location...', position.coords);
 				});
+			});
+
+			// -----------------------------------------------------------------
+
+			const venueCollection = new ChalkySticksCore.Collection.Venue({
+				limit: 10,
 			});
 		</script>
 	</body>
