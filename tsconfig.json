@@ -1,16 +1,13 @@
 {
 	"compilerOptions": {
 		"outDir": "build/esm",
+		"paths": {
+			"@capacitor/geolocation": ["./node_modules/@capacitor/geolocation"]
+		},
 		"rootDir": "src"
 	},
 	"extends": "../../node_modules/@chalkysticks/mrm-preset/tsconfig.mjs.json",
-	"files": [
-		"./types/index.d.ts",
-		"../../node_modules/@types/googlemaps/index.d.ts"
-	],
-	"include": ["./src/**/*"],
-	"typeRoots": [
-		"node_modules/@types",
-		"types"
-	]
+	"files": ["./types/index.d.ts", "../../node_modules/@types/googlemaps/index.d.ts"],
+	"include": ["./src/**/*", "./types/*.d.ts"],
+	"typeRoots": ["node_modules/@types", "types"]
 }

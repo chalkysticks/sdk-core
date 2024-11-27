@@ -53,3 +53,36 @@ interface IApiResponseError {
 	code: number;
 	message: string;
 }
+
+declare module '@capacitor/geolocation' {
+	export interface GeolocationPosition {
+		coords: {
+			accuracy: number;
+			altitude: number | null;
+			altitudeAccuracy: number | null;
+			heading: number | null;
+			latitude: number;
+			longitude: number;
+			speed: number | null;
+		};
+		timestamp: number;
+	}
+
+	export function getCurrentPosition(options?: {
+		enableHighAccuracy?: boolean;
+		timeout?: number;
+		maximumAge?: number;
+	}): Promise<GeolocationPosition>;
+
+	export function watchPosition(
+		successCallback: (position: GeolocationPosition) => void,
+		errorCallback?: (error: any) => void,
+		options?: {
+			enableHighAccuracy?: boolean;
+			timeout?: number;
+			maximumAge?: number;
+		},
+	): string;
+
+	export function clearWatch(watchId: string): void;
+}

@@ -1,5 +1,6 @@
 import * as Event from '../Event';
 import * as Exception from '../Exception';
+import { Cache } from './Cache';
 import { toRadians, toDegrees, EARTH_RADIUS } from './Math';
 
 /**
@@ -23,121 +24,150 @@ interface IPAPIResponse {
 }
 
 /**
- * Get location explicitly either through browser events or IP-based fallback
+ * @type object
+ */
+export const config = {
+	IP_LOCATION_API: 'https://ipapi.co/json/',
+};
+
+/**
+ * Cache expiration of 2 minutes for the geolocation
  *
- * @param boolean useWeb
+ * @type number
+ */
+export const CACHE_EXPIRATION = 1000 * 6 * 2;
+
+/**
+ * Prevent us from hitting the geolocation services all the time
+ *
+ * @type Cache
+ */
+export const cache = new Cache(CACHE_EXPIRATION);
+
+/**
+ * Get location explicitly either through browser events, Capacitor, or IP-based fallback
+ *
  * @return Promise<GeolocationPosition>
  */
-export function getLocation(useWeb = true): Promise<GeolocationPosition> {
-	return new Promise((resolve, reject) => {
-		const handleBrowserLocation = () => {
-			navigator.geolocation.getCurrentPosition(
-				(position: GeolocationPosition) => {
-					Event.Bus.dispatch('location:change', position);
-					resolve(position);
-				},
-				async (error: GeolocationPositionError) => {
-					if (useWeb) {
-						try {
-							const ipPosition = await getIPLocation();
-							Event.Bus.dispatch('location:change', ipPosition);
-							resolve(ipPosition);
-						} catch (ipError) {
-							Event.Bus.dispatch('location:error', error);
-							reject(error);
-						}
-					} else {
-						Event.Bus.dispatch('location:error', error);
-						reject(error);
-					}
-				},
-			);
-		};
+export async function getLocation(): Promise<GeolocationPosition> {
+	const cacheKey = 'geolocation';
+	const cachedLocation = cache.get(cacheKey);
 
-		try {
-			if (navigator?.geolocation) {
-				handleBrowserLocation();
-			} else if (useWeb) {
-				getIPLocation()
-					.then((position) => {
+	if (cachedLocation) {
+		return cachedLocation;
+	}
+
+	try {
+		if (navigator?.geolocation) {
+			return await getBrowserLocation(cacheKey);
+		} else if (await isCapacitorGeolocationAvailable()) {
+			return await getCapacitorLocation(cacheKey);
+		} else {
+			return await getIPLocationFallback(cacheKey);
+		}
+	} catch (error) {
+		throw error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred');
+	}
+}
+
+/**
+ * Get location using browser geolocation API
+ *
+ * @param string cacheKey
+ * @return Promise<GeolocationPosition>
+ */
+/**
+ * Get location using browser geolocation API
+ *
+ * @param string cacheKey
+ * @return Promise<GeolocationPosition>
+ */
+async function getBrowserLocation(cacheKey: string): Promise<GeolocationPosition> {
+	return new Promise((resolve, reject) => {
+		navigator.geolocation.getCurrentPosition(
+			(position: GeolocationPosition) => {
+				cache.set(cacheKey, position, CACHE_EXPIRATION);
+				console.info('🔸 Location', position);
+				Event.Bus.dispatch('location:change', position);
+				resolve(position);
+			},
+			async (error: GeolocationPositionError) => {
+				console.warn('Browser geolocation error:', error);
+
+				if (error.code === error.PERMISSION_DENIED) {
+					reject(new Exception.Geolocation('Permission denied for geolocation.'));
+				} else if (error.code === error.POSITION_UNAVAILABLE) {
+					reject(new Exception.Geolocation('Geolocation position unavailable.'));
+				} else if (error.code === error.TIMEOUT) {
+					reject(new Exception.Geolocation('Geolocation request timed out.'));
+				} else {
+					try {
+						const position = await getIPLocation();
+						cache.set(cacheKey, position, CACHE_EXPIRATION);
+						console.info('🔺 Location', position);
 						Event.Bus.dispatch('location:change', position);
 						resolve(position);
-					})
-					.catch((error) => {
-						Event.Bus.dispatch('location:error', error);
-						reject(new Exception.Geolocation('Failed to get IP location'));
-					});
-			} else {
-				throw new Exception.Geolocation('Geolocation is not supported');
-			}
-		} catch (error) {
-			reject(error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred'));
-		}
+					} catch (ipError) {
+						reject(new Exception.Geolocation('Fallback IP location failed.'));
+					}
+				}
+			},
+		);
 	});
 }
 
 /**
- * Watch the user's geolocation
+ * Get location using Capacitor Geolocation plugin
  *
- * @param PositionCallback callback
- * @param PositionErrorCallback errorCallback
- * @param PositionOptions options
- * @returns number watchId
+ * @param string cacheKey
+ * @return Promise<GeolocationPosition>
  */
-export function watchLocation(
-	callback?: PositionCallback,
-	errorCallback?: PositionErrorCallback,
-	options: PositionOptions & { useWeb?: boolean } = { enableHighAccuracy: true, useWeb: true },
-): number {
-	const { useWeb = true, ...positionOptions } = options;
-
-	if (navigator?.geolocation) {
-		return navigator.geolocation.watchPosition(
-			(position: GeolocationPosition) => {
-				Event.Bus.dispatch('location:change', position);
-				callback?.(position);
-			},
-			async (error: GeolocationPositionError) => {
-				if (useWeb) {
-					try {
-						const ipPosition = await getIPLocation();
-						Event.Bus.dispatch('location:change', ipPosition);
-						callback?.(ipPosition);
-					} catch (ipError) {
-						Event.Bus.dispatch('location:error', error);
-						errorCallback?.(error);
-					}
-				} else {
-					Event.Bus.dispatch('location:error', error);
-					errorCallback?.(error);
-				}
-			},
-			positionOptions,
-		);
-	} else if (useWeb) {
-		// Simulate watching with IP (updates every 30 seconds)
-		const intervalId = setInterval(async () => {
-			try {
-				const ipPosition = await getIPLocation();
-				Event.Bus.dispatch('location:change', ipPosition);
-				callback?.(ipPosition);
-			} catch (error) {
-				Event.Bus.dispatch('location:error', error);
-				errorCallback?.(error as GeolocationPositionError);
-			}
-		}, 30000);
-
-		return intervalId;
+async function getCapacitorLocation(cacheKey: string): Promise<GeolocationPosition> {
+	try {
+		const { Geolocation } = await import('@capacitor/geolocation');
+		const position = await Geolocation.getCurrentPosition();
+		cache.set(cacheKey, position, CACHE_EXPIRATION);
+		console.info('🔹 Location', position);
+		Event.Bus.dispatch('location:change', position);
+		return position;
+	} catch (error) {
+		try {
+			const position = await getIPLocation();
+			cache.set(cacheKey, position, CACHE_EXPIRATION);
+			console.info('🔺 Location', position);
+			Event.Bus.dispatch('location:change', position);
+			return position;
+		} catch (ipError) {
+			Event.Bus.dispatch('location:error', error);
+			throw error;
+		}
 	}
+}
 
-	return 0;
+/**
+ * Get IP-based location as a fallback
+ *
+ * @param string cacheKey
+ * @return Promise<GeolocationPosition>
+ */
+async function getIPLocationFallback(cacheKey: string): Promise<GeolocationPosition> {
+	try {
+		const position = await getIPLocation();
+		cache.set(cacheKey, position, CACHE_EXPIRATION);
+		console.info('🔺 Location', position);
+		Event.Bus.dispatch('location:change', position);
+		return position;
+	} catch (error) {
+		Event.Bus.dispatch('location:error', error);
+		throw new Exception.Geolocation('Failed to get IP location');
+	}
 }
 
 /**
  * @return Promise<GeolocationPosition>
  */
 async function getIPLocation(): Promise<GeolocationPosition> {
-	const response = await fetch('https://ipapi.co/json/');
+	const response = await fetch(config.IP_LOCATION_API);
 	const data: IPAPIResponse = await response.json();
 
 	return {
@@ -152,6 +182,46 @@ async function getIPLocation(): Promise<GeolocationPosition> {
 		},
 		timestamp: Date.now(),
 	} as GeolocationPosition;
+}
+
+/**
+ * Watch the user's geolocation
+ *
+ * @param PositionCallback callback
+ * @param PositionErrorCallback errorCallback
+ * @param PositionOptions options
+ * @returns number watchId
+ */
+export function watchLocation(
+	callback?: PositionCallback,
+	errorCallback?: PositionErrorCallback,
+	options: PositionOptions = { enableHighAccuracy: true },
+): number {
+	const cacheKey = 'geolocation';
+
+	if (navigator?.geolocation) {
+		return navigator.geolocation.watchPosition(
+			(position: GeolocationPosition) => {
+				cache.set(cacheKey, position, CACHE_EXPIRATION);
+				Event.Bus.dispatch('location:change', position);
+				callback?.(position);
+			},
+			async (error: GeolocationPositionError) => {
+				try {
+					const ipPosition = await getIPLocation();
+					cache.set(cacheKey, ipPosition, CACHE_EXPIRATION);
+					Event.Bus.dispatch('location:change', ipPosition);
+					callback?.(ipPosition);
+				} catch (ipError) {
+					Event.Bus.dispatch('location:error', error);
+					errorCallback?.(error);
+				}
+			},
+			options,
+		);
+	}
+
+	return 0;
 }
 
 /**
@@ -171,6 +241,9 @@ export function clearWatch(watchId: number): void {
 		console.error('Error clearing geolocation watch:', error);
 	}
 }
+
+// region: Utility
+// ---------------------------------------------------------------------------
 
 /**
  * Get the distance between two points
@@ -247,3 +320,23 @@ export function getBounds(latitude: number, longitude: number, radius: number): 
 export function isPointInBounds(latitude: number, longitude: number, bounds: ICoordinateBounds): boolean {
 	return latitude >= bounds.latitudeMin && latitude <= bounds.latitudeMax && longitude >= bounds.longitudeMin && longitude <= bounds.longitudeMax;
 }
+
+// endregion: Utility
+
+// region: Helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Check if Capacitor Geolocation plugin is available dynamically
+ */
+async function isCapacitorGeolocationAvailable(): Promise<boolean> {
+	try {
+		// Dynamically import @capacitor/geolocation
+		const { Geolocation } = await import('@capacitor/geolocation');
+		return !!Geolocation;
+	} catch {
+		return false;
+	}
+}
+
+// endregion: Helpers
