@@ -1,0 +1,4 @@
+import * as Model from '.';
+export class UserMedia extends Model.Media {
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVXNlck1lZGlhLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL01vZGVsL1VzZXJNZWRpYS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEtBQUssS0FBSyxNQUFNLEdBQUcsQ0FBQztBQU8zQixNQUFNLE9BQU8sU0FBVSxTQUFRLEtBQUssQ0FBQyxLQUFLO0NBRXpDIn0=
