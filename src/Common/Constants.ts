@@ -67,4 +67,11 @@ export default {
 	 * @type string
 	 */
 	STATIC_URL: 'https://static.chalkysticks.com',
+
+	/**
+	 * Six hours between collections
+	 *
+	 * @type number
+	 */
+	WALLET_COLLECTION_TIME: 60 * 60 * 6,
 };

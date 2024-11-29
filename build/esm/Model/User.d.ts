@@ -6,6 +6,7 @@ export declare class User extends Base {
     fields: string[];
     get avatar(): Model.Media;
     get games(): Collection.Meta;
+    get lastCollection(): Model.Wallet;
     get media(): Collection.Media;
     get metadata(): Collection.Meta;
     getLatitude(): number;

@@ -34,6 +34,10 @@ export class User extends Base {
 		return this.hasMany('games', Collection.Meta);
 	}
 
+	public get lastCollection(): Model.Wallet {
+		return this.hasOne('last_collection', Model.Wallet);
+	}
+
 	public get media(): Collection.Media {
 		return this.hasMany('media', Collection.Media);
 	}

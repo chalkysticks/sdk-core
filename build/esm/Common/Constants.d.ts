@@ -9,5 +9,6 @@ declare const _default: {
     DEFAULT_COLLECTION_LIMIT: number;
     NOTIFICATION_PREFERENCE: string;
     STATIC_URL: string;
+    WALLET_COLLECTION_TIME: number;
 };
 export default _default;
