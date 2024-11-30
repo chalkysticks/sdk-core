@@ -28,11 +28,15 @@ export class Wallet extends Base {
 	// ---------------------------------------------------------------------------
 
 	/**
-	 * @return Promise<void>
+	 * @return Promise<Wallet>
 	 */
-	public async collect(): Promise<void> {
-		this.id = 'collect';
-		await this.save();
+	public static async collect(): Promise<Wallet> {
+		const walletModel = new Wallet();
+		walletModel.id = '';
+		walletModel.endpoint = 'wallet/collect';
+		await walletModel.save();
+
+		return walletModel;
 	}
 
 	// endregion: Actions
