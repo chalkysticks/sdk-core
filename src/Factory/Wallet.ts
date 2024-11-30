@@ -1,6 +1,6 @@
 import * as Collection from '../Collection';
 import * as Model from '../Model';
-import { Constants } from '@chalkysticks/sdk-core';
+import Constants from '../Common/Constants';
 
 /**
  * @param Record<string, any> options
@@ -11,7 +11,7 @@ export function model(options: Record<string, any> = {}): Model.Wallet {
 		undefined,
 		Object.assign(
 			{
-				baseUrl: Constants.API_URL_V3,
+				baseUrl: Constants.API_URL_V1,
 			},
 			options,
 		),
@@ -26,7 +26,7 @@ export function collection(options: Record<string, any> = {}): Collection.Wallet
 	const collection = new Collection.Wallet(
 		Object.assign(
 			{
-				baseUrl: Constants.API_URL_V3,
+				baseUrl: Constants.API_URL_V1,
 			},
 			options,
 		),

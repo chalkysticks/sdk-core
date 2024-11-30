@@ -15,7 +15,7 @@ export class Wallet extends Base {
 	 *
 	 * @type string
 	 */
-	public endpoint: string = 'userwallet';
+	public endpoint: string = 'wallet';
 
 	/**
 	 * List of fields available
@@ -23,6 +23,19 @@ export class Wallet extends Base {
 	 * @type string[]
 	 */
 	public fields: string[] = ['id', 'user_id', 'challenger_id', 'transaction', 'source', 'source_id', 'created_at', 'updated_at'];
+
+	// region: Actions
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * @return Promise<void>
+	 */
+	public async collect(): Promise<void> {
+		this.id = 'collect';
+		await this.save();
+	}
+
+	// endregion: Actions
 
 	// region: Relationships
 	// ---------------------------------------------------------------------------
