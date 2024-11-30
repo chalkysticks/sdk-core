@@ -83,8 +83,14 @@ export class Media extends Base {
 			width: 1024,
 		},
 	): string {
+		const url: string = this.getUrl();
 		const parts: string[] = ['unsafe'];
 		const filters: string[] = [];
+
+		// Empty URL
+		if (!url) {
+			return url;
+		}
 
 		// Automatic webp
 		filters.push('format(webp)');
