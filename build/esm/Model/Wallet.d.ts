@@ -3,7 +3,7 @@ import { Base } from './Base';
 export declare class Wallet extends Base {
     endpoint: string;
     fields: string[];
-    static collect(token: string): Promise<Wallet>;
+    collect(token: string): Promise<Wallet>;
     get user(): Model.User;
     get challenger(): Model.User;
     canCollect(): boolean;

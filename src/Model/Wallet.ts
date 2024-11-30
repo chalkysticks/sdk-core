@@ -31,15 +31,14 @@ export class Wallet extends Base {
 	 * @param string token
 	 * @return Promise<Wallet>
 	 */
-	public static async collect(token: string): Promise<Wallet> {
-		const walletModel = new Wallet();
-		walletModel.setHeader('Authorization-API', `Bearer ${token}`);
-		walletModel.setHeader('Content-Type', 'application/json');
-		walletModel.id = '';
-		walletModel.endpoint = 'wallet/collect';
-		await walletModel.save();
+	public async collect(token: string): Promise<Wallet> {
+		this.setHeader('Authorization-API', `Bearer ${token}`);
+		this.setHeader('Content-Type', 'application/json');
+		this.id = '';
+		this.endpoint = 'wallet/collect';
+		await this.save();
 
-		return walletModel;
+		return this;
 	}
 
 	// endregion: Actions
