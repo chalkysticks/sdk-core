@@ -3,6 +3,7 @@ export * as Device from './Device';
 export * as Format from './Format.js';
 export * as Geolocation from './Geolocation';
 export * as Math from './Math.js';
+export * as Presentation from './Presentation';
 export * as Share from './Share.js';
 export * from './Cache';
 export * from './Debounce';

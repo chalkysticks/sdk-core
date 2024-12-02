@@ -30,6 +30,8 @@
 
 			<button id="btnGetLocation">Get Location</button>
 			<button id="btnWatchLocation">Watch Location</button>
+			<button id="btnFullscreen">Fullscreen</button>
+			<button id="btnCast">Cast</button>
 
 			<svg width="300" height="300" viewBox="0 0 250 250" class="shape"></svg>
 		</main>
@@ -130,6 +132,14 @@
 				ChalkySticksCore.Utility.Geolocation.watchLocation((position) => {
 					console.log('Watch Location...', position.coords);
 				});
+			});
+
+			document.getElementById('btnFullscreen').addEventListener('click', () => {
+				ChalkySticksCore.Utility.Presentation.toggleFullscreen();
+			});
+
+			document.getElementById('btnCast').addEventListener('click', () => {
+				ChalkySticksCore.Utility.Presentation.castToDevice('https://www.youtube.com/watch?v=jfKfPfyJRdk');
 			});
 
 			// -----------------------------------------------------------------
