@@ -1,0 +1,15 @@
+import * as Collection from '../Collection';
+import * as Model from '../Model';
+import Constants from '../Common/Constants';
+export function model(options = {}) {
+    return new Model.Statistic(undefined, Object.assign({
+        baseUrl: Constants.API_URL_V3,
+    }, options));
+}
+export function collection(options = {}) {
+    const collection = new Collection.Statistic(Object.assign({
+        baseUrl: Constants.API_URL_V3,
+    }, options));
+    return collection;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3RhdGlzdGljLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL0ZhY3RvcnkvU3RhdGlzdGljLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sS0FBSyxVQUFVLE1BQU0sZUFBZSxDQUFDO0FBQzVDLE9BQU8sS0FBSyxLQUFLLE1BQU0sVUFBVSxDQUFDO0FBQ2xDLE9BQU8sU0FBUyxNQUFNLHFCQUFxQixDQUFDO0FBTTVDLE1BQU0sVUFBVSxLQUFLLENBQUMsVUFBK0IsRUFBRTtJQUN0RCxPQUFPLElBQUksS0FBSyxDQUFDLFNBQVMsQ0FDekIsU0FBUyxFQUNULE1BQU0sQ0FBQyxNQUFNLENBQ1o7UUFDQyxPQUFPLEVBQUUsU0FBUyxDQUFDLFVBQVU7S0FDN0IsRUFDRCxPQUFPLENBQ1AsQ0FDRCxDQUFDO0FBQ0gsQ0FBQztBQU1ELE1BQU0sVUFBVSxVQUFVLENBQUMsVUFBK0IsRUFBRTtJQUMzRCxNQUFNLFVBQVUsR0FBRyxJQUFJLFVBQVUsQ0FBQyxTQUFTLENBQzFDLE1BQU0sQ0FBQyxNQUFNLENBQ1o7UUFDQyxPQUFPLEVBQUUsU0FBUyxDQUFDLFVBQVU7S0FDN0IsRUFDRCxPQUFPLENBQ1AsQ0FDRCxDQUFDO0lBRUYsT0FBTyxVQUFVLENBQUM7QUFDbkIsQ0FBQyJ9
