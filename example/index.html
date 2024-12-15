@@ -40,8 +40,8 @@
 		<script>
 			window.env = {
 				app: {
-					// api_url: 'http://localhost:7202',
-					api_url: 'https://api.chalkysticks.com/v1',
+					api_url: 'http://localhost:8000/v3',
+					// api_url: 'https://api.chalkysticks.com/v1',
 				},
 			};
 		</script>
@@ -49,11 +49,19 @@
 		<script type="module">
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
-			const collectionAdvertisement = new ChalkySticksCore.Collection.Advertisement({
+			const rulebookCollection = new ChalkySticksCore.Collection.Rulebook();
+
+			rulebookCollection.fetch().then(() => {
+				console.log('Rulebooks', rulebookCollection.toJSON());
+			});
+
+			// -----------------------------------------------------------------
+
+			const advertisementCollection = new ChalkySticksCore.Collection.Advertisement({
 				limit: 64,
 			});
 
-			collectionAdvertisement.fetch();
+			advertisementCollection.fetch();
 
 			console.log('ChalkySticks', ChalkySticksCore);
 
@@ -140,12 +148,6 @@
 
 			document.getElementById('btnCast').addEventListener('click', () => {
 				ChalkySticksCore.Utility.Presentation.castToDevice('https://www.youtube.com/watch?v=jfKfPfyJRdk');
-			});
-
-			// -----------------------------------------------------------------
-
-			const venueCollection = new ChalkySticksCore.Collection.Venue({
-				limit: 10,
 			});
 		</script>
 	</body>

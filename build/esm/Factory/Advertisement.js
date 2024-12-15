@@ -3,12 +3,12 @@ import * as Model from '../Model';
 import Constants from '../Common/Constants';
 export function model(options = {}) {
     return new Model.Advertisement(undefined, Object.assign({
-        baseUrl: Constants.API_URL_V1,
+        baseUrl: Constants.API_URL_V3,
     }, options));
 }
 export function collection(options = {}) {
     const collection = new Collection.Advertisement(Object.assign({
-        baseUrl: Constants.API_URL_V1,
+        baseUrl: Constants.API_URL_V3,
     }, options));
     return collection;
 }
