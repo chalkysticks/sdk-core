@@ -1,8 +1,9 @@
-export declare class String {
-    capitalize(str: string): string;
-    chunkSentences(paragraph: string, chunkSize?: number): string[];
-    truncate(str: string, length?: number): string;
-    trimSentences(paragraph: string, targetCharacters?: number): string;
-}
-declare const _default: String;
-export default _default;
+export declare function basicHash(input: string): string;
+export declare function capitalize(str: string): string;
+export declare function chunkSentences(paragraph: string, chunkSize?: number): string[];
+export declare function md5(str: string): string;
+export declare function random(length?: number): string;
+export declare function shuffle(strings: string[]): string[];
+export declare function slug(input: string): string;
+export declare function truncate(str: string, length?: number): string;
+export declare function trimSentences(paragraph: string, targetCharacters?: number): string;
