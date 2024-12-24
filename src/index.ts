@@ -7,6 +7,7 @@ declare global {
 export { default as ChalkySticks } from './ChalkySticks';
 
 export * as Collection from './Collection';
+export * as Enum from './Enum';
 export * as Event from './Event';
 export * as Exception from './Exception';
 export * as Factory from './Factory';
