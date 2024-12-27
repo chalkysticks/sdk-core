@@ -9,6 +9,7 @@ export declare class Content extends Base {
     getMediaUrl(): string;
     getThumbnailUrl(): string;
     getTitle(): string;
+    getYouTubeEmbed(): string;
     hasContent(): boolean;
     isImage(): boolean;
     isVideo(): boolean;

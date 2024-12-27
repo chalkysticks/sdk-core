@@ -6,6 +6,7 @@ export * as Math from './Math.js';
 export * as Presentation from './Presentation.js';
 export * as Share from './Share.js';
 export * as String from './String.js';
+export * as YouTube from './YouTube.js';
 export * from './Cache.js';
 export * from './Debounce.js';
 export * from './General.js';

@@ -1,4 +1,5 @@
 import * as Collection from '../Collection';
+import * as Utility from '../Utility';
 import { Base } from './Base';
 
 /**
@@ -67,6 +68,17 @@ export class Content extends Base {
 	 */
 	public getTitle(): string {
 		return this.attr('title') as string;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getYouTubeEmbed(): string {
+		if (Utility.YouTube.isYouTube(this.getMediaUrl())) {
+			return Utility.YouTube.toEmbedUrl(this.getMediaUrl());
+		}
+
+		return '';
 	}
 
 	/**
