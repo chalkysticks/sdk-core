@@ -1,6 +1,6 @@
-import * as Collection from '../Collection';
-import * as Utility from '../Utility';
-import { Base } from './Base';
+import * as Collection from '../Collection/index.js';
+import * as Utility from '../Utility/index.js';
+import { Base } from './Base.js';
 
 /**
  * @class Content

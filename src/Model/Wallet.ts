@@ -1,7 +1,7 @@
-import * as Collection from '../Collection';
-import * as Model from '.';
-import Constants from '../Common/Constants';
-import { Base } from './Base';
+import * as Collection from '../Collection/index.js';
+import * as Model from './index.js';
+import Constants from '../Common/Constants.js';
+import { Base } from './Base.js';
 
 /**
  * @class Wallet

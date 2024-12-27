@@ -1,4 +1,4 @@
-import { DispatcherEvent, TDispatcherCallback, TDispatcherData } from './DispatcherEvent';
+import { DispatcherEvent, TDispatcherCallback, TDispatcherData } from './DispatcherEvent.js';
 export interface IDispatcher {
     dispatch(eventName: string, data?: TDispatcherData): void;
     on(eventName: string, callback: TDispatcherCallback): void;

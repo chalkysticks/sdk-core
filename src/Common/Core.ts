@@ -1,4 +1,4 @@
-import * as Event from '../Event';
+import * as Event from '../Event/index.js';
 
 /**
  * @class Core

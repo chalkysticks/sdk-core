@@ -1,4 +1,4 @@
-import { DispatcherEvent, IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './DispatcherEvent';
+import { DispatcherEvent, IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './DispatcherEvent.js';
 
 /**
  * @interface IDispatcher

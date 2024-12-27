@@ -1,6 +1,6 @@
-import * as Collection from '../Collection';
-import * as Model from '../Model';
-import Constants from '../Common/Constants';
+import * as Collection from '../Collection/index.js';
+import * as Model from '../Model/index.js';
+import Constants from '../Common/Constants.js';
 
 /**
  * @param Record<string, any> options

@@ -1,6 +1,6 @@
-import * as Collection from '../Collection';
-import * as Model from '.';
-import { Base } from './Base';
+import * as Collection from '../Collection/index.js';
+import * as Model from './index.js';
+import { Base } from './Base.js';
 
 /**
  * @class User

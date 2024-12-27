@@ -1,7 +1,7 @@
-import * as Event from '../Event';
-import * as Exception from '../Exception';
-import { Cache } from './Cache';
-import { toRadians, toDegrees, EARTH_RADIUS } from './Math';
+import * as Event from '../Event/index.js';
+import * as Exception from '../Exception/index.js';
+import { Cache } from './Cache.js';
+import { toRadians, toDegrees, EARTH_RADIUS } from './Math.js';
 
 /**
  * @type interface

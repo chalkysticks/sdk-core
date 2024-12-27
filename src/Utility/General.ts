@@ -1,4 +1,4 @@
-import Constants from '../Common/Constants';
+import Constants from '../Common/Constants.js';
 
 /**
  * @return number

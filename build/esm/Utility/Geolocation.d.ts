@@ -1,4 +1,4 @@
-import { Cache } from './Cache';
+import { Cache } from './Cache.js';
 export interface ICoordinateBounds {
     latitudeMin: number;
     latitudeMax: number;

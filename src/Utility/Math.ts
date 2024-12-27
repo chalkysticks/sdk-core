@@ -1,4 +1,4 @@
-import Easing, { getEasingMethod } from './Easing';
+import Easing, { getEasingMethod } from './Easing.js';
 
 export interface IVector {
 	x: number;

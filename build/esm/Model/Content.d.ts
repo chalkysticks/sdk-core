@@ -1,5 +1,5 @@
-import * as Collection from '../Collection';
-import { Base } from './Base';
+import * as Collection from '../Collection/index.js';
+import { Base } from './Base.js';
 export declare class Content extends Base {
     endpoint: string;
     fields: string[];

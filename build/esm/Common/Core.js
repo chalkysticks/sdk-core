@@ -1,4 +1,4 @@
-import * as Event from '../Event';
+import * as Event from '../Event/index.js';
 export class Core extends Event.Dispatcher {
 }
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29yZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Db21tb24vQ29yZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEtBQUssS0FBSyxNQUFNLFVBQVUsQ0FBQztBQU9sQyxNQUFNLE9BQU8sSUFBSyxTQUFRLEtBQUssQ0FBQyxVQUFVO0NBQUcifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29yZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Db21tb24vQ29yZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEtBQUssS0FBSyxNQUFNLG1CQUFtQixDQUFDO0FBTzNDLE1BQU0sT0FBTyxJQUFLLFNBQVEsS0FBSyxDQUFDLFVBQVU7Q0FBRyJ9

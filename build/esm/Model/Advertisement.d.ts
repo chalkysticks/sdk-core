@@ -1,4 +1,4 @@
-import { Base } from './Base';
+import { Base } from './Base.js';
 export declare class Advertisement extends Base {
     endpoint: string;
     fields: string[];

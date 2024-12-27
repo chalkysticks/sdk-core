@@ -1,5 +1,5 @@
-import * as Model from '../Model';
-import Constants from '../Common/Constants';
+import * as Model from '../Model/index.js';
+import Constants from '../Common/Constants.js';
 
 /**
  * @param Record<string, any> options

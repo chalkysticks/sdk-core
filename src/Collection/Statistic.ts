@@ -1,5 +1,5 @@
-import * as Model from '../Model';
-import { Base } from './Base';
+import * as Model from '../Model/index.js';
+import { Base } from './Base.js';
 
 /**
  * @class Statistic

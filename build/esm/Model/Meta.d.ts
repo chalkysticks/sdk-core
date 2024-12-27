@@ -1,4 +1,4 @@
-import { Base } from './Base';
+import { Base } from './Base.js';
 export declare class Meta extends Base {
     fields: string[];
     getGroup(): string;

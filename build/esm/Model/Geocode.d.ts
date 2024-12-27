@@ -1,4 +1,4 @@
-import { Base } from './Base';
+import { Base } from './Base.js';
 export declare class Geocode extends Base {
     static search(address: string): Promise<Geocode>;
     endpoint: string;
