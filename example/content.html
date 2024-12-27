@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style>
+			body {
+				background: #11110b;
+				color: #fffff1;
+			}
+
+			.shape {
+				background: red;
+				height: 300px;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks API</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					api_url: 'http://localhost:8000/v3',
+					// api_url: 'https://api.chalkysticks.com/v1',
+				},
+			};
+		</script>
+
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			const collectionA = new ChalkySticksCore.Collection.Content();
+
+			collectionA.fetch().then(() => {
+				console.log('Content A', collectionA.toJSON());
+			});
+
+			// -----------------------------------------------------------------
+
+			const collectionB = ChalkySticksCore.Factory.Content.collection({
+				baseUrl: 'http://localhost:8000/v3',
+			});
+
+			collectionB
+				.tutorials()
+				.fetch()
+				.then(() => {
+					console.log('Content B', collectionB.toJSON());
+				});
+		</script>
+	</body>
+</html>

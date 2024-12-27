@@ -1,4 +1,5 @@
 export * as Advertisement from './Advertisement';
+export * as Content from './Content';
 export * as Geocode from './Geocode';
 export * as Rulebook from './Rulebook';
 export * as Statistic from './Statistic';

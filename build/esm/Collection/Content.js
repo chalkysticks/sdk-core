@@ -1,0 +1,22 @@
+import * as Model from '../Model';
+import { Base } from './Base';
+export class Content extends Base {
+    constructor() {
+        super(...arguments);
+        this.model = new Model.Content();
+    }
+    news() {
+        return this.tags(['news']);
+    }
+    pad() {
+        return this.tags(['pad']);
+    }
+    tags(tags = []) {
+        this.setQueryParam('tags', tags.join(','));
+        return this;
+    }
+    tutorials() {
+        return this.tags(['tutorial']);
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29udGVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Db2xsZWN0aW9uL0NvbnRlbnQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxLQUFLLEtBQUssTUFBTSxVQUFVLENBQUM7QUFDbEMsT0FBTyxFQUFFLElBQUksRUFBRSxNQUFNLFFBQVEsQ0FBQztBQU85QixNQUFNLE9BQU8sT0FBUSxTQUFRLElBQW1CO0lBQWhEOztRQUlRLFVBQUssR0FBa0IsSUFBSSxLQUFLLENBQUMsT0FBTyxFQUFFLENBQUM7SUFnQ25ELENBQUM7SUEzQk8sSUFBSTtRQUNWLE9BQU8sSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUM7SUFDNUIsQ0FBQztJQUtNLEdBQUc7UUFDVCxPQUFPLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDO0lBQzNCLENBQUM7SUFNTSxJQUFJLENBQUMsT0FBaUIsRUFBRTtRQUM5QixJQUFJLENBQUMsYUFBYSxDQUFDLE1BQU0sRUFBRSxJQUFJLENBQUMsSUFBSSxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUM7UUFFM0MsT0FBTyxJQUFJLENBQUM7SUFDYixDQUFDO0lBS00sU0FBUztRQUNmLE9BQU8sSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDLFVBQVUsQ0FBQyxDQUFDLENBQUM7SUFDaEMsQ0FBQztDQUNEIn0=

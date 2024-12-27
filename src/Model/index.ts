@@ -1,5 +1,7 @@
 export * from './Advertisement';
 export * from './Base';
+export * from './Content';
+export * from './ContentTag';
 export * from './Geocode';
 export * from './Media';
 export * from './Meta';

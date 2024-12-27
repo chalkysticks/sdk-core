@@ -1,5 +1,7 @@
 export * from './Advertisement';
 export * from './Base';
+export * from './Content';
+export * from './ContentTag';
 export * from './Media';
 export * from './Meta';
 export * from './Rulebook';
