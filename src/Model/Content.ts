@@ -1,5 +1,5 @@
 import * as Collection from '../Collection/index.js';
-import * as Utility from '../Utility/index.js';
+import * as YouTube from '../Utility/YouTube.js';
 import { Base } from './Base.js';
 
 /**
@@ -74,8 +74,8 @@ export class Content extends Base {
 	 * @return string
 	 */
 	public getYouTubeEmbed(): string {
-		if (Utility.YouTube.isYouTube(this.getMediaUrl())) {
-			return Utility.YouTube.toEmbedUrl(this.getMediaUrl());
+		if (YouTube.isYouTube(this.getMediaUrl())) {
+			return YouTube.toEmbedUrl(this.getMediaUrl());
 		}
 
 		return '';
