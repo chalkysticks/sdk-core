@@ -22,10 +22,11 @@ export { default as Constants } from './Common/Constants.js';
 
 export { IDispatcher } from './Event/Dispatcher.js';
 export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent.js';
+export { IGeolocationPayload } from './Utility/Geolocation.js';
 export { IHysteresisOptions } from './Utility/Hysteresis.js';
 
 // I think exporting the interfaces here might have been an issue
 
 export { Request } from 'restmc';
 
-export const Version = '1.15.0';
+export const Version = '1.31.9';

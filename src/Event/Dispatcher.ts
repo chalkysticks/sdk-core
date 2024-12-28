@@ -47,7 +47,7 @@ export class Dispatcher {
 	 *
 	 * and/or
 	 *
-	 * ChalkySticks.Core.Event.Bus.on<GeolocationPosition>('location:change', this.Handle_OnLocationChange);
+	 * ChalkySticks.Core.Event.Bus.on<IGeolocationPayload>('location:change', this.Handle_OnLocationChange);
 	 *
 	 * @param string eventName
 	 * @param TDispatcherData data

@@ -1,17 +1,32 @@
 import { Cache } from './Cache.js';
+export interface IGeolocationPayload {
+    hasOccurred?: boolean;
+    position: GeolocationPosition;
+    stale?: boolean;
+    timestamp: number;
+}
+export interface IGeolocationCallback {
+    (payload: IGeolocationPayload): void;
+}
 export interface ICoordinateBounds {
     latitudeMin: number;
     latitudeMax: number;
     longitudeMin: number;
     longitudeMax: number;
 }
+export interface IPAPIResponse {
+    latitude: number;
+    longitude: number;
+    city: string;
+    country: string;
+}
 export declare const config: {
     IP_LOCATION_API: string;
 };
 export declare const CACHE_EXPIRATION: number;
 export declare const cache: Cache;
-export declare function getLocation(): Promise<GeolocationPosition>;
-export declare function watchLocation(callback?: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
+export declare function getLocation(): Promise<IGeolocationPayload>;
+export declare function watchLocation(callback?: IGeolocationCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
 export declare function clearWatch(watchId: number): void;
 export declare function distanceBetween(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
 export declare function getBearing(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
