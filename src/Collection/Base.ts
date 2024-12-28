@@ -124,6 +124,17 @@ export class Base<T extends Model> extends Collection<T> {
 	/**
 	 * @return boolean
 	 */
+	public shouldFetch(): boolean {
+		if (this.loading) {
+			return false;
+		}
+
+		return this.models.length === 0 || this.requestTime <= 0;
+	}
+
+	/**
+	 * @return boolean
+	 */
 	public isV1(): boolean {
 		return this.baseUrl.toLowerCase().indexOf('/v1') > 0;
 	}
