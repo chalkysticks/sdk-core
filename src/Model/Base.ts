@@ -32,8 +32,10 @@ export class Base extends Model {
 		// Assign token
 		if (options.token) {
 			this.setToken(options.token);
-		} else if (Provider.Store.get()?.state?.token) {
-			this.setToken(Provider.Store.get().state.token);
+		} else {
+			const store = Provider.Store.get();
+			const token = store?.state?.token || store?.getters['authentication/token'];
+			token && this.setToken(token);
 		}
 
 		// Attach events
