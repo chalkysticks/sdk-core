@@ -38,10 +38,10 @@
 
 		<!-- Script -->
 		<script>
-			window.env = {
+			window.chalky = {
 				app: {
-					api_url: 'http://localhost:8000/v3',
-					// api_url: 'https://api.chalkysticks.com/v1',
+					// apiUrl: 'https://api.chalkysticks.com/v1',
+					localUrl: 'http://localhost:8000/v3',
 				},
 			};
 		</script>
@@ -63,7 +63,10 @@
 
 			advertisementCollection.fetch();
 
+			console.log('Environment', window.chalky);
 			console.log('ChalkySticks', ChalkySticksCore);
+
+			console.log('fooooook', ChalkySticksCore.Environment.app.limit);
 
 			console.log('Date #1', ChalkySticksCore.Utility.getDate());
 			console.log('Date #2', ChalkySticksCore.Utility.getDate('2021-01-01'));

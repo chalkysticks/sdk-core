@@ -4,6 +4,7 @@ export declare class Base extends Model {
     constructor(attributes?: IAttributes, options?: IAttributes);
     attachEvents(): void;
     detachEvents(): void;
+    getBaseUrl(): string;
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;

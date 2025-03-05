@@ -18,7 +18,7 @@ export class Base<T extends Model> extends Collection<T> {
 	/**
 	 * @type string
 	 */
-	public baseUrl: string = Environment.app.api_url;
+	public baseUrl: string = Environment.app.apiUrl;
 
 	/**
 	 * @type number
@@ -32,7 +32,7 @@ export class Base<T extends Model> extends Collection<T> {
 		super(options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.apiUrl || Constants.API_URL;
 
 		// Disable withCredentials
 		this.setOptions({
@@ -130,6 +130,13 @@ export class Base<T extends Model> extends Collection<T> {
 		}
 
 		return this.models.length === 0 || this.requestTime <= 0;
+	}
+
+	/**
+	 * @return string
+	 */
+	public getBaseUrl(): string {
+		return Environment.app.localUrl || this.baseUrl;
 	}
 
 	/**

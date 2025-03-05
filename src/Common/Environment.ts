@@ -1,4 +1,18 @@
 /**
+ *
+ * Example:
+ *
+ * 	window.chalky = {
+ *		env: 'development',
+ *		app: {
+ *			apiUrl: 'https://example.com',
+ *			limit: 24,
+ *		}
+ * 	}
+ *
+ * 	console.log(Environment.app.apiUrl);
+ * 	console.log(Environment.debug);
+ *
  * @class Environment
  * @package Common
  * @project ChalkySticks SDK Core
@@ -9,8 +23,20 @@ export class Environment {
 	 */
 	public get app(): any {
 		return singleton.getVariable('app', {
-			api_url: '',
+			/**
+			 * Starter API URL if a base url is not provided
+			 */
+			apiUrl: '',
+
+			/**
+			 * Default limit if one not explicitly defined.
+			 */
 			limit: 32,
+
+			/**
+			 * Force all endpoints to hit localhost:8000 even from the factory
+			 */
+			localUrl: '',
 		});
 	}
 
@@ -81,12 +107,15 @@ export class Environment {
 	}
 
 	/**
-	 * Where we should get defaults from
-	 *
+	 * @param string key
+	 * @param any defaults
 	 * @return any
 	 */
 	private getVariable(key: string, defaults: any) {
-		const output = typeof window === 'object' && (window as any)['env'] ? (window as any)['env'][key] : defaults;
+		const environment = typeof window === 'object' && (window as any)['env'] ? (window as any)['env'] : {};
+		const chalkysticks = typeof window === 'object' && (window as any)['chalky'] ? (window as any)['chalky'] : {};
+		const merged = { ...environment, ...chalkysticks };
+		const output = merged[key] || defaults;
 
 		return output;
 	}

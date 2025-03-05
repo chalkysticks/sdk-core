@@ -13,7 +13,7 @@ export class Base extends Model {
 	/**
 	 * @type string
 	 */
-	public baseUrl: string = Environment.app.api_url;
+	public baseUrl: string = Environment.app.apiUrl;
 
 	/**
 	 * @param object options
@@ -22,7 +22,7 @@ export class Base extends Model {
 		super(attributes, options);
 
 		// Update baseUrl
-		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.api_url || Constants.API_URL;
+		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.apiUrl || Constants.API_URL;
 
 		// Disable withCredentials
 		this.setOptions({
@@ -97,6 +97,13 @@ export class Base extends Model {
 		this.off('requesting');
 		this.off('finish');
 		this.off('error');
+	}
+
+	/**
+	 * @return string
+	 */
+	public getBaseUrl(): string {
+		return Environment.app.localUrl || this.baseUrl;
 	}
 
 	/**
