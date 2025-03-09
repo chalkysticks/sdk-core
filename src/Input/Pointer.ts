@@ -1033,10 +1033,30 @@ export class Pointer extends Event.Dispatcher {
 			}
 		}
 
+		// Extra taps
+		if (this.distance < 50 || !this.distance) {
+			this.dispatch('tap:small', {
+				x: this.x,
+				y: this.y,
+				distance: this.distance,
+			});
+		}
+
+		if (this.distance < 20 || !this.distance) {
+			this.dispatch('tap:xsmall', {
+				x: this.x,
+				y: this.y,
+				distance: this.distance,
+			});
+		}
+
 		// Clear tap testing
 		if (this.holdTimeout) {
 			clearTimeout(this.holdTimeout);
 		}
+
+		// Clear distance
+		this.distance = 0;
 	}
 
 	/**

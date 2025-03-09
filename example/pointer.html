@@ -37,6 +37,18 @@
 				console.log('Swipe', e);
 			});
 
+			pointer.on('tap', (e) => {
+				console.log('tap', e);
+			});
+
+			pointer.on('tap:small', (e) => {
+				console.log('tap small', e);
+			});
+
+			pointer.on('tap:xsmall', (e) => {
+				console.log('tap xsmall', e);
+			});
+
 			console.log(pointer);
 		</script>
 	</body>
