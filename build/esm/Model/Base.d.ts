@@ -8,4 +8,5 @@ export declare class Base extends Model {
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;
+    toJSON(): object;
 }
