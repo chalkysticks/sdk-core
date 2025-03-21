@@ -128,31 +128,4 @@ export class Base extends Model {
 	public isV3(): boolean {
 		return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
 	}
-	/**
-	 * Overrides the RESTMC which uses recursive toJSON methods causing
-	 * a circular reference issue right now.
-	 *
-	 * @return object
-	 */
-	public toJSON(): object {
-		const json: any = this.attributes;
-
-		/*
-		 * @todo is this code copasetic?
-		 * @ts-ignore
-		 */
-		// const possibleGetters = Object.getOwnPropertyNames(this.__proto__);
-		const possibleGetters = Object.keys(Object.getPrototypeOf(this));
-
-		// Convert toJSON on subobjects so they stay in sync
-		for (const key of possibleGetters) {
-			// @ts-ignore
-			if (json[key] && this[key] && this[key].toJSON) {
-				// @ts-ignore
-				json[key] = this[key].toJSON();
-			}
-		}
-
-		return json;
-	}
 }
