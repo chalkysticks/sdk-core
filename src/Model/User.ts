@@ -31,19 +31,22 @@ export class User extends Base {
 	}
 
 	public get games(): Collection.Meta {
-		return this.hasMany('games', Collection.Meta);
+		return this.hasMany<Collection.Meta>('games', Collection.Meta);
 	}
 
 	public get lastCollection(): Model.Wallet {
-		return this.hasOne('last_collection', Model.Wallet);
+		return this.hasOne<Model.Wallet>('last_collection', Model.Wallet);
 	}
 
 	public get media(): Collection.Media {
-		return this.hasMany('media', Collection.Media);
+		const mediaCollection = this.hasMany<Collection.Media>('media', Collection.Media);
+		mediaCollection.useModifiedEndpoint(this);
+
+		return mediaCollection;
 	}
 
 	public get metadata(): Collection.Meta {
-		return this.hasMany('meta', Collection.Meta);
+		return this.hasMany<Collection.Meta>('meta', Collection.Meta);
 	}
 
 	// endregion: Relationship
