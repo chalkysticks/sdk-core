@@ -4,7 +4,6 @@ export declare class Wallet extends Base {
     endpoint: string;
     fields: string[];
     collect(token: string): Promise<Wallet>;
-    get user(): Model.User;
     get challenger(): Model.User;
     canCollect(): boolean;
     getSource(): string;

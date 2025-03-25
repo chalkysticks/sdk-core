@@ -46,9 +46,10 @@ export class Wallet extends Base {
 	// region: Relationships
 	// ---------------------------------------------------------------------------
 
-	public get user(): Model.User {
-		return this.hasOne('user', Model.User);
-	}
+	// mk: Creates a circular dependency for toJSON
+	// public get user(): Model.User {
+	// 	return this.hasOne('user', Model.User);
+	// }
 
 	public get challenger(): Model.User {
 		return this.hasOne('challenger', Model.User);
