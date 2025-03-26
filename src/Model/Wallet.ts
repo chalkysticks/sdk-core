@@ -52,7 +52,7 @@ export class Wallet extends Base {
 	// }
 
 	public get challenger(): Model.User {
-		return this.hasOne('challenger', Model.User);
+		return this.hasOne<Model.User>('challenger', Model.User);
 	}
 
 	// public get source(): Model... {

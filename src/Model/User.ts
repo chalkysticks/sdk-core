@@ -39,10 +39,7 @@ export class User extends Base {
 	}
 
 	public get media(): Collection.Media {
-		const mediaCollection = this.hasMany<Collection.Media>('media', Collection.Media);
-		mediaCollection.useModifiedEndpoint(this);
-
-		return mediaCollection;
+		return this.hasMany<Collection.Media>('media', Collection.Media);
 	}
 
 	public get metadata(): Collection.Meta {

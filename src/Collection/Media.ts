@@ -1,4 +1,5 @@
 import * as Model from '../Model/index.js';
+import * as Enum from '../Enum/index.js';
 import { Base } from './Base.js';
 
 /**
@@ -7,11 +8,6 @@ import { Base } from './Base.js';
  * @project ChalkySticks SDK Core
  */
 export class Media extends Base<Model.Media> {
-	/**
-	 * @type Model.Media
-	 */
-	public model: Model.Media = new Model.Media();
-
 	/**
 	 * @return Model.Media[]
 	 */
@@ -32,4 +28,101 @@ export class Media extends Base<Model.Media> {
 	public get videos(): Model.Media[] {
 		return this.models.filter((media) => media.getType() === 'video');
 	}
+
+	/**
+	 * @return boolean
+	 */
+	private get isUserEndpoint(): boolean {
+		return !!this.parent?.endpoint.toLowerCase().includes('user');
+	}
+
+	/**
+	 * @return boolean
+	 */
+	private get isVenueEndpoint(): boolean {
+		return !!this.parent?.endpoint.toLowerCase().includes('venue');
+	}
+
+	/**
+	 * Endpoint key
+	 * e.g. https://api.chalkysticks.com/v1/media
+	 *
+	 * @type string
+	 */
+	public endpoint: string = 'media';
+
+	/**
+	 * Model object instantiated by this collection
+	 *
+	 * @type Model.Media
+	 */
+	public model: Model.Media = new Model.Media();
+
+	/**
+	 * @return string
+	 */
+	public getEndpoint(): string {
+		if (this.isUserEndpoint || this.isVenueEndpoint) {
+			return `${this.parent?.getEndpoint()}/${this.parent?.id}/media`;
+		}
+
+		return this.endpoint;
+	}
+
+	// region: Actions
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * @return this
+	 */
+	public exterior(): this {
+		return this.type(Enum.MediaType.Exterior);
+	}
+
+	/**
+	 * @return this
+	 */
+	public interior(): this {
+		return this.type(Enum.MediaType.Interior);
+	}
+
+	/**
+	 * @return this
+	 */
+	public person(): this {
+		return this.type(Enum.MediaType.Person);
+	}
+
+	/**
+	 * Add a random seed to the query
+	 *
+	 * @return Media
+	 */
+	public random(): this {
+		const number = ~~(Math.random() * 100);
+		this.setQueryParam('seed', number.toString());
+
+		return this;
+	}
+
+	/**
+	 * @return this
+	 */
+	public table(): this {
+		return this.type(Enum.MediaType.Table);
+	}
+
+	/**
+	 * Set the media type like interior, table, etc
+	 *
+	 * @param {Enum.MediaType} subgroup
+	 * @return Media
+	 */
+	public type(mediaType: Enum.MediaType): this {
+		this.setQueryParam('subgroup', mediaType);
+
+		return this;
+	}
+
+	// endregion: Actions
 }

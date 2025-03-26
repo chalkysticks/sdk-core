@@ -27,7 +27,7 @@ export class Content extends Base {
 	// ---------------------------------------------------------------------------
 
 	public get tags(): Collection.ContentTag {
-		return this.hasMany('tags', Collection.ContentTag);
+		return this.hasMany<Collection.ContentTag>('tags', Collection.ContentTag);
 	}
 
 	// endregion: Relationship
