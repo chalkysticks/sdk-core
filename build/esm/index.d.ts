@@ -16,6 +16,7 @@ export * as Utility from './Utility/index.js';
 export { Core } from './Common/Core.js';
 export { default as Environment } from './Common/Environment.js';
 export { default as Constants } from './Common/Constants.js';
+export { RelationshipProperties } from './Utility/Core.js';
 export { IDispatcher } from './Event/Dispatcher.js';
 export { IDispatcherEvent, TDispatcherCallback, TDispatcherData } from './Event/DispatcherEvent.js';
 export { IGeolocationPayload } from './Utility/Geolocation.js';

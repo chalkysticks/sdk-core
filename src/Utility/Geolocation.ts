@@ -198,7 +198,7 @@ async function getBrowserLocation(cacheKey: string): Promise<IGeolocationPayload
 async function getCapacitorLocation(cacheKey: string): Promise<IGeolocationPayload> {
 	try {
 		const { Geolocation } = await import('@capacitor/geolocation');
-		const position = await Geolocation.getCurrentPosition();
+		const position = (await Geolocation.getCurrentPosition()) as GeolocationPosition;
 		const payload = formPayload(position);
 		cache.set(cacheKey, payload, CACHE_EXPIRATION);
 		console.info('🔹 Location', payload);
@@ -436,7 +436,6 @@ type CoordinateInput =
  */
 async function isCapacitorGeolocationAvailable(): Promise<boolean> {
 	try {
-		// Dynamically import @capacitor/geolocation
 		const { Geolocation } = await import('@capacitor/geolocation');
 		return !!Geolocation;
 	} catch {
