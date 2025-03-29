@@ -30,9 +30,13 @@ export function RelationshipProperties(
 						configurable: true,
 						enumerable: false,
 						get: function () {
+							// If it's not a collection, just return the property value
 							if (!this[collection]?.findWhere) return this.attr(propName);
 
+							// Search for an item by key
 							const item = this[collection].findWhere({ key: metaKey });
+
+							// The `getValue` comes specifically from Model/Meta
 							return item ? item.getValue() : this.attr(propName);
 						},
 						set: function (value) {
@@ -40,12 +44,26 @@ export function RelationshipProperties(
 
 							// If a static value is provided, always use that instead of the given value
 							const valueToSet = hasStaticValue ? config.value : value;
+
+							// Check to see if we have an item already
 							const item = this[collection].findWhere({ key: metaKey });
 
-							if (item) {
+							// Remove it
+							if (item && hasStaticValue && !value && this[collection].remove) {
+								this[collection].remove(item);
+							}
+
+							// Set existing item
+							else if (item) {
 								item.set({ value: valueToSet });
-							} else if (this[collection].add) {
-								this[collection].add({ key: metaKey, value: valueToSet });
+							}
+
+							// Add new item
+							else if (this[collection].add) {
+								this[collection].add({
+									key: metaKey,
+									value: valueToSet,
+								});
 							}
 						},
 					});
