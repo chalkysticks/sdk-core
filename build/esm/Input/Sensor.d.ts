@@ -14,10 +14,11 @@ export interface IDeviceOrientationEventData {
 }
 export type TSensorEventHandler = (data: IDeviceMotionEventData | IDeviceOrientationEventData) => void;
 export declare class Sensor extends Event.Dispatcher {
+    private _globalContext;
+    constructor();
     get hasMotion(): boolean;
     get hasOrientation(): boolean;
     get hasSensors(): boolean;
-    constructor();
     attachEvents(): void;
     detachEvents(): void;
     protected Handle_OnDeviceMotion(e: IDeviceMotionEventData): Promise<void>;
