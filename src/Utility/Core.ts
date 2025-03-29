@@ -12,7 +12,8 @@ export function RelationshipProperties(
 	>,
 ) {
 	return function <T extends { new (...args: any[]): any }>(constructor: T) {
-		return class extends constructor {
+		// Create the extended class
+		const extendedClass = class extends constructor {
 			constructor(...args: any[]) {
 				super(...args);
 
@@ -51,5 +52,19 @@ export function RelationshipProperties(
 				}
 			}
 		};
+
+		// Copy all prototype properties from the original constructor to the new class
+		// This ensures methods like toJSON are properly preserved
+		const originalPrototype = constructor.prototype;
+		Object.getOwnPropertyNames(originalPrototype).forEach((name) => {
+			if (name !== 'constructor') {
+				const descriptor = Object.getOwnPropertyDescriptor(originalPrototype, name);
+				if (descriptor) {
+					Object.defineProperty(extendedClass.prototype, name, descriptor);
+				}
+			}
+		});
+
+		return extendedClass;
 	};
 }
