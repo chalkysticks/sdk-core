@@ -4,7 +4,7 @@ export interface IDispatcher {
     on(eventName: string, callback: TDispatcherCallback): void;
     off(eventName: string, callback?: TDispatcherCallback): void;
 }
-export declare class Dispatcher {
+export declare class Dispatcher implements IDispatcher {
     protected events: Record<string, DispatcherEvent<any>>;
     dispatch<T = any>(eventName: string, data?: T): void;
     on<T = any>(eventName: string, callback: TDispatcherCallback<T>): void;

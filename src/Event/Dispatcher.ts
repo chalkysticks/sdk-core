@@ -33,7 +33,7 @@ export interface IDispatcher {
  * @package Event
  * @project ChalkySticks SDK Core
  */
-export class Dispatcher {
+export class Dispatcher implements IDispatcher {
 	/**
 	 * @type Record<string, DispatcherEvent<any>>
 	 */
