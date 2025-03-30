@@ -280,7 +280,14 @@ export class Geocode extends Base {
 		}
 
 		const results = this.getResults();
-		return results[0].geometry.location.lat || 0;
+		const location = results[0].geometry.location;
+
+		// Handle both function and property access (Google Maps API can return either)
+		if (typeof location.lat === 'function') {
+			return location.lat() || 0;
+		}
+
+		return location.lat || 0;
 	}
 
 	/**
@@ -294,7 +301,14 @@ export class Geocode extends Base {
 		}
 
 		const results = this.getResults();
-		return results[0].geometry.location.lng || 0;
+		const location = results[0].geometry.location;
+
+		// Handle both function and property access (Google Maps API can return either)
+		if (typeof location.lng === 'function') {
+			return location.lng() || 0;
+		}
+
+		return location.lng || 0;
 	}
 
 	/**
