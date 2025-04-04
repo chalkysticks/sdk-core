@@ -1,9 +1,12 @@
 export declare function documentHeight(): number;
 export declare function getCSSVariable(variableName: string, element?: HTMLElement): string;
 export declare function getDate(dateString?: string): Date;
+export declare function getQueryParameter(key: string): string | null;
 export declare function offsetLeft(element: HTMLElement): number;
 export declare function offsetHeight(element: HTMLElement): number;
 export declare function offsetTop(element: HTMLElement): number;
 export declare function offsetWidth(element: HTMLElement): number;
 export declare const requestAnimationFrame: ((callback: FrameRequestCallback) => number) & typeof globalThis.requestAnimationFrame;
+export declare function setQueryParameter(key: string, value: string | null): void;
+export declare function setQueryParameters(params: Record<string, string | null>): void;
 export declare function sleep(ms: number): Promise<void>;

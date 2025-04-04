@@ -54,6 +54,14 @@
 				console.log('Rulebooks', rulebookCollection.toJSON());
 			});
 
+			ChalkySticksCore.Event.Bus.on('queryParameter', () => {
+				console.log('New query param');
+			});
+
+			setTimeout(() => {
+				ChalkySticksCore.Utility.setQueryParameter('foo', 'bar');
+			}, 1000 * 3);
+
 			// -----------------------------------------------------------------
 
 			const advertisementCollection = new ChalkySticksCore.Collection.Advertisement({
