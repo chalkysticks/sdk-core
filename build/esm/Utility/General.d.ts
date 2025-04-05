@@ -2,6 +2,7 @@ export declare function documentHeight(): number;
 export declare function getCSSVariable(variableName: string, element?: HTMLElement): string;
 export declare function getDate(dateString?: string): Date;
 export declare function getQueryParameter(key: string): string | null;
+export declare function getQueryParameters(): Record<string, string | null>;
 export declare function offsetLeft(element: HTMLElement): number;
 export declare function offsetHeight(element: HTMLElement): number;
 export declare function offsetTop(element: HTMLElement): number;

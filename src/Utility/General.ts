@@ -49,6 +49,25 @@ export function getQueryParameter(key: string): string | null {
 }
 
 /**
+ * Retrieves query parameters from the current window's URL.
+ *
+ * @return Record<string, string | null>
+ */
+export function getQueryParameters(): Record<string, string | null> {
+	if (typeof window?.location?.search !== 'string') {
+		return {};
+	}
+
+	const parameters: Record<string, string | null> = {};
+
+	new URLSearchParams(window.location.search).forEach((value, key) => {
+		parameters[key] = value || null;
+	});
+
+	return parameters;
+}
+
+/**
  * @param HTMLElement element
  * @return number
  */
