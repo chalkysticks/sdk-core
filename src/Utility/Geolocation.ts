@@ -382,41 +382,59 @@ export function simplifyCoordinates(
 	longitudeOrRoundAmount?: number,
 	roundAmount: number = 1e3,
 ): { latitude: number; longitude: number } {
-	let lat: number;
-	let lng: number;
+	let latitude: number | undefined;
+	let longitude: number | undefined;
 	let precision = roundAmount;
 
-	// Handle different input formats
+	// Handle numeric inputs like (lat, lng)
 	if (typeof coordinates === 'number' && typeof longitudeOrRoundAmount === 'number') {
-		// Original format: (latitude, longitude, roundAmount?)
-		lat = coordinates;
-		lng = longitudeOrRoundAmount;
+		latitude = coordinates;
+		longitude = longitudeOrRoundAmount;
 		precision = roundAmount;
-	} else if (Array.isArray(coordinates)) {
-		// Handle array format: [lat, lng]
-		[lat, lng] = coordinates;
-	} else if (typeof coordinates === 'object') {
+	}
+
+	// Handle array format [lat, lng]
+	else if (Array.isArray(coordinates)) {
+		[latitude, longitude] = coordinates;
+	}
+
+	// Handle object formats
+	else if (typeof coordinates === 'object' && coordinates !== null) {
+		const getPropValue = (obj: any, key: string): number | undefined => {
+			const value = obj?.[key];
+			if (typeof value === 'function') return value();
+			if (typeof value === 'number') return value;
+			return undefined;
+		};
+
+		let source = coordinates;
+
+		// Support Google Maps style: { position: { lat(), lng() } }
 		if ('position' in coordinates) {
-			// Handle Google Maps format: { position: { lat, lng } }
-			lat = coordinates.position.lat;
-			lng = coordinates.position.lng;
-		} else {
-			// Handle object format with various property names
-			lat = coordinates?.latitude ?? (coordinates?.lat || 0);
-			lng = coordinates?.longitude ?? (coordinates?.lng || 0);
+			source = coordinates.position;
 		}
-	} else {
-		throw new Error('Invalid coordinates format');
+
+		latitude = getPropValue(source, 'latitude') ?? getPropValue(source, 'lat') ?? undefined;
+		longitude = getPropValue(source, 'longitude') ?? getPropValue(source, 'lng') ?? undefined;
 	}
 
-	// Validate coordinates
-	if (typeof lat !== 'number' || typeof lng !== 'number') {
-		throw new Error('Invalid coordinates: latitude and longitude must be numbers');
+	// Validate extracted values
+	if (typeof latitude !== 'number' || typeof longitude !== 'number' || isNaN(latitude) || isNaN(longitude)) {
+		console.warn('Invalid coordinates: must include numeric latitude and longitude.', {
+			coordinates,
+			longitudeOrRoundAmount,
+			roundAmount,
+		});
+		return {
+			latitude: 0,
+			longitude: 0,
+		};
 	}
 
+	// Return simplified coordinates
 	return {
-		latitude: Math.round(lat * precision) / precision,
-		longitude: Math.round(lng * precision) / precision,
+		latitude: Math.round(latitude * precision) / precision,
+		longitude: Math.round(longitude * precision) / precision,
 	};
 }
 

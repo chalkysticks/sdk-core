@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Model } from '../src';
+import { simplifyCoordinates } from '../src/Utility/Geolocation';
 
 /**
  * Mock data to simulate geocode API responses
@@ -212,4 +213,78 @@ test('Geocode - static search methods', () => {
 	// Verify static methods exist with correct signatures
 	assert.equal(typeof Model.Geocode.search, 'function', 'search should be a static method');
 	assert.equal(typeof Model.Geocode.searchByCoordinates, 'function', 'searchByCoordinates should be a static method');
+});
+
+// -------------------------------------------------------------
+
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { simplifyCoordinates } from '../src/Utility/Geolocation';
+
+test('simplifyCoordinates - numeric lat/lng input', () => {
+	const result = simplifyCoordinates(40.712776, -74.005974);
+	assert.deepEqual(result, { latitude: 40.713, longitude: -74.006 });
+});
+
+test('simplifyCoordinates - numeric input with custom precision', () => {
+	const result = simplifyCoordinates(40.712776, -74.005974, 1e5);
+	assert.deepEqual(result, { latitude: 40.71278, longitude: -74.00597 });
+});
+
+test('simplifyCoordinates - array input', () => {
+	const result = simplifyCoordinates([34.052235, -118.243683]);
+	assert.deepEqual(result, { latitude: 34.052, longitude: -118.244 });
+});
+
+test('simplifyCoordinates - object with latitude/longitude properties', () => {
+	const result = simplifyCoordinates({ latitude: 51.507351, longitude: -0.127758 });
+	assert.deepEqual(result, { latitude: 51.507, longitude: -0.128 });
+});
+
+test('simplifyCoordinates - object with lat/lng properties', () => {
+	const result = simplifyCoordinates({ lat: 48.856613, lng: 2.352222 });
+	assert.deepEqual(result, { latitude: 48.857, longitude: 2.352 });
+});
+
+test('simplifyCoordinates - object with lat()/lng() methods', () => {
+	const result = simplifyCoordinates({
+		lat: () => 37.774929,
+		lng: () => -122.419418,
+	});
+	assert.deepEqual(result, { latitude: 37.775, longitude: -122.419 });
+});
+
+test('simplifyCoordinates - Google Maps-style object with position.lat()/lng()', () => {
+	const result = simplifyCoordinates({
+		position: {
+			lat: () => 35.689487,
+			lng: () => 139.691711,
+		},
+	});
+	assert.deepEqual(result, { latitude: 35.689, longitude: 139.692 });
+});
+
+test('simplifyCoordinates - Google Maps-style object with position.lat/lng numbers', () => {
+	const result = simplifyCoordinates({
+		position: {
+			lat: 41.902782,
+			lng: 12.496366,
+		},
+	});
+	assert.deepEqual(result, { latitude: 41.903, longitude: 12.496 });
+});
+
+test('simplifyCoordinates - invalid input returns default', () => {
+	const result = simplifyCoordinates({ foo: 'bar' } as any);
+	assert.deepEqual(result, { latitude: 0, longitude: 0 });
+});
+
+test('simplifyCoordinates - null input returns default', () => {
+	const result = simplifyCoordinates(null as any);
+	assert.deepEqual(result, { latitude: 0, longitude: 0 });
+});
+
+test('simplifyCoordinates - NaN values are handled', () => {
+	const result = simplifyCoordinates({ latitude: NaN, longitude: NaN });
+	assert.deepEqual(result, { latitude: 0, longitude: 0 });
 });
