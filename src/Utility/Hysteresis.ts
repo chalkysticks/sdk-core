@@ -11,6 +11,16 @@ export interface IHysteresisOptions {
 }
 
 /**
+ * @todo This is incorrect
+ *
+ * Hystersis is like "Turn on when temperature is 80, but turn off when below 60"
+ * leaving the gap in between.
+ *
+ * Temporal filtering is like "Turn on when temperature is above 80 for 2 seconds,
+ * but turn off when below for 2 seconds"
+ *
+ * -----------------------------------------------------------------------------
+ *
  * Hysteresis implement a mechanism where a variable is set or unset
  * based on the consistent fulfillment of a condition over a specified
  * duration or number of occurrences, preventing rapid toggling in
@@ -143,20 +153,24 @@ export class Hysteresis extends Event.Dispatcher {
 			if (this.conditionMetCount >= this.threshold && !this.isVariableSet) {
 				this.isVariableSet = true;
 				this.dispatch('set');
-				this.dispatch('change', {
-					set: this.isVariableSet,
-				});
 			}
+
+			this.dispatch('change', {
+				ratio: this.conditionMetCount / this.threshold,
+				set: this.isVariableSet,
+			});
 		} else {
 			this.conditionMetCount = Math.max(0, this.conditionMetCount - 1);
 
 			if (this.conditionMetCount <= 0 && this.isVariableSet) {
 				this.isVariableSet = false;
 				this.dispatch('unset');
-				this.dispatch('change', {
-					set: this.isVariableSet,
-				});
 			}
+
+			this.dispatch('change', {
+				ratio: this.conditionMetCount / this.threshold,
+				set: this.isVariableSet,
+			});
 		}
 	}
 }
