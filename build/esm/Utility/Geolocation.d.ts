@@ -27,6 +27,7 @@ export declare const CACHE_EXPIRATION: number;
 export declare const cache: Cache;
 export declare function getLocation(): Promise<IGeolocationPayload>;
 export declare function watchLocation(callback?: IGeolocationCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
+export declare function requestLocation(): Promise<PermissionState>;
 export declare function clearWatch(watchId: number): void;
 export declare function distanceBetween(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
 export declare function getBearing(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;

@@ -7,5 +7,11 @@ declare module '@capacitor/geolocation' {
 		requestPermissions(): Promise<PermissionStatus>;
 	}
 
+	// capacitor-geolocation-types.d.ts
+	export interface PermissionStatus {
+		location: 'prompt' | 'prompt-with-rationale' | 'granted' | 'denied';
+		coarseLocation: 'prompt' | 'prompt-with-rationale' | 'granted' | 'denied';
+	}
+
 	export const Geolocation: GeolocationPlugin;
 }

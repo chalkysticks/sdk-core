@@ -130,6 +130,57 @@ export function watchLocation(
 }
 
 /**
+ * Request geolocation permissions from the user
+ *
+ * This function will prompt the user to grant geolocation permissions
+ * and returns the result as a promise. It works across browser and Capacitor
+ * environments, with appropriate fallbacks.
+ *
+ * @return Promise<boolean> True if permissions were granted, false otherwise
+ */
+/**
+ * Request geolocation permissions from the user
+ *
+ * This function will prompt the user to grant geolocation permissions
+ * and returns the result as a promise. It works across browser and Capacitor
+ * environments, with appropriate fallbacks.
+ *
+ * @return Promise<boolean> True if permissions granted, false otherwise
+ */
+/**
+ * Actively asks the user for geolocation permission, or returns the existing state.
+ *
+ * @returns {Promise<PermissionState>} 'granted' | 'denied' | 'prompt'
+ */
+export async function requestLocation(): Promise<PermissionState> {
+	// 1. If Permissions API unsupported, fall back to "just try" approach
+	if (!navigator.permissions) {
+		try {
+			await new Promise<void>((resolve, reject) => navigator.geolocation.getCurrentPosition(() => resolve(), reject, { timeout: 10000 }));
+			return 'granted';
+		} catch {
+			// Could be denied or unavailable – we can’t distinguish here
+			return 'denied';
+		}
+	}
+
+	// 2. Permissions API supported
+	const status = await navigator.permissions.query({ name: 'geolocation' });
+
+	// If still in "prompt", trigger a one‑shot request so the user actually sees the dialog
+	if (status.state === 'prompt') {
+		try {
+			await new Promise<void>((resolve, reject) => navigator.geolocation.getCurrentPosition(() => resolve(), reject, { timeout: 10000 }));
+			return 'granted';
+		} catch {
+			return 'denied';
+		}
+	}
+
+	return status.state; // 'granted' or 'denied'
+}
+
+/**
  * Clear the watch
  *
  * @param number watchId
