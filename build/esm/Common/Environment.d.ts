@@ -3,6 +3,7 @@ export declare class Environment {
     get debug(): boolean;
     get env(): string;
     get google(): any;
+    get headers(): any;
     id: string;
     isLocal(): boolean;
     isProduction(): boolean;

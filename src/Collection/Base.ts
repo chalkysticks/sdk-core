@@ -56,6 +56,9 @@ export class Base<T extends Model> extends Collection<T> {
 			token && this.setToken(token);
 		}
 
+		// Add headers
+		this.setHeaders(Environment.headers);
+
 		// Attach
 		this.attachEvents();
 	}

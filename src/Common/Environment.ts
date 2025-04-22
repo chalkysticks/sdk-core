@@ -73,6 +73,15 @@ export class Environment {
 	}
 
 	/**
+	 * Global headers for collections and models
+	 *
+	 * @type any
+	 */
+	public get headers(): any {
+		return singleton.getVariable('headers', {});
+	}
+
+	/**
 	 * Unique ID for this class
 	 *
 	 * @type string

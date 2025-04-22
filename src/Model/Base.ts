@@ -38,6 +38,9 @@ export class Base extends Model {
 			token && this.setToken(token);
 		}
 
+		// Add headers
+		this.setHeaders(Environment.headers);
+
 		// Attach events
 		this.attachEvents();
 	}
