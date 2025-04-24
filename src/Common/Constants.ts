@@ -5,6 +5,16 @@
  */
 export default {
 	/**
+	 * @type string
+	 */
+	ANDROID_CLIENT_ID: '788174035820-re3hvcs96ho004i43d2rorpte1l4pjce.apps.googleusercontent.com',
+
+	/**
+	 * @type string
+	 */
+	ANDROID_REDIRECT_URI: 'com.chalkysticks.app:/oauth2redirect',
+
+	/**
 	 * Base URL for API calls
 	 *
 	 * @type string

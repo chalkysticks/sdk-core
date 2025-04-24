@@ -138,20 +138,6 @@ export function watchLocation(
  *
  * @return Promise<boolean> True if permissions were granted, false otherwise
  */
-/**
- * Request geolocation permissions from the user
- *
- * This function will prompt the user to grant geolocation permissions
- * and returns the result as a promise. It works across browser and Capacitor
- * environments, with appropriate fallbacks.
- *
- * @return Promise<boolean> True if permissions granted, false otherwise
- */
-/**
- * Actively asks the user for geolocation permission, or returns the existing state.
- *
- * @returns {Promise<PermissionState>} 'granted' | 'denied' | 'prompt'
- */
 export async function requestLocation(): Promise<PermissionState> {
 	// 1. If Permissions API unsupported, fall back to "just try" approach
 	if (!navigator.permissions) {

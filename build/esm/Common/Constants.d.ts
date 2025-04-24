@@ -1,4 +1,6 @@
 declare const _default: {
+    ANDROID_CLIENT_ID: string;
+    ANDROID_REDIRECT_URI: string;
     API_URL: string;
     API_URL_DEV_V1: string;
     API_URL_DEV_V2: string;
