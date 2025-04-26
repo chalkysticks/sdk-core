@@ -1,6 +1,5 @@
 export declare function RelationshipProperties(propertyConfigs: Record<string, {
     key?: string;
-    group?: string;
     relationship?: string;
     value?: string;
 }>): <T extends {

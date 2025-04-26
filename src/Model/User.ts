@@ -1,7 +1,7 @@
 import * as Collection from '../Collection/index.js';
 import * as Model from './index.js';
 import { Base } from './Base.js';
-import { RelationshipProperties } from '../index.js';
+import { RelationshipProperties } from '../Utility/Core.js';
 
 /**
  * Merge interface for the property decorators

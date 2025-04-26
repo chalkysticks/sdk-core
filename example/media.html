@@ -43,12 +43,18 @@
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
 			const userModel = new ChalkySticksCore.Model.User({
-				id: 50,
+				id: 2,
 			});
 
-			userModel.endpoint = 'venues';
+			// userModel.endpoint = 'venues';
 
 			await userModel.fetch();
+
+			userModel.plays8Ball = true;
+			userModel.playsSnooker = true;
+			userModel.playsPool = true;
+
+			console.log(userModel);
 		</script>
 	</body>
 </html>
