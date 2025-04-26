@@ -6,6 +6,7 @@ export function RelationshipProperties(
 		string,
 		{
 			key?: string;
+			group?: string;
 			relationship?: string;
 			value?: string;
 		}

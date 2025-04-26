@@ -1,12 +1,114 @@
 import * as Collection from '../Collection/index.js';
 import * as Model from './index.js';
 import { Base } from './Base.js';
+import { RelationshipProperties } from '../index.js';
+
+/**
+ * Merge interface for the property decorators
+ *
+ * @interface User
+ */
+export interface User {
+	autoCheckin?: string;
+	biography?: string;
+	hometown?: string;
+	lastLocation?: string;
+	plays8Ball?: boolean;
+	plays9Ball?: boolean;
+	plays10Ball?: boolean;
+	playsArtistic?: boolean;
+	playsBanks?: boolean;
+	playsBilliards?: boolean;
+	playsOneCushion?: boolean;
+	playsOnePocket?: boolean;
+	playsPyramid?: boolean;
+	playsSnooker?: boolean;
+	playStraight?: boolean;
+	talentLevel?: string;
+}
 
 /**
  * @class User
  * @package Model
  * @project ChalkySticks SDK Core
  */
+@RelationshipProperties({
+	autoCheckin: {
+		key: 'autocheckin',
+		relationship: 'profile',
+	},
+	biography: {
+		key: 'brief_bio',
+		relationship: 'profile',
+	},
+	hometown: {
+		key: 'hometown',
+		relationship: 'profile',
+	},
+	lastLocation: {
+		key: 'last_location',
+		relationship: 'profile',
+	},
+	plays8Ball: {
+		key: '8ball',
+		relationship: 'games',
+		value: '8 Ball',
+	},
+	plays9Ball: {
+		key: '9ball',
+		relationship: 'games',
+		value: '9 Ball',
+	},
+	plays10Ball: {
+		key: '10ball',
+		relationship: 'games',
+		value: '10 Ball',
+	},
+	playsArtistic: {
+		key: 'artistic',
+		relationship: 'games',
+		value: 'Trick Shots',
+	},
+	playsBanks: {
+		key: 'banks',
+		relationship: 'games',
+		value: 'Bank Pool',
+	},
+	playsBilliards: {
+		key: 'billiards',
+		relationship: 'games',
+		value: 'Billiards',
+	},
+	playsOneCushion: {
+		key: 'onecushion',
+		relationship: 'games',
+		value: 'One Cushion',
+	},
+	playsOnePocket: {
+		key: 'onepocket',
+		relationship: 'games',
+		value: 'One Pocket',
+	},
+	playsPyramid: {
+		key: 'pyramid',
+		relationship: 'games',
+		value: 'Russian Pyramid',
+	},
+	playsSnooker: {
+		key: 'snooker',
+		relationship: 'games',
+		value: 'Snooker',
+	},
+	playStraight: {
+		key: 'straight',
+		relationship: 'games',
+		value: '14.1 Straight Pool',
+	},
+	talentLevel: {
+		key: 'talent_level',
+		relationship: 'profile',
+	},
+})
 export class User extends Base {
 	/**
 	 * Endpoint key
