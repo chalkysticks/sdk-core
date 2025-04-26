@@ -12,7 +12,9 @@ export class Media extends Base<Model.Media> {
 	 * @return Model.Media | undefined
 	 */
 	public get avatar(): Model.Media | undefined {
-		return this.models.find((media) => media.getSubgroup() === Enum.MediaSubgroup.Avatar);
+		return this.findWhere({
+			subgroup: Enum.MediaSubgroup.Avatar,
+		});
 	}
 
 	/**
