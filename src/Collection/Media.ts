@@ -9,10 +9,17 @@ import { Base } from './Base.js';
  */
 export class Media extends Base<Model.Media> {
 	/**
+	 * @return Model.Media | undefined
+	 */
+	public get avatar(): Model.Media | undefined {
+		return this.models.find((media) => media.getType() === Enum.MediaType.Avatar);
+	}
+
+	/**
 	 * @return Model.Media[]
 	 */
 	public get images(): Model.Media[] {
-		return this.models.filter((media) => media.getType() === 'image');
+		return this.models.filter((media) => media.getType() === Enum.MediaType.Image);
 	}
 
 	/**
@@ -26,7 +33,7 @@ export class Media extends Base<Model.Media> {
 	 * @return Model.Media[]
 	 */
 	public get videos(): Model.Media[] {
-		return this.models.filter((media) => media.getType() === 'video');
+		return this.models.filter((media) => media.getType() === Enum.MediaType.Video);
 	}
 
 	/**

@@ -129,7 +129,7 @@ export class User extends Base {
 	// ---------------------------------------------------------------------------
 
 	public get avatar(): Model.Media {
-		return (this.media.primary as Model.Media) || new Model.Media();
+		return (this.media.avatar as Model.Media) || new Model.Media();
 	}
 
 	public get games(): Collection.Meta {
