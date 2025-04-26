@@ -17,7 +17,7 @@ export interface User {
     playsPyramid?: boolean;
     playsSnooker?: boolean;
     playStraight?: boolean;
-    talentLevel?: string;
+    talentLevel?: number;
 }
 export declare class User extends Base {
     endpoint: string;
@@ -26,7 +26,9 @@ export declare class User extends Base {
     get games(): Collection.Meta;
     get lastCollection(): Model.Wallet;
     get media(): Collection.Media;
-    get metadata(): Collection.Meta;
+    get profile(): Collection.Meta;
+    getBiography(): string;
+    getHometown(): string;
     getLatitude(): number;
     getLongitude(): number;
     getName(): string;
@@ -34,5 +36,6 @@ export declare class User extends Base {
     getPhone(): string;
     getSlug(): string;
     getStatus(): number;
+    getTalentLevel(): number;
     getWalletBalance(): number;
 }

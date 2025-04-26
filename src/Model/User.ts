@@ -24,7 +24,7 @@ export interface User {
 	playsPyramid?: boolean;
 	playsSnooker?: boolean;
 	playStraight?: boolean;
-	talentLevel?: string;
+	talentLevel?: number;
 }
 
 /**
@@ -144,14 +144,32 @@ export class User extends Base {
 		return this.hasMany<Collection.Media>('media', Collection.Media);
 	}
 
-	public get metadata(): Collection.Meta {
-		return this.hasMany<Collection.Meta>('meta', Collection.Meta);
+	public get profile(): Collection.Meta {
+		return this.hasMany<Collection.Meta>('profile', Collection.Meta);
 	}
 
 	// endregion: Relationship
 
 	// region: Getters
 	// ---------------------------------------------------------------------------
+
+	/**
+	 * Get the user's profile biography
+	 *
+	 * @type string
+	 */
+	public getBiography(): string {
+		return this.biography || '';
+	}
+
+	/**
+	 * Get the user's profile hometown
+	 *
+	 * @type string
+	 */
+	public getHometown(): string {
+		return this.hometown || '';
+	}
 
 	/**
 	 * Retrieve User's Latitude
@@ -214,6 +232,15 @@ export class User extends Base {
 	 */
 	public getStatus(): number {
 		return parseFloat(this.attr('status') as string);
+	}
+
+	/**
+	 * Get the user's talent level as int
+	 *
+	 * @type number
+	 */
+	public getTalentLevel(): number {
+		return Number.isInteger(this.talentLevel) ? this.talentLevel || 0 : parseInt(String(this.talentLevel).trim(), 10) || 0;
 	}
 
 	/**
