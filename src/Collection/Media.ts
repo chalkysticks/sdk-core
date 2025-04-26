@@ -12,7 +12,7 @@ export class Media extends Base<Model.Media> {
 	 * @return Model.Media | undefined
 	 */
 	public get avatar(): Model.Media | undefined {
-		return this.models.find((media) => media.getType() === Enum.MediaType.Avatar);
+		return this.models.find((media) => media.getSubgroup() === Enum.MediaSubgroup.Avatar);
 	}
 
 	/**
@@ -83,21 +83,21 @@ export class Media extends Base<Model.Media> {
 	 * @return this
 	 */
 	public exterior(): this {
-		return this.type(Enum.MediaType.Exterior);
+		return this.subgroup(Enum.MediaSubgroup.Exterior);
 	}
 
 	/**
 	 * @return this
 	 */
 	public interior(): this {
-		return this.type(Enum.MediaType.Interior);
+		return this.subgroup(Enum.MediaSubgroup.Interior);
 	}
 
 	/**
 	 * @return this
 	 */
 	public person(): this {
-		return this.type(Enum.MediaType.Person);
+		return this.subgroup(Enum.MediaSubgroup.Person);
 	}
 
 	/**
@@ -116,7 +116,19 @@ export class Media extends Base<Model.Media> {
 	 * @return this
 	 */
 	public table(): this {
-		return this.type(Enum.MediaType.Table);
+		return this.subgroup(Enum.MediaSubgroup.Table);
+	}
+
+	/**
+	 * Set the media type like interior, table, etc
+	 *
+	 * @param {Enum.MediaSubgroup} subgroup
+	 * @return Media
+	 */
+	public subgroup(subgroup: Enum.MediaSubgroup): this {
+		this.setQueryParam('subgroup', subgroup);
+
+		return this;
 	}
 
 	/**
@@ -126,7 +138,7 @@ export class Media extends Base<Model.Media> {
 	 * @return Media
 	 */
 	public type(mediaType: Enum.MediaType): this {
-		this.setQueryParam('subgroup', mediaType);
+		this.setQueryParam('type', mediaType);
 
 		return this;
 	}

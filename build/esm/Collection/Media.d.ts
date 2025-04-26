@@ -16,5 +16,6 @@ export declare class Media extends Base<Model.Media> {
     person(): this;
     random(): this;
     table(): this;
+    subgroup(subgroup: Enum.MediaSubgroup): this;
     type(mediaType: Enum.MediaType): this;
 }
