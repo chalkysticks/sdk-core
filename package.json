@@ -49,9 +49,10 @@
         "build": "tsc -p tsconfig.json && yarn build:web",
         "build:web": "esbuild src/index.ts --bundle --minify --sourcemap --target=chrome62 --format=esm --outfile=build/web/chalkysticks-core.js",
         "example": "http-server",
-        "test": "tsc --noEmit && node --import tsx --test test/*.spec.ts"
+        "test": "tsc --noEmit && node --import tsx --test test/*.spec.ts",
+        "watch": "tsc -p tsconfig.json --watch & esbuild src/index.ts --bundle --sourcemap --target=chrome62 --format=esm --outfile=build/web/chalkysticks-core.js --watch"
     },
     "type": "module",
     "types": "build/esm/index.d.ts",
-    "version": "1.35.7"
+    "version": "1.35.8"
 }

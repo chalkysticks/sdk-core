@@ -26,6 +26,11 @@ export class Base<T extends Model> extends Collection<T> {
 	public limit: number = Environment.app.limit;
 
 	/**
+	 * @type string
+	 */
+	public uniqueKey: string = '';
+
+	/**
 	 * @param object options
 	 */
 	constructor(options: any = {}) {
@@ -121,9 +126,10 @@ export class Base<T extends Model> extends Collection<T> {
 	 * @return void
 	 */
 	public detachEvents(): void {
-		this.off('requesting');
-		this.off('finish');
+		this.off('add');
 		this.off('error');
+		this.off('finish');
+		this.off('requesting');
 	}
 
 	/**

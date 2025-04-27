@@ -3,6 +3,7 @@ export declare class Base<T extends Model> extends Collection<T> {
     model: any;
     baseUrl: string;
     limit: number;
+    uniqueKey: string;
     constructor(options?: any);
     attachEvents(): void;
     detachEvents(): void;
