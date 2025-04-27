@@ -4,12 +4,28 @@ import Constants from '../Common/Constants.js';
 import Environment from '../Common/Environment.js';
 import { IAttributes, IDispatcherEvent, Model } from 'restmc';
 
+type ReactiveHook = (instance: any) => void;
+
 /**
  * @class Base
  * @package Model
  * @project ChalkySticks SDK Core
  */
 export class Base extends Model {
+	/**
+	 * Frameworks call this once to tell the SDK how to make an instance reactive
+	 *
+	 * @return void
+	 */
+	public static useReactiveHook(hook: ReactiveHook): void {
+		this._reactiveHook = hook;
+	}
+
+	/**
+	 * @type ReactiveHook
+	 */
+	private static _reactiveHook?: ReactiveHook;
+
 	/**
 	 * @type string
 	 */
@@ -20,6 +36,10 @@ export class Base extends Model {
 	 */
 	constructor(attributes: IAttributes = {}, options: IAttributes = {}) {
 		super(attributes, options);
+
+		// If a hook was registered, run it
+		const ctor = this.constructor as typeof Base;
+		ctor._reactiveHook?.(this);
 
 		// Update baseUrl
 		this.baseUrl = options.baseUrl || this.baseUrl || Environment.app.apiUrl || Constants.API_URL;

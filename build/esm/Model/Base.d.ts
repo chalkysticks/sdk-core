@@ -1,5 +1,8 @@
 import { IAttributes, Model } from 'restmc';
+type ReactiveHook = (instance: any) => void;
 export declare class Base extends Model {
+    static useReactiveHook(hook: ReactiveHook): void;
+    private static _reactiveHook?;
     baseUrl: string;
     constructor(attributes?: IAttributes, options?: IAttributes);
     attachEvents(): void;
@@ -9,3 +12,4 @@ export declare class Base extends Model {
     isV2(): boolean;
     isV3(): boolean;
 }
+export {};
