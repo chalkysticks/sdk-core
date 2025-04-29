@@ -12,4 +12,5 @@ export * from './Debounce.js';
 export * from './General.js';
 export * from './Hysteresis.js';
 export * from './Interval.js';
+export * from './Latch.js';
 export { default as Easing, EasingFunction, getEasingMethod } from './Easing.js';
