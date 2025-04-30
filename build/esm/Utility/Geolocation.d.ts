@@ -24,11 +24,13 @@ export declare const config: {
     IP_LOCATION_API: string;
 };
 export declare const CACHE_EXPIRATION: number;
+export declare function requestLocation(): Promise<PermissionState>;
+export declare const IP_LOCATION_ENDPOINT = "https://ipapi.co/json/";
+export declare const CACHE_EXPIRATION_MS: number;
 export declare const cache: Cache;
 export declare function getLocation(): Promise<IGeolocationPayload>;
-export declare function watchLocation(callback?: IGeolocationCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): number;
-export declare function requestLocation(): Promise<PermissionState>;
-export declare function clearWatch(watchId: number): void;
+export declare function watchLocation(callback: IGeolocationCallback): () => void;
+export declare function clearWatch(): void;
 export declare function distanceBetween(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
 export declare function getBearing(latitude1: number, longitude1: number, latitude2: number, longitude2: number): number;
 export declare function getBounds(latitude: number, longitude: number, radius: number): ICoordinateBounds;

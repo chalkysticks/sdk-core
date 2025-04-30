@@ -41,6 +41,13 @@ export interface IPAPIResponse {
 }
 
 /**
+ * @internal Used to reuse the same native watch across subscribers
+ */
+interface ISubscriber {
+	callback: IGeolocationCallback;
+}
+
+/**
  * @type object
  */
 export const config = {
@@ -53,81 +60,6 @@ export const config = {
  * @type number
  */
 export const CACHE_EXPIRATION = 1000 * 6 * 2;
-
-/**
- * Prevent us from hitting the geolocation services all the time
- *
- * @type Cache
- */
-export const cache = new Cache(CACHE_EXPIRATION);
-
-/**
- * Get location explicitly either through browser events, Capacitor, or IP-based fallback
- *
- * @return Promise<IGeolocationPayload>
- */
-export async function getLocation(): Promise<IGeolocationPayload> {
-	const cacheKey = 'geolocation';
-	const cachedLocation = cache.get(cacheKey);
-
-	if (cachedLocation) {
-		return cachedLocation;
-	}
-
-	try {
-		if (navigator?.geolocation) {
-			return await getBrowserLocation(cacheKey);
-		} else if (await isCapacitorGeolocationAvailable()) {
-			return await getCapacitorLocation(cacheKey);
-		} else {
-			return await getIPLocationFallback(cacheKey);
-		}
-	} catch (error) {
-		throw error instanceof Error ? error : new Exception.Geolocation('Unknown error occurred');
-	}
-}
-
-/**
- * Watch the user's geolocation
- *
- * @param IGeolocationCallback callback
- * @param PositionErrorCallback errorCallback
- * @param PositionOptions options
- * @returns number watchId
- */
-export function watchLocation(
-	callback?: IGeolocationCallback,
-	errorCallback?: PositionErrorCallback,
-	options: PositionOptions = { enableHighAccuracy: true },
-): number {
-	const cacheKey = 'geolocation';
-
-	if (navigator?.geolocation) {
-		return navigator.geolocation.watchPosition(
-			(position: GeolocationPosition) => {
-				const payload = formPayload(position);
-				cache.set(cacheKey, payload, CACHE_EXPIRATION);
-				Event.Bus.dispatch('location:change', payload);
-				callback?.(payload);
-			},
-			async (error: GeolocationPositionError) => {
-				try {
-					const ipPosition = await getIPLocation();
-					const payload = formPayload(ipPosition);
-					cache.set(cacheKey, payload, CACHE_EXPIRATION);
-					Event.Bus.dispatch('location:change', payload);
-					callback?.(payload);
-				} catch (ipError) {
-					Event.Bus.dispatch('location:error', error);
-					errorCallback?.(error);
-				}
-			},
-			options,
-		);
-	}
-
-	return 0;
-}
 
 /**
  * Request geolocation permissions from the user
@@ -145,7 +77,6 @@ export async function requestLocation(): Promise<PermissionState> {
 			await new Promise<void>((resolve, reject) => navigator.geolocation.getCurrentPosition(() => resolve(), reject, { timeout: 10000 }));
 			return 'granted';
 		} catch {
-			// Could be denied or unavailable – we can’t distinguish here
 			return 'denied';
 		}
 	}
@@ -167,125 +98,178 @@ export async function requestLocation(): Promise<PermissionState> {
 }
 
 /**
- * Clear the watch
+ * Prevent us from hitting the geolocation services all the time
  *
- * @param number watchId
- * @returns void
+ * @type Cache
  */
-export function clearWatch(watchId: number): void {
-	try {
-		if (!navigator?.geolocation) {
-			throw new Exception.Geolocation('Geolocation is not supported by this browser.');
-		}
+export const IP_LOCATION_ENDPOINT = 'https://ipapi.co/json/';
+export const CACHE_EXPIRATION_MS = 1000 * 60 * 2; // 2 minutes
+export const cache = new Cache(CACHE_EXPIRATION);
 
-		navigator.geolocation.clearWatch(watchId);
-	} catch (error) {
-		console.error('Error clearing geolocation watch:', error);
+const subscribers: ISubscriber[] = [];
+let latestPayload: IGeolocationPayload | null = null;
+let nativeWatchId: number | null = null;
+
+/**
+ * Get location explicitly either through browser events, Capacitor, or IP-based fallback
+ *
+ * @return Promise<IGeolocationPayload>
+ */
+export async function getLocation(): Promise<IGeolocationPayload> {
+	if (latestPayload) return latestPayload;
+
+	// Use persistent cache
+	const cached = cache.get('geolocation');
+
+	if (cached) {
+		latestPayload = cached;
+		console.log('🔸 Cached location', cached);
+		return cached;
+	}
+
+	// Otherwise perform a one-shot lookup (browser → capacitor → IP)
+	return await obtainFreshLocation();
+}
+
+/**
+ * Start watching the user’s position. Multiple callers share one
+ * underlying native watch but receive their own callbacks.
+ *
+ * @param IGeolocationCallback callback   Invoked when position changes
+ * @return () => void                     Call to unsubscribe
+ */
+export function watchLocation(callback: IGeolocationCallback): () => void {
+	const subscriber: ISubscriber = { callback };
+	subscribers.push(subscriber);
+
+	// If a payload already exists (cache or earlier watch) push it now.
+	if (latestPayload) {
+		callback(latestPayload);
+	}
+
+	// Lazily create the native watch
+	if (nativeWatchId === null) {
+		nativeWatchId = createNativeWatch();
+	}
+
+	// Return an unsubscribe function
+	return (): void => {
+		const index = subscribers.indexOf(subscriber);
+		if (index !== -1) subscribers.splice(index, 1);
+
+		// No more listeners → tear the watch down
+		if (subscribers.length === 0 && nativeWatchId !== null && navigator?.geolocation) {
+			navigator.geolocation.clearWatch(nativeWatchId);
+			nativeWatchId = null;
+		}
+	};
+}
+
+/**
+ * Stop *all* watching activity immediately (convenience).
+ *
+ * @return void
+ */
+export function clearWatch(): void {
+	subscribers.splice(0);
+
+	if (nativeWatchId !== null && navigator?.geolocation) {
+		navigator.geolocation.clearWatch(nativeWatchId);
+		nativeWatchId = null;
 	}
 }
 
 /**
- * Get location using browser geolocation API
+ * Creates the single underlying watchPosition and wires success/error
+ * handling. Returns the native watchId so we can clear it later.
  *
- * @param string cacheKey
- * @return Promise<IGeolocationPayload>
+ * @return number
  */
-async function getBrowserLocation(cacheKey: string): Promise<IGeolocationPayload> {
-	return new Promise((resolve, reject) => {
-		navigator.geolocation.getCurrentPosition(
-			(position: GeolocationPosition) => {
-				const payload = formPayload(position);
-				cache.set(cacheKey, payload, CACHE_EXPIRATION);
-				console.info('🔸 Location', payload);
-				Event.Bus.dispatch('location:change', payload);
-				resolve(payload);
-			},
-			async (error: GeolocationPositionError) => {
-				console.warn('Browser geolocation error:', error);
+function createNativeWatch(): number {
+	if (!navigator?.geolocation) {
+		console.warn('🔺 Geolocation API unavailable, falling back to IP only.');
+		rolloverToIpFallback();
+		return 0;
+	}
 
-				if (error.code === error.PERMISSION_DENIED) {
-					reject(new Exception.Geolocation('Permission denied for geolocation.'));
-				} else if (error.code === error.POSITION_UNAVAILABLE) {
-					reject(new Exception.Geolocation('Geolocation position unavailable.'));
-				} else if (error.code === error.TIMEOUT) {
-					reject(new Exception.Geolocation('Geolocation request timed out.'));
-				} else {
-					try {
-						const position = await getIPLocation();
-						const payload = formPayload(position);
-						cache.set(cacheKey, payload, CACHE_EXPIRATION);
-						console.info('🔺 Location', payload);
-						Event.Bus.dispatch('location:change', payload);
-						resolve(payload);
-					} catch (ipError) {
-						reject(new Exception.Geolocation('Fallback IP location failed.'));
-					}
-				}
-			},
-		);
+	return navigator.geolocation.watchPosition(handleNativeSuccess, handleNativeError, {
+		enableHighAccuracy: true,
+		maximumAge: 0,
+		timeout: 15000,
 	});
 }
 
 /**
- * Get location using Capacitor Geolocation plugin
+ * Success handler for the browser’s watchPosition.
+ * Pushes the reading to all subscribers and caches it.
  *
- * @param string cacheKey
- * @return Promise<IGeolocationPayload>
+ * @param GeolocationPosition position
+ * @return void
  */
-async function getCapacitorLocation(cacheKey: string): Promise<IGeolocationPayload> {
-	try {
-		const { Geolocation } = await import('@capacitor/geolocation');
-		const position = (await Geolocation.getCurrentPosition()) as GeolocationPosition;
-		const payload = formPayload(position);
-		cache.set(cacheKey, payload, CACHE_EXPIRATION);
-		console.info('🔹 Location', payload);
-		Event.Bus.dispatch('location:change', payload);
-		return payload;
-	} catch (error) {
-		try {
-			const position = await getIPLocation();
-			const payload = formPayload(position);
-			cache.set(cacheKey, payload, CACHE_EXPIRATION);
-			console.info('🔺 Location', payload);
-			Event.Bus.dispatch('location:change', payload);
-			return payload;
-		} catch (ipError) {
-			Event.Bus.dispatch('location:error', error);
-			throw error;
-		}
-	}
+function handleNativeSuccess(position: GeolocationPosition): void {
+	const payload: IGeolocationPayload = {
+		position: position,
+		timestamp: Date.now(),
+	};
+
+	// Avoid emitting duplicates
+	if (isSamePosition(payload)) return;
+
+	cacheAndDispatch(payload);
 }
 
 /**
- * Get IP-based location as a fallback
+ * Error handler for the browser’s watchPosition.
+ * If we never had a good fix yet, fall back to IP. Otherwise ignore.
  *
- * @param string cacheKey
- * @return Promise<IGeolocationPayload>
+ * @param GeolocationPositionError error
+ * @return Promise<void>
  */
-async function getIPLocationFallback(cacheKey: string): Promise<IGeolocationPayload> {
+async function handleNativeError(error: GeolocationPositionError): Promise<void> {
+	if (latestPayload && !latestPayload.stale) {
+		console.info('⚠️  Ignoring late geolocation error:', error.message);
+		return;
+	}
+
+	await rolloverToIpFallback();
+}
+
+/**
+ * Tries an IP lookup and dispatches it (marked stale:true).
+ *
+ * @return Promise<void>
+ */
+async function rolloverToIpFallback(): Promise<void> {
 	try {
-		const ipPosition = await getIPLocation();
-		const payload = formPayload(ipPosition);
-		cache.set(cacheKey, payload, CACHE_EXPIRATION);
-		console.info('🔺 Location', payload);
-		Event.Bus.dispatch('location:change', payload);
-		return payload;
+		const position = await getIpLocation();
+		const payload: IGeolocationPayload = {
+			position: position,
+			stale: true,
+			timestamp: Date.now(),
+		};
+		cacheAndDispatch(payload);
 	} catch (error) {
+		console.error('❌ Failed IP fallback:', error);
 		Event.Bus.dispatch('location:error', error);
-		throw new Exception.Geolocation('Failed to get IP location');
 	}
 }
 
 /**
+ * IP-based lookup (city-level accuracy, ~5 km).
+ *
  * @return Promise<GeolocationPosition>
  */
-async function getIPLocation(): Promise<GeolocationPosition> {
-	const response = await fetch(config.IP_LOCATION_API);
+async function getIpLocation(): Promise<GeolocationPosition> {
+	const response = await fetch(IP_LOCATION_ENDPOINT);
+	if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
 	const data: IPAPIResponse = await response.json();
+
+	console.log('🔺 IP location', data);
 
 	return {
 		coords: {
-			accuracy: 5000, // City-level accuracy (~5km)
+			accuracy: 5_000,
 			altitude: null,
 			altitudeAccuracy: null,
 			heading: null,
@@ -295,6 +279,73 @@ async function getIPLocation(): Promise<GeolocationPosition> {
 		},
 		timestamp: Date.now(),
 	} as GeolocationPosition;
+}
+
+/**
+ * Browser / Capacitor one-shot chain used by getLocation()
+ *
+ * @return Promise<IGeolocationPayload>
+ */
+async function obtainFreshLocation(): Promise<IGeolocationPayload> {
+	try {
+		if (navigator?.geolocation) {
+			const position = await new Promise<GeolocationPosition>((res, rej) =>
+				navigator.geolocation.getCurrentPosition(res, rej, {
+					enableHighAccuracy: true,
+					timeout: 10000,
+				}),
+			);
+
+			const payload = {
+				position: position,
+				timestamp: Date.now(),
+			};
+
+			cacheAndDispatch(payload);
+
+			return payload;
+		}
+
+		throw new Error('Navigator API unavailable');
+	} catch {
+		// Capacitor?
+		if (await isCapacitorGeolocationAvailable()) {
+			try {
+				const { Geolocation } = await import('@capacitor/geolocation');
+				const position = (await Geolocation.getCurrentPosition()) as GeolocationPosition;
+				const payload = {
+					position: position,
+					timestamp: Date.now(),
+				};
+
+				cacheAndDispatch(payload);
+
+				return payload;
+			} catch {
+				/* fall through */
+			}
+		}
+
+		// Last-ditch IP lookup
+		await rolloverToIpFallback();
+
+		if (latestPayload) return latestPayload;
+		throw new Exception.Geolocation('All location methods failed.');
+	}
+}
+
+/**
+ * Stores in cache, updates latest, and notifies all listeners/UI.
+ *
+ * @param IGeolocationPayload payload
+ * @returns void
+ */
+function cacheAndDispatch(payload: IGeolocationPayload): void {
+	latestPayload = payload;
+	cache.set('geolocation', payload, CACHE_EXPIRATION_MS);
+
+	Event.Bus.dispatch('location:change', payload);
+	subscribers.forEach(({ callback }) => callback(payload));
 }
 
 /**
@@ -386,6 +437,22 @@ export function getBounds(latitude: number, longitude: number, radius: number): 
  */
 export function isPointInBounds(latitude: number, longitude: number, bounds: ICoordinateBounds): boolean {
 	return latitude >= bounds.latitudeMin && latitude <= bounds.latitudeMax && longitude >= bounds.longitudeMin && longitude <= bounds.longitudeMax;
+}
+
+/**
+ * Returns true if the new payload is the same as the previous one.
+ *
+ * @param IGeolocationPayload next
+ * @return boolean
+ */
+function isSamePosition(next: IGeolocationPayload): boolean {
+	if (!latestPayload) return false;
+
+	return (
+		latestPayload.position.coords.latitude === next.position.coords.latitude &&
+		latestPayload.position.coords.longitude === next.position.coords.longitude &&
+		(latestPayload.stale ?? false) === (next.stale ?? false)
+	);
 }
 
 /**
