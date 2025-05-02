@@ -23,10 +23,12 @@ export declare class User extends Base {
     endpoint: string;
     fields: string[];
     get avatar(): Model.Media;
+    get comments(): Collection.Comment;
     get games(): Collection.Meta;
     get lastCollection(): Model.Wallet;
     get media(): Collection.Media;
     get profile(): Collection.Meta;
+    get reactions(): Collection.Reaction;
     getBiography(): string;
     getHometown(): string;
     getLatitude(): number;

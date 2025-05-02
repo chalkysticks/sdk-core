@@ -132,6 +132,10 @@ export class User extends Base {
 		return (this.media.avatar as Model.Media) || new Model.Media();
 	}
 
+	public get comments(): Collection.Comment {
+		return this.hasMany<Collection.Comment>('comments', Collection.Comment);
+	}
+
 	public get games(): Collection.Meta {
 		return this.hasMany<Collection.Meta>('games', Collection.Meta);
 	}
@@ -146,6 +150,10 @@ export class User extends Base {
 
 	public get profile(): Collection.Meta {
 		return this.hasMany<Collection.Meta>('profile', Collection.Meta);
+	}
+
+	public get reactions(): Collection.Reaction {
+		return this.hasMany<Collection.Reaction>('reactions', Collection.Reaction);
 	}
 
 	// endregion: Relationship

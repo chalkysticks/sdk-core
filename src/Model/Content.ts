@@ -26,6 +26,14 @@ export class Content extends Base {
 	// region: Relationship
 	// ---------------------------------------------------------------------------
 
+	public get comments(): Collection.Comment {
+		return this.hasMany<Collection.Comment>('comments', Collection.Comment);
+	}
+
+	public get reactions(): Collection.Reaction {
+		return this.hasMany<Collection.Reaction>('reactions', Collection.Reaction);
+	}
+
 	public get tags(): Collection.ContentTag {
 		return this.hasMany<Collection.ContentTag>('tags', Collection.ContentTag);
 	}
@@ -103,4 +111,121 @@ export class Content extends Base {
 	}
 
 	// endregion: Getters
+
+	// region: Comments & Reactions
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * Get count of comments
+	 *
+	 * @return number
+	 */
+	public getCommentCount(): number {
+		return this.comments ? this.comments.length : 0;
+	}
+
+	/**
+	 * Get root comments (without parent)
+	 *
+	 * @return Collection.Comment
+	 */
+	public getRootComments(): Collection.Comment {
+		if (!this.comments) {
+			return new Collection.Comment();
+		}
+
+		const rootComments = new Collection.Comment();
+		this.comments.models.forEach((comment) => {
+			if (!comment.hasParent()) {
+				rootComments.add(comment);
+			}
+		});
+
+		return rootComments;
+	}
+
+	/**
+	 * Get count of reactions by type
+	 *
+	 * @param string type - reaction type (like, dislike, etc.)
+	 * @return number
+	 */
+	public getReactionCount(type?: string): number {
+		if (!this.reactions) {
+			return 0;
+		}
+
+		if (!type) {
+			return this.reactions.length;
+		}
+
+		let count = 0;
+		this.reactions.models.forEach((reaction) => {
+			if (reaction.getType() === type) {
+				count++;
+			}
+		});
+
+		return count;
+	}
+
+	/**
+	 * Get count of likes
+	 *
+	 * @return number
+	 */
+	public getLikeCount(): number {
+		return this.getReactionCount('like');
+	}
+
+	/**
+	 * Get count of dislikes
+	 *
+	 * @return number
+	 */
+	public getDislikeCount(): number {
+		return this.getReactionCount('dislike');
+	}
+
+	/**
+	 * Check if a specific user has reacted with a type
+	 *
+	 * @param number|string userId
+	 * @param string type
+	 * @return boolean
+	 */
+	public hasUserReaction(userId: number | string, type?: string): boolean {
+		if (!this.reactions || !userId) {
+			return false;
+		}
+
+		return this.reactions.models.some((reaction) => {
+			if (reaction.getUserId() === userId) {
+				return type ? reaction.getType() === type : true;
+			}
+			return false;
+		});
+	}
+
+	/**
+	 * Check if a user has liked this content
+	 *
+	 * @param number|string userId
+	 * @return boolean
+	 */
+	public hasUserLike(userId: number | string): boolean {
+		return this.hasUserReaction(userId, 'like');
+	}
+
+	/**
+	 * Check if a user has disliked this content
+	 *
+	 * @param number|string userId
+	 * @return boolean
+	 */
+	public hasUserDislike(userId: number | string): boolean {
+		return this.hasUserReaction(userId, 'dislike');
+	}
+
+	// endregion: Comments & Reactions
 }
