@@ -1,5 +1,6 @@
 export * as Advertisement from './Advertisement.js';
 export * as Content from './Content.js';
+export * as Fact from './Fact.js';
 export * as Feed from './Feed.js';
 export * as Geocode from './Geocode.js';
 export * as Rulebook from './Rulebook.js';

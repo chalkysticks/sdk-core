@@ -529,6 +529,7 @@ export function simplifyCoordinates(
 			longitudeOrRoundAmount,
 			roundAmount,
 		});
+
 		return {
 			latitude: 0,
 			longitude: 0,
