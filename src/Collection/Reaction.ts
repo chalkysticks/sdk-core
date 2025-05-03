@@ -12,7 +12,7 @@ export class Reaction extends Base<Model.Reaction> {
 	 *
 	 * @type any
 	 */
-	public model: any = Model.Reaction;
+	public model: Model.Reaction = new Model.Reaction();
 
 	/**
 	 * Endpoint key
@@ -35,7 +35,7 @@ export class Reaction extends Base<Model.Reaction> {
 
 	/**
 	 * Get reactions by type
-	 * 
+	 *
 	 * @param string type
 	 * @return this
 	 */
@@ -46,7 +46,7 @@ export class Reaction extends Base<Model.Reaction> {
 
 	/**
 	 * Get likes only
-	 * 
+	 *
 	 * @return this
 	 */
 	public likes(): this {
@@ -55,7 +55,7 @@ export class Reaction extends Base<Model.Reaction> {
 
 	/**
 	 * Get dislikes only
-	 * 
+	 *
 	 * @return this
 	 */
 	public dislikes(): this {
@@ -64,7 +64,7 @@ export class Reaction extends Base<Model.Reaction> {
 
 	/**
 	 * Get reactions by user ID
-	 * 
+	 *
 	 * @param number|string user_id
 	 * @return this
 	 */
