@@ -1,9 +1,9 @@
-import * as Collection from '../Collection/index.js';
+import * as Model from './index.js';
 import { Base } from './Base.js';
 export declare class Reaction extends Base {
     endpoint: string;
     fields: string[];
-    get user(): Collection.User;
+    get user(): Model.User;
     getType(): string;
     getUserId(): number;
     isLike(): boolean;

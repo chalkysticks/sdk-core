@@ -1,4 +1,5 @@
 import * as Collection from '../Collection/index.js';
+import * as Model from './index.js';
 import { Base } from './Base.js';
 
 /**
@@ -25,8 +26,8 @@ export class Reaction extends Base {
 	// region: Relationship
 	// ---------------------------------------------------------------------------
 
-	public get user(): Collection.User {
-		return this.hasOne<Collection.User>('user', Collection.User);
+	public get user(): Model.User {
+		return this.hasOne<Model.User>('user', Model.User);
 	}
 
 	// endregion: Relationship

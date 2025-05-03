@@ -1,4 +1,5 @@
 import * as Collection from '../Collection/index.js';
+import * as Model from './index.js';
 import { Base } from './Base.js';
 
 /**
@@ -29,16 +30,16 @@ export class Comment extends Base {
 		return this.hasMany<Collection.Comment>('children', Collection.Comment);
 	}
 
-	public get flags(): Collection.Base<any> {
-		return this.hasMany<Collection.Base<any>>('flags', Collection.Base);
-	}
+	// public get flags(): Collection.Base<any> {
+	// 	return this.hasMany<Collection.Base<any>>('flags', Collection.Base);
+	// }
 
 	public get parentComment(): Comment {
 		return this.hasOne<Comment>('parent', Comment);
 	}
 
-	public get user(): Collection.User {
-		return this.hasOne<Collection.User>('user', Collection.User);
+	public get user(): Model.User {
+		return this.hasOne<Model.User>('user', Model.User);
 	}
 
 	// endregion: Relationship
