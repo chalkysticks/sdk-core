@@ -48,12 +48,6 @@
 		<script type="module">
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
-			const rulebookCollection = new ChalkySticksCore.Collection.Rulebook();
-
-			rulebookCollection.fetch().then(() => {
-				console.log('Rulebooks', rulebookCollection.toJSON());
-			});
-
 			ChalkySticksCore.Event.Bus.on('queryParameter', () => {
 				console.log('New query param');
 			});

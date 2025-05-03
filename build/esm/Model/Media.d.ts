@@ -1,3 +1,4 @@
+import * as Collection from '../Collection/index.js';
 import { Base } from './Base.js';
 interface IThumborOptions {
     fitIn?: boolean;
@@ -24,6 +25,8 @@ export declare class Media extends Base {
     fields: string[];
     protected proxyUrl: string;
     getEndpoint(): string;
+    get comments(): Collection.Comment;
+    get reactions(): Collection.Reaction;
     getGroup(): string;
     getSubgroup(): string;
     getProxiedUrl(options?: IThumborOptions): string;

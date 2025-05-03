@@ -1,3 +1,4 @@
+import * as Collection from '../Collection/index.js';
 import { Base } from './Base.js';
 
 /**
@@ -56,6 +57,19 @@ export class Media extends Base {
 	public getEndpoint(): string {
 		return this.parent?.getEndpoint() || this.endpoint;
 	}
+
+	// region: Relationship
+	// ---------------------------------------------------------------------------
+
+	public get comments(): Collection.Comment {
+		return this.hasMany<Collection.Comment>('comments', Collection.Comment);
+	}
+
+	public get reactions(): Collection.Reaction {
+		return this.hasMany<Collection.Reaction>('reactions', Collection.Reaction);
+	}
+
+	// endregion: Relationship
 
 	// region: Getters
 	// ---------------------------------------------------------------------------
