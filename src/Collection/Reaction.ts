@@ -1,3 +1,4 @@
+import * as Enum from '../Enum/index.js';
 import * as Model from '../Model/index.js';
 import { Base } from './Base.js';
 
@@ -22,6 +23,68 @@ export class Reaction extends Base<Model.Reaction> {
 	 */
 	public endpoint: string = 'reactions';
 
+	// region: Filters
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * Filter angry
+	 *
+	 * @return Reaction
+	 */
+	public get angry(): Reaction {
+		return this.where({ type: Enum.ReactionType.Angry }) as Reaction;
+	}
+
+	/**
+	 * Filter dislikes
+	 *
+	 * @return Reaction
+	 */
+	public get dislike(): Reaction {
+		return this.where({ type: Enum.ReactionType.Dislike }) as Reaction;
+	}
+
+	/**
+	 * Filter dislikes
+	 *
+	 * @return Reaction
+	 */
+	public get laugh(): Reaction {
+		return this.where({ type: Enum.ReactionType.Laugh }) as Reaction;
+	}
+
+	/**
+	 * Filter likes
+	 *
+	 * @return Reaction
+	 */
+	public get like(): Reaction {
+		return this.where({ type: Enum.ReactionType.Like }) as Reaction;
+	}
+
+	/**
+	 * Filter sads
+	 *
+	 * @return Reaction
+	 */
+	public get sad(): Reaction {
+		return this.where({ type: Enum.ReactionType.Sad }) as Reaction;
+	}
+
+	/**
+	 * Filter wow
+	 *
+	 * @return Reaction
+	 */
+	public get wow(): Reaction {
+		return this.where({ type: Enum.ReactionType.Wow }) as Reaction;
+	}
+
+	// endregion: Filters
+
+	// region: Special Fetch
+	// ---------------------------------------------------------------------------
+
 	/**
 	 * @param string entity_type
 	 * @param number|string entity_id
@@ -45,24 +108,6 @@ export class Reaction extends Base<Model.Reaction> {
 	}
 
 	/**
-	 * Get likes only
-	 *
-	 * @return this
-	 */
-	public likes(): this {
-		return this.byType('like');
-	}
-
-	/**
-	 * Get dislikes only
-	 *
-	 * @return this
-	 */
-	public dislikes(): this {
-		return this.byType('dislike');
-	}
-
-	/**
 	 * Get reactions by user ID
 	 *
 	 * @param number|string user_id
@@ -72,4 +117,6 @@ export class Reaction extends Base<Model.Reaction> {
 		this.builder.qp('user_id', user_id);
 		return this;
 	}
+
+	// endregion: Special Fetch
 }
