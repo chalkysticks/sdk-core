@@ -151,4 +151,55 @@ export class Base extends Model {
 	public isV3(): boolean {
 		return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
 	}
+
+	/**
+	 * If we have a created_at attribute, return it formatted.
+	 *
+	 * @param string format
+	 * @return string
+	 */
+	public getCreatedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+		const createdAt = this.attr('created_at') as string;
+
+		if (!createdAt) {
+			return '';
+		}
+
+		const date = new Date(createdAt);
+		return date.toISOString().slice(0, 19).replace('T', ' ');
+	}
+
+	/**
+	 * If we have a updated_at attribute, return it formatted.
+	 *
+	 * @param string format
+	 * @return string
+	 */
+	public getUpdatedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+		const updatedAt = this.attr('updated_at') as string;
+
+		if (!updatedAt) {
+			return '';
+		}
+
+		const date = new Date(updatedAt);
+		return date.toISOString().slice(0, 19).replace('T', ' ');
+	}
+
+	/**
+	 * If we have a deleted_at attribute, return it formatted.
+	 *
+	 * @param string format
+	 * @return string
+	 */
+	public getDeletedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+		const deletedAt = this.attr('deleted_at') as string;
+
+		if (!deletedAt) {
+			return '';
+		}
+
+		const date = new Date(deletedAt);
+		return date.toISOString().slice(0, 19).replace('T', ' ');
+	}
 }

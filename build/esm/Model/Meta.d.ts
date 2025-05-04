@@ -4,6 +4,4 @@ export declare class Meta extends Base {
     getGroup(): string;
     getKey(): string;
     getValue(): string;
-    getCreatedAt(): string;
-    getUpdatedAt(): string;
 }

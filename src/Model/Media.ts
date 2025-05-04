@@ -202,19 +202,5 @@ export class Media extends Base {
 		return this.getProxiedUrl({ width: 1024 });
 	}
 
-	/**
-	 * @return string
-	 */
-	public getCreatedAt(): string {
-		return this.attr('created_at') as string;
-	}
-
-	/**
-	 * @return string
-	 */
-	public getUpdatedAt(): string {
-		return this.attr('updated_at') as string;
-	}
-
 	// endregion: Getters
 }

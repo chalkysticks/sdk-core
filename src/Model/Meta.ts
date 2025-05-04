@@ -37,19 +37,5 @@ export class Meta extends Base {
 		return this.attr('value') as string;
 	}
 
-	/**
-	 * @return string
-	 */
-	public getCreatedAt(): string {
-		return this.attr('created_at') as string;
-	}
-
-	/**
-	 * @return string
-	 */
-	public getUpdatedAt(): string {
-		return this.attr('updated_at') as string;
-	}
-
 	// endregion: Getters
 }

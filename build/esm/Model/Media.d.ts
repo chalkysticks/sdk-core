@@ -35,7 +35,5 @@ export declare class Media extends Base {
     getUrlSmall(): string;
     getUrlMedium(): string;
     getUrlLarge(): string;
-    getCreatedAt(): string;
-    getUpdatedAt(): string;
 }
 export {};

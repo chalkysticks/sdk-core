@@ -11,5 +11,8 @@ export declare class Base extends Model {
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;
+    getCreatedAt(format?: string): string;
+    getUpdatedAt(format?: string): string;
+    getDeletedAt(format?: string): string;
 }
 export {};
