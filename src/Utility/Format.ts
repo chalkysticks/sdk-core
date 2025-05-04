@@ -7,13 +7,17 @@ type TimeInput = Date | string | number;
  * @returns string
  */
 export function bytesToSize(bytes: number): string {
-	let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+	// Using modern ES syntax
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-	if (bytes == 0) return '0 Byte';
+	if (bytes === 0) {
+		return '0 Byte';
+	}
 
-	let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
+	const exponent = Math.floor(Math.log(bytes) / Math.log(1024));
+	const value = Math.round(bytes / Math.pow(1024, exponent));
 
-	return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+	return `${value} ${sizes[exponent]}`;
 }
 
 /**
@@ -24,8 +28,10 @@ export function bytesToSize(bytes: number): string {
  * @return number
  */
 export function daysBetweenDates(date1: Date, date2: Date): number {
-	const timeDiff = Math.abs(date2.getTime() - date1.getTime());
-	return Math.ceil(timeDiff / (1000 * 3600 * 24));
+	const timeDifference = Math.abs(date2.getTime() - date1.getTime());
+	const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+	return daysDifference;
 }
 
 /**
@@ -66,6 +72,19 @@ export function timeToSeconds(time: string): number {
 }
 
 /**
+ * Normalize MySQL-style and ISO date strings into Date objects
+ *
+ * @param input - String datetime
+ * @returns Date | null
+ */
+export function normalizeDateString(input: string): Date | null {
+	const isoString = input.includes(' ') && !input.includes('T') ? input.replace(' ', 'T') + (input.length === 19 ? 'Z' : '') : input;
+	const date = new Date(isoString);
+
+	return isNaN(date.getTime()) ? null : date;
+}
+
+/**
  * Convert any time input to Date object
  *
  * @param input - Date, timestamp, ISO string, or seconds
@@ -85,7 +104,7 @@ function parseTimeInput(input: TimeInput): Date | null {
 
 		// Try parsing as "HH:MM:SS"
 		const timeParts = input.split(':').map(Number);
-		if (timeParts.length === 3 && timeParts.every((n) => !isNaN(n))) {
+		if (timeParts.length === 3 && timeParts.every((number) => !isNaN(number))) {
 			const now = new Date();
 			return new Date(now.getFullYear(), now.getMonth(), now.getDate(), timeParts[0], timeParts[1], timeParts[2]);
 		}
@@ -171,30 +190,27 @@ export function getRelativeTime(
 	}
 
 	const { type = 'ago', suffix = '', shortUnits = false } = options;
-
 	const now = new Date();
 	const isPast = parsedDate < now;
-
-	const diff = Math.abs(type === 'ago' ? now.getTime() - parsedDate.getTime() : parsedDate.getTime() - now.getTime());
-
-	const seconds = Math.floor(diff / 1000);
+	const difference = Math.abs(type === 'ago' ? now.getTime() - parsedDate.getTime() : parsedDate.getTime() - now.getTime());
+	const seconds = Math.floor(difference / 1000);
 
 	const intervals = {
-		year: 31536000,
-		month: 2592000,
 		day: 86400,
 		hour: 3600,
 		minute: 60,
+		month: 2592000,
 		second: 1,
+		year: 31536000,
 	};
 
 	const units = {
-		year: shortUnits ? 'y' : 'year',
-		month: shortUnits ? 'mo' : 'month',
 		day: shortUnits ? 'd' : 'day',
 		hour: shortUnits ? 'h' : 'hour',
 		minute: shortUnits ? 'm' : 'minute',
+		month: shortUnits ? 'mo' : 'month',
 		second: shortUnits ? 's' : 'second',
+		year: shortUnits ? 'y' : 'year',
 	};
 
 	for (const [unit, secondsInUnit] of Object.entries(intervals)) {
@@ -204,7 +220,6 @@ export function getRelativeTime(
 			const value = Math.floor(interval);
 			const unitName = units[unit as keyof typeof units];
 			const pluralUnit = !shortUnits && value !== 1 ? unitName + 's' : unitName;
-
 			const timePart = `${value} ${pluralUnit}`;
 
 			if (!suffix) {
@@ -247,4 +262,169 @@ export function timeUntil(date: TimeInput, type: string = 'until', suffix: strin
 		suffix: 'left',
 		type: 'until',
 	});
+}
+
+/**
+ * Safely convert a raw input to a Date, or return null
+ *
+ * @param input
+ * @returns Date | null
+ */
+export function toDate(input: TimeInput): Date | null {
+	return parseTimeInput(input);
+}
+
+/**
+ * Convert a time input to a normalized ISO string
+ *
+ * @param input
+ * @returns string
+ */
+export function toISOString(input: TimeInput): string {
+	const date = toDate(input);
+	return date ? date.toISOString() : '';
+}
+
+/**
+ * Format a Date object into a string representation
+ *
+ * Example:
+ * 	formatTime(new Date(), 'dddd, MMMM DD, YYYY HH:mm:ss'); // Tuesday, March 15, 2024 14:30:00
+ * 	formatTime(new Date(), 'MM/DD/YY h:mm a'); // 03/15/24 2:30 pm
+ *
+ * @param date|string The Date object to format
+ * @param format The format string using tokens (YYYY-MM-DD HH:mm:ss)
+ * @return Formatted date string, or empty string if invalid date
+ */
+export function formatTime(dateInput: Date | string, format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+	let date: Date;
+
+	if (typeof dateInput === 'string') {
+		const normalizedDate = normalizeDateString(dateInput);
+
+		if (!normalizedDate) {
+			return '';
+		}
+
+		date = normalizedDate;
+	} else if (dateInput instanceof Date) {
+		date = dateInput;
+	} else {
+		return '';
+	}
+
+	if (isNaN(date.getTime())) {
+		return '';
+	}
+
+	if (!(date instanceof Date) || isNaN(date.getTime())) {
+		return '';
+	}
+
+	/**
+	 * Pad a number with leading zeros to ensure two digits
+	 *
+	 * @param number The number to pad
+	 * @return Zero-padded string representation
+	 */
+	const padWithZero = (number: number): string => {
+		return number.toString().padStart(2, '0');
+	};
+
+	/**
+	 * Get the month as a 3-letter abbreviation
+	 *
+	 * @param monthIndex The month index (0-11)
+	 * @return Month abbreviation string
+	 */
+	const getMonthAbbreviation = (monthIndex: number): string => {
+		const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		return monthNames[monthIndex];
+	};
+
+	/**
+	 * Get the month as full name
+	 *
+	 * @param monthIndex The month index (0-11)
+	 * @return Full month name string
+	 */
+	const getMonthName = (monthIndex: number): string => {
+		const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		return monthNames[monthIndex];
+	};
+
+	/**
+	 * Get the day of week as 3-letter abbreviation
+	 *
+	 * @param dayIndex The day index (0-6) where 0 is Sunday
+	 * @return Day abbreviation string
+	 */
+	const getDayAbbreviation = (dayIndex: number): string => {
+		const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		return dayNames[dayIndex];
+	};
+
+	/**
+	 * Get the day of week as full name
+	 *
+	 * @param dayIndex The day index (0-6) where 0 is Sunday
+	 * @return Full day name string
+	 */
+	const getDayName = (dayIndex: number): string => {
+		const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		return dayNames[dayIndex];
+	};
+
+	/**
+	 * Get 12-hour format hours
+	 *
+	 * @param hours The 24-hour format hours
+	 * @return Hours in 12-hour format
+	 */
+	const getTwelveHourFormat = (hours: number): number => {
+		return hours % 12 || 12;
+	};
+
+	/**
+	 * Get AM/PM indicator
+	 *
+	 * @param hours The 24-hour format hours
+	 * @return AM or PM string
+	 */
+	const getMeridiemIndicator = (hours: number): string => {
+		return hours < 12 ? 'AM' : 'PM';
+	};
+
+	// Token replacements for formatting
+	const tokenReplacements: Record<string, string> = {
+		A: getMeridiemIndicator(date.getHours()),
+		D: date.getDate().toString(),
+		DD: padWithZero(date.getDate()),
+		H: date.getHours().toString(),
+		HH: padWithZero(date.getHours()),
+		M: (date.getMonth() + 1).toString(),
+		MM: padWithZero(date.getMonth() + 1),
+		MMM: getMonthAbbreviation(date.getMonth()),
+		MMMM: getMonthName(date.getMonth()),
+		YY: date.getFullYear().toString().slice(-2),
+		YYYY: date.getFullYear().toString(),
+		a: getMeridiemIndicator(date.getHours()).toLowerCase(),
+		ddd: getDayAbbreviation(date.getDay()),
+		dddd: getDayName(date.getDay()),
+		h: getTwelveHourFormat(date.getHours()).toString(),
+		hh: padWithZero(getTwelveHourFormat(date.getHours())),
+		m: date.getMinutes().toString(),
+		mm: padWithZero(date.getMinutes()),
+		s: date.getSeconds().toString(),
+		ss: padWithZero(date.getSeconds()),
+	};
+
+	// Create regex pattern for all tokens, ordered by length (longest first)
+	const tokenPattern = Object.keys(tokenReplacements)
+		.sort((a, b) => b.length - a.length)
+		.join('|');
+
+	const regex = new RegExp(tokenPattern, 'g');
+
+	return format.replace(regex, (match) => tokenReplacements[match]);
 }

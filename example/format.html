@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style>
+			body {
+				background: #11110b;
+				color: #fffff1;
+			}
+
+			.shape {
+				background: red;
+				height: 300px;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks API</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					api_url: 'http://localhost:8000/v3',
+					// api_url: 'https://api.chalkysticks.com/v1',
+				},
+			};
+		</script>
+
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			const createdAt = '2025-04-30 01:55:18';
+			const updatedAt = '2016-09-05T00:13:40+00:00';
+
+			const formattedCreatedAt = ChalkySticksCore.Utility.Format.formatTime(createdAt);
+			const formattedUpdatedAt = ChalkySticksCore.Utility.Format.formatTime(updatedAt);
+
+			console.log(formattedCreatedAt); // "April 30, 2025 01:55"
+			console.log(formattedUpdatedAt); // "April 30, 2025 01:55"
+
+			// IMPORTANT!!!
+			// These aren't coming out correct because of timezones.
+			//
+			// 2025-04-29 21:55:18
+			// 2016-09-04 20:13:40
+			//
+			// We'll deal with that later
+		</script>
+	</body>
+</html>
