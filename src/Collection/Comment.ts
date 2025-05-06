@@ -24,10 +24,13 @@ export class Comment extends Base<Model.Comment> {
 	 * @param IAttributes options
 	 */
 	constructor(options: IAttributes = {}) {
-		super(options);
+		super(options, false);
 
 		// Bindings
 		this.Handle_OnAddBeforeSetParentId = this.Handle_OnAddBeforeSetParentId.bind(this);
+
+		// Setup
+		this.setup(options);
 	}
 
 	/**
@@ -95,10 +98,30 @@ export class Comment extends Base<Model.Comment> {
 		return this;
 	}
 
+	// region: Actions
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * @param object params
+	 * @return Model.Comment
+	 */
+	public comment(params: any = {}): Model.Comment {
+		this.ensureToken(this.token || this.options.token);
+		this.add(params);
+
+		return this.last() as Model.Comment;
+	}
+
+	// endregion: Actions
+
 	// region: Event Handlers
 	// ---------------------------------------------------------------------------
 
 	/**
+	 * @todo this might have an issue if threads go beyond 2 levels
+	 * due to how we're doing the 'endpoint' thing. This is a bad solution
+	 * but I implemented it late night.
+	 *
 	 * @param IDispatcherEvent e
 	 * @return Promise<void>
 	 */

@@ -49,9 +49,17 @@ export class Base<T extends Model> extends Collection<T> {
 	/**
 	 * @param object options
 	 */
-	constructor(options: any = {}) {
+	constructor(options: any = {}, autoSetup: boolean = true) {
 		super(options);
 
+		autoSetup && this.setup(options);
+	}
+
+	/**
+	 * @param object options
+	 * @return void
+	 */
+	public setup(options: any = {}): void {
 		// If a hook was registered, run it
 		const ctor = this.constructor as typeof Base;
 		ctor._reactiveHook?.(this);
@@ -73,19 +81,24 @@ export class Base<T extends Model> extends Collection<T> {
 		this.builder.qp('page', this.page);
 
 		// Assign token
-		if (options.token) {
-			this.setToken(options.token);
-		} else {
-			const store = Provider.Store.get();
-			const token = store?.state?.token || store?.getters['authentication/token'];
-			token && this.setToken(token);
-		}
+		this.ensureToken(options.token);
 
 		// Add headers
 		this.setHeaders(Environment.headers);
 
 		// Attach
 		this.attachEvents();
+	}
+
+	/**
+	 * @param string token
+	 * @return void
+	 */
+	public ensureToken(token: string = ''): void {
+		const store = Provider.Store.get();
+
+		token = token || store?.state?.token || store?.getters['authentication/token'];
+		token && this.setToken(token);
 	}
 
 	/**

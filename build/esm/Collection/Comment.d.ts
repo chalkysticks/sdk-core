@@ -10,5 +10,6 @@ export declare class Comment extends Base<Model.Comment> {
     rootOnly(): this;
     byParent(parent_id: number | string): this;
     byUser(user_id: number | string): this;
+    comment(params?: any): Model.Comment;
     protected Handle_OnAddBeforeSetParentId(e: IDispatcherEvent): Promise<void>;
 }

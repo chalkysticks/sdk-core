@@ -7,7 +7,7 @@ export declare class Comment extends Base {
     get children(): Collection.Comment;
     get parentComment(): Comment;
     get user(): Model.User;
-    reply(): Comment;
+    reply(params?: any): Comment;
     getBody(): string;
     getParentId(): number;
     getUserId(): number;

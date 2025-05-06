@@ -48,13 +48,19 @@ export class Comment extends Base {
 	// ---------------------------------------------------------------------------
 
 	/**
+	 * @param object params
 	 * @return Comment
 	 */
-	public reply(): Comment {
-		const model = new Comment();
-		model.set({ parent_id: this.id });
-
-		return model;
+	public reply(params: any = {}): Comment {
+		return new Comment(
+			{
+				...params,
+				parent_id: this.id,
+			},
+			{
+				token: this.token || this.options.token,
+			},
+		);
 	}
 
 	// endregion: Actions

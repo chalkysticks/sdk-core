@@ -32,11 +32,22 @@ export class Base extends Model {
 	public baseUrl: string = Environment.app.apiUrl;
 
 	/**
+	 * @constructor
+	 * @param object attributes
 	 * @param object options
+	 * @param boolean autoSetup
 	 */
-	constructor(attributes: IAttributes = {}, options: IAttributes = {}) {
+	constructor(attributes: IAttributes = {}, options: IAttributes = {}, autoSetup: boolean = true) {
 		super(attributes, options);
 
+		autoSetup && this.setup(options);
+	}
+
+	/**
+	 * @param object options
+	 * @return void
+	 */
+	public setup(options: IAttributes = {}): void {
 		// If a hook was registered, run it
 		const ctor = this.constructor as typeof Base;
 		ctor._reactiveHook?.(this);
@@ -50,19 +61,24 @@ export class Base extends Model {
 		});
 
 		// Assign token
-		if (options.token) {
-			this.setToken(options.token);
-		} else {
-			const store = Provider.Store.get();
-			const token = store?.state?.token || store?.getters['authentication/token'];
-			token && this.setToken(token);
-		}
+		this.ensureToken(options.token);
 
 		// Add headers
 		this.setHeaders(Environment.headers);
 
 		// Attach events
 		this.attachEvents();
+	}
+
+	/**
+	 * @param string token
+	 * @return void
+	 */
+	public ensureToken(token: string = ''): void {
+		const store = Provider.Store.get();
+
+		token = token || store?.state?.token || store?.getters['authentication/token'];
+		token && this.setToken(token);
 	}
 
 	/**

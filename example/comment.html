@@ -45,12 +45,17 @@
 
 			const token = '353|q6MsY8Ii1lWjVoKp1sHi6QSUSykiELit70JfuzGq31cd7c5d';
 
+			// Collection
 			const contentCollection = new ChalkySticksCore.Collection.Content();
 			contentCollection.setQueryParam('include', 'comments');
 			await contentCollection.fetch();
+
+			// Model
 			const contentModel = contentCollection.first();
 
-			console.log('Content Comments', contentModel.comments);
+			console.log('Collection', contentModel.comments);
+
+			console.log('Comment Children', contentModel.comments.at(0).children);
 
 			// contentModel.comments.add({
 			// 	body: 'What is up man',
