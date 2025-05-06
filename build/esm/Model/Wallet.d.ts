@@ -8,6 +8,4 @@ export declare class Wallet extends Base {
     canCollect(): boolean;
     getSource(): string;
     getTransaction(): string;
-    getCreatedAt(): string;
-    getUpdatedAt(): string;
 }

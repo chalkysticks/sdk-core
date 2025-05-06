@@ -90,19 +90,5 @@ export class Wallet extends Base {
 		return this.attr('transaction') as string;
 	}
 
-	/**
-	 * @return string
-	 */
-	public getCreatedAt(): string {
-		return this.attr('created_at') as string;
-	}
-
-	/**
-	 * @return string
-	 */
-	public getUpdatedAt(): string {
-		return this.attr('updated_at') as string;
-	}
-
 	// endregion: Getters
 }

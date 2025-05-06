@@ -44,6 +44,21 @@ export class Comment extends Base {
 
 	// endregion: Relationship
 
+	// region: Actions
+	// ---------------------------------------------------------------------------
+
+	/**
+	 * @return Comment
+	 */
+	public reply(): Comment {
+		const model = new Comment();
+		model.set({ parent_id: this.id });
+
+		return model;
+	}
+
+	// endregion: Actions
+
 	// region: Getters
 	// ---------------------------------------------------------------------------
 

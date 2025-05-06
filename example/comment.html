@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChalkySticks Core SDK Example</title>
+
+		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
+
+		<style>
+			body {
+				background: #11110b;
+				color: #fffff1;
+			}
+
+			.shape {
+				background: red;
+				height: 300px;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header>
+				<h1>ChalkySticks API</h1>
+			</header>
+		</main>
+
+		<!-- Script -->
+		<script>
+			window.env = {
+				app: {
+					api_url: 'http://localhost:8000/v3',
+					// api_url: 'https://api.chalkysticks.com/v1',
+					localUrl: 'http://localhost:8000/v3',
+				},
+			};
+		</script>
+
+		<script type="module">
+			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
+
+			const token = '353|q6MsY8Ii1lWjVoKp1sHi6QSUSykiELit70JfuzGq31cd7c5d';
+
+			const contentCollection = new ChalkySticksCore.Collection.Content();
+			contentCollection.setQueryParam('include', 'comments');
+			await contentCollection.fetch();
+			const contentModel = contentCollection.first();
+
+			console.log('Content Comments', contentModel.comments);
+
+			// contentModel.comments.add({
+			// 	body: 'What is up man',
+			// });
+
+			// const newComment = contentModel.comments.last();
+			// newComment.setToken(token);
+			// await newComment.save();
+			// console.log('Content: Comment A', newComment);
+
+			// const replyComment = newComment.reply();
+			// replyComment.setToken(token);
+			// replyComment.save({
+			// 	body: 'Not much, how are you?',
+			// });
+			// console.log('Content: Comment B', replyComment);
+		</script>
+	</body>
+</html>
