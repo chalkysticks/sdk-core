@@ -153,6 +153,14 @@
 			document.getElementById('btnCast').addEventListener('click', () => {
 				ChalkySticksCore.Utility.Presentation.castToDevice('https://www.youtube.com/watch?v=jfKfPfyJRdk');
 			});
+
+			// -----------------------------------------------------------------
+
+			setTimeout(() => {
+				ChalkySticksCore.Event.Bus.dispatch('login', {
+					token: 'token',
+				});
+			}, 1000);
 		</script>
 	</body>
 </html>

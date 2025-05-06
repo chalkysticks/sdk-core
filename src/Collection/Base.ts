@@ -52,6 +52,9 @@ export class Base<T extends Model> extends Collection<T> {
 	constructor(options: any = {}, autoSetup: boolean = true) {
 		super(options);
 
+		// Bindings
+		this.Handle_OnLoginSuccess = this.Handle_OnLoginSuccess.bind(this);
+
 		autoSetup && this.setup(options);
 	}
 
@@ -105,6 +108,8 @@ export class Base<T extends Model> extends Collection<T> {
 	 * @return void
 	 */
 	public attachEvents(): void {
+		Event.Bus.on('login', this.Handle_OnLoginSuccess);
+
 		this.on('add:before', (e: IDispatcherEvent) => {
 			e.detail.model.baseUrl = this.baseUrl;
 		});
@@ -159,6 +164,7 @@ export class Base<T extends Model> extends Collection<T> {
 	 * @return void
 	 */
 	public detachEvents(): void {
+		Event.Bus.off('login', this.Handle_OnLoginSuccess);
 		this.off('add');
 		this.off('error');
 		this.off('finish');
@@ -202,5 +208,15 @@ export class Base<T extends Model> extends Collection<T> {
 	 */
 	public isV3(): boolean {
 		return this.baseUrl.toLowerCase().indexOf('/v3') > 0;
+	}
+
+	/**
+	 * @param IDispatcherData
+	 * @return Promise<void>
+	 */
+	protected async Handle_OnLoginSuccess(e: any): Promise<void> {
+		const token = e.data.token;
+
+		this.ensureToken(token);
 	}
 }

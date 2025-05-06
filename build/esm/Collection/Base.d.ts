@@ -17,5 +17,6 @@ export declare class Base<T extends Model> extends Collection<T> {
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;
+    protected Handle_OnLoginSuccess(e: any): Promise<void>;
 }
 export {};

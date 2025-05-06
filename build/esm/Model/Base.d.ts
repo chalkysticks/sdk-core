@@ -16,5 +16,6 @@ export declare class Base extends Model {
     getCreatedAt(format?: string): string;
     getUpdatedAt(format?: string): string;
     getDeletedAt(format?: string): string;
+    protected Handle_OnLoginSuccess(e: any): Promise<void>;
 }
 export {};

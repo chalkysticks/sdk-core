@@ -40,6 +40,9 @@ export class Base extends Model {
 	constructor(attributes: IAttributes = {}, options: IAttributes = {}, autoSetup: boolean = true) {
 		super(attributes, options);
 
+		// Bindings
+		this.Handle_OnLoginSuccess = this.Handle_OnLoginSuccess.bind(this);
+
 		autoSetup && this.setup(options);
 	}
 
@@ -85,6 +88,8 @@ export class Base extends Model {
 	 * @return void
 	 */
 	public attachEvents(): void {
+		Event.Bus.on('login', this.Handle_OnLoginSuccess);
+
 		// Listen for loading
 		this.on('requesting', (e: IDispatcherEvent) => {
 			const data: any = { collection: this };
@@ -135,6 +140,8 @@ export class Base extends Model {
 	 * @return void
 	 */
 	public detachEvents(): void {
+		Event.Bus.off('login', this.Handle_OnLoginSuccess);
+
 		this.off('requesting');
 		this.off('finish');
 		this.off('error');
@@ -217,5 +224,15 @@ export class Base extends Model {
 
 		const date = new Date(deletedAt);
 		return date.toISOString().slice(0, 19).replace('T', ' ');
+	}
+
+	/**
+	 * @param IDispatcherData
+	 * @return Promise<void>
+	 */
+	protected async Handle_OnLoginSuccess(e: any): Promise<void> {
+		const token = e.data.token;
+
+		this.ensureToken(token);
 	}
 }
