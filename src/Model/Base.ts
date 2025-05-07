@@ -1,5 +1,6 @@
 import * as Event from '../Event/index.js';
 import * as Provider from '../Provider/index.js';
+import * as Format from '../Utility/Format.js';
 import Constants from '../Common/Constants.js';
 import Environment from '../Common/Environment.js';
 import { IAttributes, IDispatcherEvent, Model } from 'restmc';
@@ -178,8 +179,8 @@ export class Base extends Model {
 	/**
 	 * If we have a created_at attribute, return it formatted.
 	 *
-	 * @param string format
-	 * @return string
+	 * @param string format Format string for date output using tokens like 'YYYY-MM-DD HH:mm:ss'
+	 * @return string Formatted date string
 	 */
 	public getCreatedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
 		const createdAt = this.attr('created_at') as string;
@@ -188,15 +189,44 @@ export class Base extends Model {
 			return '';
 		}
 
-		const date = new Date(createdAt);
-		return date.toISOString().slice(0, 19).replace('T', ' ');
+		return Format.formatTime(createdAt, format);
+	}
+
+	/**
+	 * Get the created_at attribute as a Date object
+	 *
+	 * @return Date|null Date object or null if not available
+	 */
+	public getCreatedAtDate(): Date | null {
+		const createdAt = this.attr('created_at') as string;
+		return createdAt ? Format.toDate(createdAt) : null;
+	}
+
+	/**
+	 * Get how long ago the item was created in human readable format
+	 *
+	 * @param boolean shortUnits Whether to use abbreviated units (e.g., '2d' vs '2 days')
+	 * @return string Time ago string (e.g., '2 days ago')
+	 */
+	public getCreatedAtTimeAgo(shortUnits: boolean = false): string {
+		const createdAt = this.attr('created_at') as string;
+
+		if (!createdAt) {
+			return '';
+		}
+
+		return Format.getRelativeTime(createdAt, {
+			shortUnits: shortUnits,
+			suffix: 'ago',
+			type: 'ago',
+		});
 	}
 
 	/**
 	 * If we have a updated_at attribute, return it formatted.
 	 *
-	 * @param string format
-	 * @return string
+	 * @param string format Format string for date output using tokens like 'YYYY-MM-DD HH:mm:ss'
+	 * @return string Formatted date string
 	 */
 	public getUpdatedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
 		const updatedAt = this.attr('updated_at') as string;
@@ -205,15 +235,44 @@ export class Base extends Model {
 			return '';
 		}
 
-		const date = new Date(updatedAt);
-		return date.toISOString().slice(0, 19).replace('T', ' ');
+		return Format.formatTime(updatedAt, format);
+	}
+
+	/**
+	 * Get the updated_at attribute as a Date object
+	 *
+	 * @return Date|null Date object or null if not available
+	 */
+	public getUpdatedAtDate(): Date | null {
+		const updatedAt = this.attr('updated_at') as string;
+		return updatedAt ? Format.toDate(updatedAt) : null;
+	}
+
+	/**
+	 * Get how long ago the item was updated in human readable format
+	 *
+	 * @param boolean shortUnits Whether to use abbreviated units (e.g., '2d' vs '2 days')
+	 * @return string Time ago string (e.g., '2 days ago')
+	 */
+	public getUpdatedAtTimeAgo(shortUnits: boolean = false): string {
+		const updatedAt = this.attr('updated_at') as string;
+
+		if (!updatedAt) {
+			return '';
+		}
+
+		return Format.getRelativeTime(updatedAt, {
+			shortUnits: shortUnits,
+			suffix: 'ago',
+			type: 'ago',
+		});
 	}
 
 	/**
 	 * If we have a deleted_at attribute, return it formatted.
 	 *
-	 * @param string format
-	 * @return string
+	 * @param string format Format string for date output using tokens like 'YYYY-MM-DD HH:mm:ss'
+	 * @return string Formatted date string
 	 */
 	public getDeletedAt(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
 		const deletedAt = this.attr('deleted_at') as string;
@@ -222,8 +281,46 @@ export class Base extends Model {
 			return '';
 		}
 
-		const date = new Date(deletedAt);
-		return date.toISOString().slice(0, 19).replace('T', ' ');
+		return Format.formatTime(deletedAt, format);
+	}
+
+	/**
+	 * Get the deleted_at attribute as a Date object
+	 *
+	 * @return Date|null Date object or null if not available
+	 */
+	public getDeletedAtDate(): Date | null {
+		const deletedAt = this.attr('deleted_at') as string;
+		return deletedAt ? Format.toDate(deletedAt) : null;
+	}
+
+	/**
+	 * Get how long ago the item was deleted in human readable format
+	 *
+	 * @param boolean shortUnits Whether to use abbreviated units (e.g., '2d' vs '2 days')
+	 * @return string Time ago string (e.g., '2 days ago')
+	 */
+	public getDeletedAtTimeAgo(shortUnits: boolean = false): string {
+		const deletedAt = this.attr('deleted_at') as string;
+
+		if (!deletedAt) {
+			return '';
+		}
+
+		return Format.getRelativeTime(deletedAt, {
+			shortUnits: shortUnits,
+			suffix: 'ago',
+			type: 'ago',
+		});
+	}
+
+	/**
+	 * Check if this model has been deleted (soft-deleted)
+	 *
+	 * @return boolean True if the model has been deleted
+	 */
+	public isDeleted(): boolean {
+		return !!this.attr('deleted_at');
 	}
 
 	/**

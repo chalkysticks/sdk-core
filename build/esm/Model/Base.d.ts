@@ -14,8 +14,15 @@ export declare class Base extends Model {
     isV2(): boolean;
     isV3(): boolean;
     getCreatedAt(format?: string): string;
+    getCreatedAtDate(): Date | null;
+    getCreatedAtTimeAgo(shortUnits?: boolean): string;
     getUpdatedAt(format?: string): string;
+    getUpdatedAtDate(): Date | null;
+    getUpdatedAtTimeAgo(shortUnits?: boolean): string;
     getDeletedAt(format?: string): string;
+    getDeletedAtDate(): Date | null;
+    getDeletedAtTimeAgo(shortUnits?: boolean): string;
+    isDeleted(): boolean;
     protected Handle_OnLoginSuccess(e: any): Promise<void>;
 }
 export {};

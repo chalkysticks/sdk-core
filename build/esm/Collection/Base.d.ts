@@ -17,6 +17,16 @@ export declare class Base<T extends Model> extends Collection<T> {
     isV1(): boolean;
     isV2(): boolean;
     isV3(): boolean;
+    getCreatedAt(id: string | number, format?: string): string;
+    getCreatedAtDate(id: string | number): Date | null;
+    getCreatedAtTimeAgo(id: string | number, shortUnits?: boolean): string;
+    getUpdatedAt(id: string | number, format?: string): string;
+    getUpdatedAtDate(id: string | number): Date | null;
+    getUpdatedAtTimeAgo(id: string | number, shortUnits?: boolean): string;
+    getDeletedAt(id: string | number, format?: string): string;
+    getDeletedAtDate(id: string | number): Date | null;
+    getDeletedAtTimeAgo(id: string | number, shortUnits?: boolean): string;
+    isDeleted(id: string | number): boolean;
     protected Handle_OnLoginSuccess(e: any): Promise<void>;
 }
 export {};
