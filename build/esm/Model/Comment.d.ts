@@ -9,10 +9,10 @@ export declare class Comment extends Base {
     get user(): Model.User;
     reply(params?: any): Comment;
     getBody(): string;
-    getParentId(): number;
+    getParentCommentId(): number;
     getUserId(): number;
     hasChildren(): boolean;
-    hasParent(): boolean;
+    hasParentComment(): boolean;
     isEdited(): boolean;
     isFlagged(): boolean;
 }

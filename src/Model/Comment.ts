@@ -78,7 +78,7 @@ export class Comment extends Base {
 	/**
 	 * @return number
 	 */
-	public getParentId(): number {
+	public getParentCommentId(): number {
 		return this.attr('parent_id') as number;
 	}
 
@@ -97,10 +97,12 @@ export class Comment extends Base {
 	}
 
 	/**
+	 * `hasParent` is used by RestMC so this will mess up deletion
+	 *
 	 * @return boolean
 	 */
-	public hasParent(): boolean {
-		return !!this.getParentId();
+	public hasParentComment(): boolean {
+		return !!this.getParentCommentId();
 	}
 
 	/**
