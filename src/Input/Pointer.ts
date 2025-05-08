@@ -130,14 +130,14 @@ export class Pointer extends Event.Dispatcher {
 	 *
 	 * @type HTMLElement
 	 */
-	public activeTarget: HTMLElement;
+	public activeTarget!: HTMLElement;
 
 	/**
 	 * Our active target
 	 *
 	 * @type HTMLElement
 	 */
-	public currentTarget: HTMLElement;
+	public currentTarget!: HTMLElement;
 
 	/**
 	 * Angle from origin

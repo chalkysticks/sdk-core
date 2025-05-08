@@ -39,7 +39,7 @@ export class DispatcherEvent<T = any> {
 	/**
 	 * @type IDispatcherEvent<T>
 	 */
-	protected envelope: IDispatcherEvent<T>;
+	protected envelope!: IDispatcherEvent<T>;
 
 	/**
 	 * @type string
