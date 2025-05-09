@@ -5,7 +5,7 @@
  * @return boolean
  */
 export function isYouTube(url: string): boolean {
-	return url.match(/(?:youtube\.com|youtu\.be)/) !== null;
+	return (url || '').match(/(?:youtube\.com|youtu\.be)/) !== null;
 }
 
 /**
@@ -15,7 +15,7 @@ export function isYouTube(url: string): boolean {
  * @return string
  */
 export function parseId(url: string): string {
-	const id = url.match(/(?:\?v=|\/embed\/|\/\d+\/|\.be\/)([a-zA-Z0-9_-]+)/);
+	const id = (url || '').match(/(?:\?v=|\/embed\/|\/\d+\/|\.be\/)([a-zA-Z0-9_-]+)/);
 
 	return id ? id[1] : '';
 }

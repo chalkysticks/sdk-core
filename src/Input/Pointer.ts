@@ -375,6 +375,27 @@ export class Pointer extends Event.Dispatcher {
 	protected moveThreshold: number = 5;
 
 	/**
+	 * Minimum distance for a swipe (px)
+	 *
+	 * @type number
+	 */
+	protected swipeThreshold: number = 50;
+
+	/**
+	 * Maximum time for a swipe (ms)
+	 *
+	 * @type number
+	 */
+	protected swipeTimeThreshold: number = 300;
+
+	/**
+	 * Minimum velocity for a swipe
+	 *
+	 * @type number
+	 */
+	protected swipeVelocityThreshold: number = 0.3;
+
+	/**
 	 * @type string
 	 */
 	private cid: string = Math.random().toString(36).substr(2, 9);
@@ -403,27 +424,6 @@ export class Pointer extends Event.Dispatcher {
 	 * @type number
 	 */
 	private lastTapTime: number = 0;
-
-	/**
-	 * Minimum distance for a swipe (px)
-	 *
-	 * @type number
-	 */
-	protected swipeThreshold: number = 50;
-
-	/**
-	 * Maximum time for a swipe (ms)
-	 *
-	 * @type number
-	 */
-	protected swipeTimeThreshold: number = 300;
-
-	/**
-	 * Minimum velocity for a swipe
-	 *
-	 * @type number
-	 */
-	protected swipeVelocityThreshold: number = 0.3;
 
 	/**
 	 * @type number

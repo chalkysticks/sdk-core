@@ -86,15 +86,15 @@ export declare class Pointer extends Event.Dispatcher {
     wheelDelta: number;
     protected autoTouchEvents: boolean;
     protected moveThreshold: number;
+    protected swipeThreshold: number;
+    protected swipeTimeThreshold: number;
+    protected swipeVelocityThreshold: number;
     private cid;
     private eventType;
     private holdTimeout;
     private initialPinchDistance;
     private lastPinchDistance;
     private lastTapTime;
-    protected swipeThreshold: number;
-    protected swipeTimeThreshold: number;
-    protected swipeVelocityThreshold: number;
     private tapCount;
     private tapTimeout;
     private twoFingerTapCount;
