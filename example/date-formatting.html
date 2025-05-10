@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ChalkySticks SDK - Date Formatting Example</title>
+		<style>
+			body {
+				font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+				line-height: 1.6;
+				padding: 20px;
+				max-width: 1000px;
+				margin: 0 auto;
+			}
+			h1,
+			h2,
+			h3 {
+				margin-top: 30px;
+			}
+			.output {
+				background-color: #f5f5f5;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				padding: 15px;
+				margin-bottom: 20px;
+				white-space: pre-wrap;
+				font-family: monospace;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px 0;
+			}
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 8px 12px;
+				text-align: left;
+			}
+			th {
+				background-color: #f2f2f2;
+			}
+			tr:nth-child(even) {
+				background-color: #f9f9f9;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>ChalkySticks SDK - Date Formatting Example</h1>
+
+		<h2>Model Date Methods</h2>
+		<div id="model-output" class="output">Loading...</div>
+
+		<h2>Collection Date Methods</h2>
+		<div id="collection-output" class="output">Loading...</div>
+
+		<h2>Format Options Reference</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Token</th>
+					<th>Description</th>
+					<th>Example</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>YYYY</td>
+					<td>4-digit year</td>
+					<td>2023</td>
+				</tr>
+				<tr>
+					<td>YY</td>
+					<td>2-digit year</td>
+					<td>23</td>
+				</tr>
+				<tr>
+					<td>MMMM</td>
+					<td>Full month name</td>
+					<td>January</td>
+				</tr>
+				<tr>
+					<td>MMM</td>
+					<td>3-letter month</td>
+					<td>Jan</td>
+				</tr>
+				<tr>
+					<td>MM</td>
+					<td>2-digit month (zero-padded)</td>
+					<td>01</td>
+				</tr>
+				<tr>
+					<td>M</td>
+					<td>Month number</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>DD</td>
+					<td>2-digit day (zero-padded)</td>
+					<td>05</td>
+				</tr>
+				<tr>
+					<td>D</td>
+					<td>Day number</td>
+					<td>5</td>
+				</tr>
+				<tr>
+					<td>dddd</td>
+					<td>Full day name</td>
+					<td>Monday</td>
+				</tr>
+				<tr>
+					<td>ddd</td>
+					<td>3-letter day</td>
+					<td>Mon</td>
+				</tr>
+				<tr>
+					<td>HH</td>
+					<td>2-digit hours, 24-hour (zero-padded)</td>
+					<td>13</td>
+				</tr>
+				<tr>
+					<td>H</td>
+					<td>Hours, 24-hour</td>
+					<td>13</td>
+				</tr>
+				<tr>
+					<td>hh</td>
+					<td>2-digit hours, 12-hour (zero-padded)</td>
+					<td>01</td>
+				</tr>
+				<tr>
+					<td>h</td>
+					<td>Hours, 12-hour</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>mm</td>
+					<td>2-digit minutes (zero-padded)</td>
+					<td>05</td>
+				</tr>
+				<tr>
+					<td>m</td>
+					<td>Minutes</td>
+					<td>5</td>
+				</tr>
+				<tr>
+					<td>ss</td>
+					<td>2-digit seconds (zero-padded)</td>
+					<td>09</td>
+				</tr>
+				<tr>
+					<td>s</td>
+					<td>Seconds</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>A</td>
+					<td>AM/PM</td>
+					<td>PM</td>
+				</tr>
+				<tr>
+					<td>a</td>
+					<td>am/pm</td>
+					<td>pm</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<script type="module">
+			import { ChalkySticks } from '../build/index.js';
+
+			// Initialize the demo once imports are loaded
+			document.addEventListener('DOMContentLoaded', function () {
+				initDemo();
+			});
+
+			function initDemo() {
+				// Create an example model with date fields
+				const userData = {
+					id: 1,
+					name: 'John Doe',
+					created_at: '2023-05-10T14:30:45Z',
+					updated_at: '2024-01-25T08:15:30Z',
+					deleted_at: null,
+				};
+
+				// Create an example model with deleted status
+				const deletedUserData = {
+					id: 2,
+					name: 'Jane Smith',
+					created_at: '2022-11-15T09:45:12Z',
+					updated_at: '2023-07-20T16:20:05Z',
+					deleted_at: '2024-03-18T11:30:00Z',
+				};
+
+				// Create example models
+				const userModel = new ChalkySticks.Model.User(userData);
+				const deletedUserModel = new ChalkySticks.Model.User(deletedUserData);
+
+				// Create a collection and add the models
+				const userCollection = new ChalkySticks.Collection.User();
+				userCollection.add(userModel);
+				userCollection.add(deletedUserModel);
+
+				// Display model date examples
+				const modelOutput = document.getElementById('model-output');
+				modelOutput.innerHTML = '';
+
+				// Active user date examples
+				modelOutput.innerHTML += `<h3>Active User (ID: ${userModel.id})</h3>\n`;
+				modelOutput.innerHTML += `Default Format (Created At): ${userModel.getCreatedAt()}\n`;
+				modelOutput.innerHTML += `Custom Format (Created At): ${userModel.getCreatedAt('dddd, MMMM D, YYYY')}\n`;
+				modelOutput.innerHTML += `Time Format (Created At): ${userModel.getCreatedAt('h:mm a')}\n`;
+				modelOutput.innerHTML += `Date Object (Created At): ${userModel.getCreatedAtDate()}\n`;
+				modelOutput.innerHTML += `Time Ago (Created At): ${userModel.getCreatedAtTimeAgo()}\n`;
+				modelOutput.innerHTML += `Time Ago Short (Created At): ${userModel.getCreatedAtTimeAgo(true)}\n`;
+				modelOutput.innerHTML += `Updated At: ${userModel.getUpdatedAt()}\n`;
+				modelOutput.innerHTML += `Is Deleted: ${userModel.isDeleted()}\n\n`;
+
+				// Deleted user date examples
+				modelOutput.innerHTML += `<h3>Deleted User (ID: ${deletedUserModel.id})</h3>\n`;
+				modelOutput.innerHTML += `Created At: ${deletedUserModel.getCreatedAt()}\n`;
+				modelOutput.innerHTML += `Updated At: ${deletedUserModel.getUpdatedAt()}\n`;
+				modelOutput.innerHTML += `Deleted At: ${deletedUserModel.getDeletedAt()}\n`;
+				modelOutput.innerHTML += `Deleted At (Custom Format): ${deletedUserModel.getDeletedAt('MM/DD/YY HH:mm')}\n`;
+				modelOutput.innerHTML += `Deleted At Time Ago: ${deletedUserModel.getDeletedAtTimeAgo()}\n`;
+				modelOutput.innerHTML += `Is Deleted: ${deletedUserModel.isDeleted()}\n`;
+
+				// Display collection date examples
+				const collectionOutput = document.getElementById('collection-output');
+				collectionOutput.innerHTML = '';
+
+				collectionOutput.innerHTML += `<h3>Collection Date Methods</h3>\n`;
+				collectionOutput.innerHTML += `User 1 Created At: ${userCollection.getCreatedAt(1)}\n`;
+				collectionOutput.innerHTML += `User 1 Updated At: ${userCollection.getUpdatedAt(1)}\n`;
+				collectionOutput.innerHTML += `User 1 Is Deleted: ${userCollection.isDeleted(1)}\n\n`;
+
+				collectionOutput.innerHTML += `User 2 Created At: ${userCollection.getCreatedAt(2)}\n`;
+				collectionOutput.innerHTML += `User 2 Updated At: ${userCollection.getUpdatedAt(2)}\n`;
+				collectionOutput.innerHTML += `User 2 Deleted At: ${userCollection.getDeletedAt(2)}\n`;
+				collectionOutput.innerHTML += `User 2 Deleted At Time Ago: ${userCollection.getDeletedAtTimeAgo(2)}\n`;
+				collectionOutput.innerHTML += `User 2 Is Deleted: ${userCollection.isDeleted(2)}\n`;
+
+				// Format demonstration
+				collectionOutput.innerHTML += `\n<h3>Format Examples</h3>\n`;
+				const formats = [
+					'YYYY-MM-DD',
+					'MM/DD/YY',
+					'dddd, MMMM D, YYYY',
+					'MMM D, YYYY h:mm a',
+					'h:mm:ss a',
+					'HH:mm:ss',
+					'YYYY-MM-DD[T]HH:mm:ssZ',
+				];
+
+				for (const format of formats) {
+					collectionOutput.innerHTML += `Format "${format}": ${userModel.getCreatedAt(format)}\n`;
+				}
+			}
+		</script>
+	</body>
+</html>
