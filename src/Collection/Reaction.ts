@@ -247,8 +247,6 @@ export class Reaction extends Base<Model.Reaction> {
 		const userModel = this.getUser();
 		const owner_id = userModel?.id || 0;
 
-		console.log(userModel, owner_id, this);
-
 		return !!this.where(
 			{
 				owner_id,
