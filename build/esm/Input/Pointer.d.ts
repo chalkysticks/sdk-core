@@ -100,6 +100,9 @@ export declare class Pointer extends Event.Dispatcher {
     private twoFingerTapCount;
     private vxHistory;
     private vyHistory;
+    private _mobileTouchMoveHandler?;
+    private _mobileTouchEndHandler?;
+    private _mobileContextMenuHandler?;
     constructor(eventType?: string, autoTouchEvents?: boolean, target?: HTMLElement | Document);
     attachEvents(): void;
     detachEvents(): void;
@@ -111,9 +114,11 @@ export declare class Pointer extends Event.Dispatcher {
     private get moveEvent();
     private get upEvent();
     private getDistanceBetweenTouches;
+    protected Handle_OnDocumentPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void>;
     protected Handle_OnInterval(): Promise<void>;
     protected Handle_OnPointerDown(e: MouseEvent | PointerEvent | AppTouchEvent): Promise<void>;
     protected Handle_OnPointerMove(e: MouseEvent | PointerEvent | TouchEvent): Promise<void>;
     protected Handle_OnPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void>;
     protected Handle_OnWheel(e: WheelEvent): Promise<void>;
+    private preventDefaultHandler;
 }

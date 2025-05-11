@@ -5,13 +5,23 @@
 
 		<link rel="icon" href="https://static.chalkysticks.com/favicon.png" />
 
-		<style></style>
+		<style>
+			#box {
+				background: red;
+				height: 100px;
+				width: 100px;
+			}
+		</style>
 	</head>
 	<body>
 		<main>
 			<header>
 				<h1>ChalkySticks Pointer</h1>
 			</header>
+
+			<section>
+				<div id="box"></div>
+			</section>
 		</main>
 
 		<!-- Script -->
@@ -27,6 +37,7 @@
 		<script type="module">
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
+			const box = document.getElementById('box');
 			const pointer = new ChalkySticksCore.Input.Pointer('pointer', true);
 
 			// pointer.on('drag', (e) => {
@@ -50,6 +61,14 @@
 			});
 
 			console.log(pointer);
+
+			// -------
+
+			const boxPointer = new ChalkySticksCore.Input.Pointer('pointer', true, box);
+
+			boxPointer.on('drag', (e) => {
+				console.log('Drag', e);
+			});
 		</script>
 	</body>
 </html>

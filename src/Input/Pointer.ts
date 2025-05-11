@@ -450,6 +450,11 @@ export class Pointer extends Event.Dispatcher {
 	 */
 	private vyHistory: number[] = [];
 
+	// Handlers for mobile event cleanup
+	private _mobileTouchMoveHandler?: (e: TouchEvent) => void;
+	private _mobileTouchEndHandler?: (e: TouchEvent) => void;
+	private _mobileContextMenuHandler?: (e: Event) => void;
+
 	/**
 	 * @param string eventType
 	 * @param boolean autoTouchEvents
@@ -461,6 +466,7 @@ export class Pointer extends Event.Dispatcher {
 
 		// Bindings
 		this.Handle_OnInterval = this.Handle_OnInterval.bind(this);
+		this.Handle_OnDocumentPointerUp = this.Handle_OnDocumentPointerUp.bind(this);
 		this.Handle_OnPointerDown = this.Handle_OnPointerDown.bind(this);
 		this.Handle_OnPointerMove = this.Handle_OnPointerMove.bind(this);
 		this.Handle_OnPointerUp = this.Handle_OnPointerUp.bind(this);
@@ -481,33 +487,23 @@ export class Pointer extends Event.Dispatcher {
 	 * @return void
 	 */
 	public attachEvents(): void {
-		// Event handlers
-		if (typeof window !== 'undefined' && 'ontouchstart' in window && this.autoTouchEvents) {
-			// @ts-ignore
-			this.target.addEventListener('touchstart', this.Handle_OnPointerDown);
-			// @ts-ignore
-			this.target.addEventListener('touchmove', this.Handle_OnPointerMove);
-			// @ts-ignore
-			this.target.addEventListener('touchend', this.Handle_OnPointerUp);
-		} else {
-			// @ts-ignore
-			this.target.addEventListener(this.downEvent, this.Handle_OnPointerDown);
-			// @ts-ignore
-			this.target.addEventListener(this.moveEvent, this.Handle_OnPointerMove);
-			// @ts-ignore
-			this.target.addEventListener(this.upEvent, this.Handle_OnPointerUp);
+		const isTouch = typeof window !== 'undefined' && 'ontouchstart' in window && this.autoTouchEvents;
+		const target = this.target;
+		const startEvent = isTouch ? 'touchstart' : this.downEvent;
+		const moveEvent = isTouch ? 'touchmove' : this.moveEvent;
+		const endEvent = isTouch ? 'touchend' : this.upEvent;
+		const docEndEvent = isTouch ? 'touchend' : this.upEvent;
+
+		target.addEventListener(startEvent, this.Handle_OnPointerDown as unknown as EventListener);
+		target.addEventListener(moveEvent, this.Handle_OnPointerMove as unknown as EventListener);
+		target.addEventListener(endEvent, this.Handle_OnPointerUp as unknown as EventListener);
+
+		if (target !== document) {
+			document.addEventListener(docEndEvent, this.Handle_OnDocumentPointerUp as unknown as EventListener);
 		}
 
-		// Wheel
-		// @ts-ignore
-		this.target.addEventListener('wheel', this.Handle_OnWheel, {
-			passive: false,
-		});
+		target.addEventListener('wheel', this.Handle_OnWheel as unknown as EventListener, { passive: false });
 
-		// Log attachments
-		// console.log(`Pointer: Attached to ${this.downEvent}, ${this.moveEvent}, ${this.upEvent}`);
-
-		// Use interval to update velocity
 		Utility.Interval.add(this.Handle_OnInterval, 1000 / 60, `${this.cid}-pointer-velocity`);
 	}
 
@@ -515,28 +511,23 @@ export class Pointer extends Event.Dispatcher {
 	 * @return void
 	 */
 	public detachEvents(): void {
-		// Event handlers
-		if (typeof window !== 'undefined' && 'ontouchstart' in window && this.autoTouchEvents) {
-			// @ts-ignore
-			this.target.removeEventListener('touchstart', this.Handle_OnPointerDown);
-			// @ts-ignore
-			this.target.removeEventListener('touchmove', this.Handle_OnPointerMove);
-			// @ts-ignore
-			this.target.removeEventListener('touchend', this.Handle_OnPointerUp);
-		} else {
-			// @ts-ignore
-			this.target.removeEventListener(this.downEvent, this.Handle_OnPointerDown);
-			// @ts-ignore
-			this.target.removeEventListener(this.moveEvent, this.Handle_OnPointerMove);
-			// @ts-ignore
-			this.target.removeEventListener(this.upEvent, this.Handle_OnPointerUp);
+		const isTouch = typeof window !== 'undefined' && 'ontouchstart' in window && this.autoTouchEvents;
+		const target = this.target;
+		const startEvent = isTouch ? 'touchstart' : this.downEvent;
+		const moveEvent = isTouch ? 'touchmove' : this.moveEvent;
+		const endEvent = isTouch ? 'touchend' : this.upEvent;
+		const docEndEvent = isTouch ? 'touchend' : this.upEvent;
+
+		target.removeEventListener(startEvent, this.Handle_OnPointerDown as unknown as EventListener);
+		target.removeEventListener(moveEvent, this.Handle_OnPointerMove as unknown as EventListener);
+		target.removeEventListener(endEvent, this.Handle_OnPointerUp as unknown as EventListener);
+
+		if (target !== document) {
+			document.removeEventListener(docEndEvent, this.Handle_OnDocumentPointerUp as unknown as EventListener);
 		}
 
-		// Wheel
-		// @ts-ignore
-		this.target.removeEventListener('wheel', this.Handle_OnWheel);
+		target.removeEventListener('wheel', this.Handle_OnWheel as unknown as EventListener);
 
-		// Use interval to update velocity
 		Utility.Interval.remove(`${this.cid}-pointer-velocity`);
 	}
 
@@ -547,37 +538,19 @@ export class Pointer extends Event.Dispatcher {
 	 * @return void
 	 */
 	public applyForMobile(disableTouchMove: boolean = true, disableTouchEnd: boolean = true, disableContextMenu: boolean = true): void {
-		// Disable overscroll on html,body
+		document.body.classList.add('pointer-mobile-mode');
 		document.body.style.overscrollBehavior = 'none';
-
-		// Globally disable user select
 		document.body.style.userSelect = 'none';
 
-		// Disable touch move on document
-		disableTouchMove &&
-			document.addEventListener(
-				'touchmove',
-				function (e) {
-					e.preventDefault();
-				},
-				{ passive: false },
-			);
-
-		// Disable double tap zoom on iOS
-		disableTouchEnd &&
-			document.addEventListener(
-				'touchend',
-				function (e) {
-					e.preventDefault();
-				},
-				false,
-			);
-
-		// Disable context menu
-		disableContextMenu &&
-			document.addEventListener('contextmenu', function (e) {
-				e.preventDefault();
-			});
+		if (disableTouchMove) {
+			document.addEventListener('touchmove', this.preventDefaultHandler, { passive: false });
+		}
+		if (disableTouchEnd) {
+			document.addEventListener('touchend', this.preventDefaultHandler, false);
+		}
+		if (disableContextMenu) {
+			document.addEventListener('contextmenu', this.preventDefaultHandler);
+		}
 	}
 
 	/**
@@ -730,6 +703,15 @@ export class Pointer extends Event.Dispatcher {
 
 	// region: Event Handlers
 	// ---------------------------------------------------------------------------
+
+	/**
+	 * @param PointerEvent e
+	 * @return Promise<void>
+	 */
+	protected async Handle_OnDocumentPointerUp(e: MouseEvent | PointerEvent | TouchEvent): Promise<void> {
+		this.down = 'touches' in e ? e.touches.length > 0 : false;
+		this.touches = 'touches' in e ? e.touches.length : 1;
+	}
 
 	/**
 	 * @return Promise<void>
@@ -1098,6 +1080,13 @@ export class Pointer extends Event.Dispatcher {
 			isTrackpad: isTrackpad,
 			type: 'wheel',
 		});
+	}
+
+	/**
+	 * Shared preventDefault handler for mobile events
+	 */
+	private preventDefaultHandler(e: Event): void {
+		e.preventDefault();
 	}
 
 	// endregion: Event Handlers
