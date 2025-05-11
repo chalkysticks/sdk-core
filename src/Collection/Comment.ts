@@ -89,11 +89,11 @@ export class Comment extends Base<Model.Comment> {
 	/**
 	 * Get comments by user ID
 	 *
-	 * @param number|string user_id
+	 * @param number|string owner_id
 	 * @return this
 	 */
-	public byUser(user_id: number | string): this {
-		this.builder.qp('user_id', user_id);
+	public byUser(owner_id: number | string): this {
+		this.builder.qp('owner_id', owner_id);
 
 		return this;
 	}

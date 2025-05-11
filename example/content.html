@@ -27,13 +27,20 @@
 			<header>
 				<h1>ChalkySticks API</h1>
 			</header>
+
+			<section>
+				<h2>Content</h2>
+				<p>Check the console for the output.</p>
+
+				<button id="btnLike">Like</button>
+			</section>
 		</main>
 
 		<!-- Script -->
 		<script>
 			window.env = {
 				app: {
-					api_url: 'http://localhost:8000/v3',
+					localUrl: 'http://localhost:8000/v3',
 					// api_url: 'https://api.chalkysticks.com/v1',
 				},
 			};
@@ -42,10 +49,25 @@
 		<script type="module">
 			import * as ChalkySticksCore from '../build/web/chalkysticks-core.js';
 
-			const collectionA = new ChalkySticksCore.Collection.Content();
+			const store = ChalkySticksCore.Provider.Store.get();
+			store.state.token = '426|0KiEIxj3HkNSDqgDDJb2lAHneEGI8UCDLimLa0Ibb1b3a824';
+
+			const collectionA = new ChalkySticksCore.Collection.Content({
+				qp: {
+					include: 'reactions',
+				},
+			});
 
 			collectionA.fetch().then(() => {
-				console.log('Content A', collectionA.toJSON());
+				const contentModel = collectionA.at(0);
+
+				console.log('Content Collection A', collectionA.toJSON());
+
+				// Have I liked anything?
+				const liked = contentModel.reactions.hasReaction('like');
+				const loved = contentModel.reactions.hasReaction('love');
+				console.log('Liked', liked);
+				console.log('Loved', loved);
 			});
 
 			// -----------------------------------------------------------------
@@ -61,7 +83,17 @@
 					console.log('Content B', collectionB.toJSON());
 				});
 
-			console.log('FOOOOOOOOOOOOOOOOOOOORK', collectionB.restmc);
+			// -----------------------------------------------------------------
+
+			const btnLike = document.getElementById('btnLike');
+
+			btnLike.addEventListener('click', () => {
+				const contentModel = collectionA.at(0);
+
+				console.log('Content model', contentModel);
+
+				contentModel.reactions.favorite();
+			});
 		</script>
 	</body>
 </html>
