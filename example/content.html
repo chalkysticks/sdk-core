@@ -32,7 +32,8 @@
 				<h2>Content</h2>
 				<p>Check the console for the output.</p>
 
-				<button id="btnLike">Like</button>
+				<button id="btnFavorite">Favorite</button>
+				<button id="btnUnfavorite">Unfavorite</button>
 			</section>
 		</main>
 
@@ -52,7 +53,15 @@
 			const store = ChalkySticksCore.Provider.Store.get();
 			store.state.token = '426|0KiEIxj3HkNSDqgDDJb2lAHneEGI8UCDLimLa0Ibb1b3a824';
 
+			store.getters['authentication/user'] = new ChalkySticksCore.Model.User({
+				id: 1,
+				name: 'John Doe',
+			});
+
+			console.log('Store', store);
+
 			const collectionA = new ChalkySticksCore.Collection.Content({
+				limit: 1,
 				qp: {
 					include: 'reactions',
 				},
@@ -66,33 +75,35 @@
 				// Have I liked anything?
 				const liked = contentModel.reactions.hasReaction('like');
 				const loved = contentModel.reactions.hasReaction('love');
+
+				console.log('Reactions', contentModel.reactions);
 				console.log('Liked', liked);
 				console.log('Loved', loved);
 			});
 
 			// -----------------------------------------------------------------
 
-			const collectionB = ChalkySticksCore.Factory.Content.collection({
-				baseUrl: 'http://localhost:8000/v3',
-			});
+			// const collectionB = ChalkySticksCore.Factory.Content.collection({
+			// 	baseUrl: 'http://localhost:8000/v3',
+			// });
 
-			collectionB
-				.tutorials()
-				.fetch()
-				.then(() => {
-					console.log('Content B', collectionB.toJSON());
-				});
+			// collectionB
+			// 	.tutorials()
+			// 	.fetch()
+			// 	.then(() => {
+			// 		console.log('Content B', collectionB.toJSON());
+			// 	});
 
 			// -----------------------------------------------------------------
 
-			const btnLike = document.getElementById('btnLike');
-
-			btnLike.addEventListener('click', () => {
+			btnFavorite.addEventListener('click', () => {
 				const contentModel = collectionA.at(0);
-
-				console.log('Content model', contentModel);
-
 				contentModel.reactions.favorite();
+			});
+
+			btnUnfavorite.addEventListener('click', () => {
+				const contentModel = collectionA.at(0);
+				contentModel.reactions.unfavorite();
 			});
 		</script>
 	</body>

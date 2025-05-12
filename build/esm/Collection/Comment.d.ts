@@ -11,5 +11,6 @@ export declare class Comment extends Base<Model.Comment> {
     byParent(parent_id: number | string): this;
     byUser(owner_id: number | string): this;
     comment(params?: any): Model.Comment;
-    protected Handle_OnAddBeforeSetParentId(e: IDispatcherEvent): Promise<void>;
+    protected setEntity(commentModel: Model.Comment): Promise<void>;
+    protected Handle_OnAddAfterSetParentId(e: IDispatcherEvent): Promise<void>;
 }

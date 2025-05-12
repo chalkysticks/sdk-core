@@ -37,7 +37,7 @@ export class Reaction extends Base<Model.Reaction> {
 		super(options, false);
 
 		// Bindings
-		this.Handle_OnAddBeforeSetParentId = this.Handle_OnAddBeforeSetParentId.bind(this);
+		this.Handle_OnAddAfterSetParentId = this.Handle_OnAddAfterSetParentId.bind(this);
 
 		// Setup
 		this.setup(options);
@@ -48,7 +48,7 @@ export class Reaction extends Base<Model.Reaction> {
 	 */
 	public attachEvents(): void {
 		super.attachEvents();
-		this.on('add:before', this.Handle_OnAddBeforeSetParentId);
+		this.on('add:after', this.Handle_OnAddAfterSetParentId);
 	}
 
 	/**
@@ -56,7 +56,7 @@ export class Reaction extends Base<Model.Reaction> {
 	 */
 	public detachEvents(): void {
 		super.detachEvents();
-		this.off('add:before', this.Handle_OnAddBeforeSetParentId);
+		this.off('add:after', this.Handle_OnAddAfterSetParentId);
 	}
 
 	// region: Filters
@@ -190,6 +190,7 @@ export class Reaction extends Base<Model.Reaction> {
 		this.add({ type });
 
 		const reactionModel = this.last() as Model.Reaction;
+		this.setEntity(reactionModel);
 		await reactionModel.save();
 
 		return reactionModel;
@@ -205,21 +206,21 @@ export class Reaction extends Base<Model.Reaction> {
 		const userModel = this.getUser();
 		const owner_id = userModel?.id || 0;
 
-		const reaction = this.where(
+		const reactionModel = this.where(
 			{
 				owner_id,
 				type,
 			},
 			true,
 			true,
-		);
+		) as Model.Reaction;
 
-		if (!reaction) return false;
+		if (!reactionModel) return false;
 
 		this.ensureToken(this.token || this.options.token);
-
-		await reaction.delete();
-		this.remove([reaction]);
+		this.setEntity(reactionModel);
+		await reactionModel.delete();
+		this.remove([reactionModel]);
 
 		return true;
 	}
@@ -279,11 +280,10 @@ export class Reaction extends Base<Model.Reaction> {
 	 * due to how we're doing the 'endpoint' thing. This is a bad solution
 	 * but I implemented it late night.
 	 *
-	 * @param IDispatcherEvent e
+	 * @param Model.Reaction reactionModel
 	 * @return Promise<void>
 	 */
-	protected async Handle_OnAddBeforeSetParentId(e: IDispatcherEvent): Promise<void> {
-		const reactionModel = e.detail.model as Model.Comment;
+	protected async setEntity(reactionModel: Model.Reaction): Promise<void> {
 		const parentEndpoint = reactionModel.parent?.parent?.endpoint;
 		let entityType = parentEndpoint || 'content';
 
@@ -308,6 +308,14 @@ export class Reaction extends Base<Model.Reaction> {
 
 		// Unset modified endpoint
 		reactionModel.cancelModifiedEndpoint();
+	}
+
+	/**
+	 * @param IDispatcherEvent e
+	 * @return Promise<void>
+	 */
+	protected async Handle_OnAddAfterSetParentId(e: IDispatcherEvent): Promise<void> {
+		this.setEntity(e.detail.model);
 	}
 
 	// endregion: Event Handlers

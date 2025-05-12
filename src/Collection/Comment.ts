@@ -27,7 +27,7 @@ export class Comment extends Base<Model.Comment> {
 		super(options, false);
 
 		// Bindings
-		this.Handle_OnAddBeforeSetParentId = this.Handle_OnAddBeforeSetParentId.bind(this);
+		this.Handle_OnAddAfterSetParentId = this.Handle_OnAddAfterSetParentId.bind(this);
 
 		// Setup
 		this.setup(options);
@@ -39,7 +39,7 @@ export class Comment extends Base<Model.Comment> {
 	public attachEvents(): void {
 		super.attachEvents();
 
-		this.on('add:before', this.Handle_OnAddBeforeSetParentId);
+		this.on('add:after', this.Handle_OnAddAfterSetParentId);
 	}
 
 	/**
@@ -48,7 +48,7 @@ export class Comment extends Base<Model.Comment> {
 	public detachEvents(): void {
 		super.detachEvents();
 
-		this.off('add:before', this.Handle_OnAddBeforeSetParentId);
+		this.off('add:after', this.Handle_OnAddAfterSetParentId);
 	}
 
 	/**
@@ -122,11 +122,10 @@ export class Comment extends Base<Model.Comment> {
 	 * due to how we're doing the 'endpoint' thing. This is a bad solution
 	 * but I implemented it late night.
 	 *
-	 * @param IDispatcherEvent e
+	 * @param Model.Comment commentModel
 	 * @return Promise<void>
 	 */
-	protected async Handle_OnAddBeforeSetParentId(e: IDispatcherEvent): Promise<void> {
-		const commentModel = e.detail.model as Model.Comment;
+	protected async setEntity(commentModel: Model.Comment): Promise<void> {
 		const parentEndpoint = commentModel.parent?.parent?.endpoint;
 		let entityType = parentEndpoint || 'content';
 
@@ -151,6 +150,14 @@ export class Comment extends Base<Model.Comment> {
 
 		// Unset modified endpoint
 		commentModel.cancelModifiedEndpoint();
+	}
+
+	/**
+	 * @param IDispatcherEvent e
+	 * @return Promise<void>
+	 */
+	protected async Handle_OnAddAfterSetParentId(e: IDispatcherEvent): Promise<void> {
+		this.setEntity(e.detail.model);
 	}
 
 	// endregion: Event Handlers

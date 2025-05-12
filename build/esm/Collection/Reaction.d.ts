@@ -24,5 +24,6 @@ export declare class Reaction extends Base<Model.Reaction> {
     toggleReaction(type: Enum.ReactionType): Promise<void>;
     hasReaction(type: Enum.ReactionType): boolean;
     protected getUser(): Model.User;
-    protected Handle_OnAddBeforeSetParentId(e: IDispatcherEvent): Promise<void>;
+    protected setEntity(reactionModel: Model.Reaction): Promise<void>;
+    protected Handle_OnAddAfterSetParentId(e: IDispatcherEvent): Promise<void>;
 }
