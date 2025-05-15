@@ -51,13 +51,6 @@ export class Media extends Base {
 	 */
 	protected proxyUrl: string = 'https://d2k0n0ggvekdpx.cloudfront.net';
 
-	/**
-	 * @return string
-	 */
-	public getEndpoint(): string {
-		return this.parent?.getEndpoint() || this.endpoint;
-	}
-
 	// region: Relationship
 	// ---------------------------------------------------------------------------
 

@@ -27,6 +27,10 @@
 			<header>
 				<h1>ChalkySticks API</h1>
 			</header>
+
+			<section>
+				<p>Media</p>
+			</section>
 		</main>
 
 		<!-- Script -->
@@ -54,7 +58,17 @@
 			// userModel.playsSnooker = true;
 			// userModel.playsPool = true;
 
-			// console.log('User Model', userModel);
+			console.log('User Model', userModel);
+			console.log('Media Collection', userModel.media);
+			console.log('Media Model', userModel.media.at(0));
+			console.log('----------');
+			console.log('Media Collection', userModel.media.getEndpoint());
+			console.log('    ', userModel.media.isUsingModifiedEndpoint());
+			console.log('    ', userModel.media.referenceForModifiedEndpoint);
+			console.log('    ', userModel.media.b.getUrl());
+			console.log('Media Model', userModel.media.at(0).getEndpoint());
+			console.log('    ', userModel.media.at(0).isUsingModifiedEndpoint());
+			console.log('    ', userModel.media.at(0).b.getUrl());
 
 			// setTimeout(() => {
 			// 	userModel.media.pop();

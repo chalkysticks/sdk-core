@@ -67,17 +67,6 @@ export class Media extends Base<Model.Media> {
 	 */
 	public model: Model.Media = new Model.Media();
 
-	/**
-	 * @return string
-	 */
-	public getEndpoint(): string {
-		if (this.isUsingModifiedEndpoint() === false && (this.isUserEndpoint || this.isVenueEndpoint)) {
-			return `${this.parent?.getEndpoint()}/${this.parent?.id}/media`;
-		}
-
-		return this.endpoint;
-	}
-
 	// region: Actions
 	// ---------------------------------------------------------------------------
 

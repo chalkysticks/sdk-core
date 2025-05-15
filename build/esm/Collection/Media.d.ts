@@ -10,7 +10,6 @@ export declare class Media extends Base<Model.Media> {
     private get isVenueEndpoint();
     endpoint: string;
     model: Model.Media;
-    getEndpoint(): string;
     exterior(): this;
     interior(): this;
     person(): this;

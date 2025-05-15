@@ -24,7 +24,6 @@ export declare class Media extends Base {
     endpoint: string;
     fields: string[];
     protected proxyUrl: string;
-    getEndpoint(): string;
     get comments(): Collection.Comment;
     get reactions(): Collection.Reaction;
     getGroup(): string;
